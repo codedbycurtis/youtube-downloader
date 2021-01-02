@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:YouTubeDownloader">
+
+    <FontFamily x:Key="MontserratMedium">pack://application,,,/Fonts/#Montserrat Medium</FontFamily>
+
+    <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Style.Setters>
+            <Setter Property="FontFamily" Value="{StaticResource MontserratMedium}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}"/>
+
+</ResourceDictionary>
