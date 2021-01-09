@@ -20,18 +20,27 @@ namespace YouTubeDownloader
 
         #region Public Properties
 
+        /// <summary>
+        /// Is the Search tab currently selected.
+        /// </summary>
         public bool IsSearchHighlighted
         {
             get => _isSearchHighlighted;
             set => SetProperty(ref _isSearchHighlighted, value);
         }
 
+        /// <summary>
+        /// Is the Library tab currently selected.
+        /// </summary>
         public bool IsLibraryHighlighted
         {
             get => _isLibraryHighlighted;
             set => SetProperty(ref _isLibraryHighlighted, value);
         }
 
+        /// <summary>
+        /// The colour of the Search button, depending on whether or not it is currently selected.
+        /// </summary>
         public SolidColorBrush SearchButtonContentColour
         {
             get
@@ -41,6 +50,9 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The colour of the Library button, depending on whether or not it is currently selected.
+        /// </summary>
         public SolidColorBrush LibraryButtonContentColour
         {
             get
@@ -50,6 +62,10 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The opacity (visibility) of the Search button's drop shadow, depending on whether or not
+        /// it is currently selected.
+        /// </summary>
         public double SearchButtonContentDropShadowOpacity 
         {
             get
@@ -59,6 +75,10 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The opacity (visibility) of the Library button's drop shadow, depending on whether or not
+        /// it is currently selected.
+        /// </summary>
         public double LibraryButtonContentDropShadowOpacity
         {
             get
@@ -68,6 +88,9 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The search query input by the user.
+        /// </summary>
         public string SearchQuery
         {
             get => _searchQuery;
@@ -117,6 +140,9 @@ namespace YouTubeDownloader
             _youtubeClient = new YoutubeClient();
         }
 
+        /// <summary>
+        /// If the Search button is clicked, this method is called by <see cref="SearchTabButton"/>.
+        /// </summary>
         private void SearchButtonClicked()
         {
             IsSearchHighlighted = true;
@@ -124,6 +150,9 @@ namespace YouTubeDownloader
             NotifyButtonClicked();
         }
 
+        /// <summary>
+        /// If the Library button is clicked, this method is called by <see cref="LibraryTabButton"/>.
+        /// </summary>
         private void LibraryButtonClicked()
         {
             IsSearchHighlighted = false;
@@ -142,6 +171,10 @@ namespace YouTubeDownloader
             NotifyPropertyChanged(nameof(LibraryButtonContentDropShadowOpacity));
         }
 
+        /// <summary>
+        /// If the magnifying glass icon in the video search box is clicked, this method is called by
+        /// <see cref="VideoSearchButton"/>.
+        /// </summary>
         private void VideoSearchButtonClicked()
         {
             if (string.IsNullOrEmpty(SearchQuery)) { MessageBox.Show("This field cannot be left blank.", "Search Query", MessageBoxButton.OK); }
