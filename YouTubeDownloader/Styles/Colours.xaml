@@ -5,7 +5,7 @@
     <!-- Dark background colour -->
     <Color x:Key="DarkBackgroundColour">#1B1C1E</Color>
     <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource DarkBackgroundColour}"/>
-    
+
     <!-- Light foreground colour -->
     <Color x:Key="LightForegroundColour">#FFFFFF</Color>
     <SolidColorBrush x:Key="LightForegroundBrush" Color="{StaticResource LightForegroundColour}"/>

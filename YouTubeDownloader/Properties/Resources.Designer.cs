@@ -61,11 +61,41 @@ namespace YouTubeDownloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap magnifying_glass_30 {
+            get {
+                object obj = ResourceManager.GetObject("magnifying_glass_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] Montserrat_Medium {
             get {
                 object obj = ResourceManager.GetObject("Montserrat_Medium", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ProductSans_Light {
+            get {
+                object obj = ResourceManager.GetObject("ProductSans_Light", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ProductSans_Regular {
+            get {
+                object obj = ResourceManager.GetObject("ProductSans_Regular", resourceCulture);
                 return ((byte[])(obj));
             }
         }

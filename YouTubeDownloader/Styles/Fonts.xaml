@@ -3,10 +3,12 @@
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
     <FontFamily x:Key="MontserratMedium">pack://application,,,/Fonts/#Montserrat Medium</FontFamily>
+    <FontFamily x:Key="ProductSansRegular">pack://application,,,/Fonts/#Product Sans</FontFamily>
+    <FontFamily x:Key="ProductSansLight">pack://application,,,/Fonts/#Product Sans Light</FontFamily>
 
     <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
         <Style.Setters>
-            <Setter Property="FontFamily" Value="{StaticResource MontserratMedium}"/>
+            <Setter Property="FontFamily" Value="{StaticResource ProductSansRegular}"/>
         </Style.Setters>
     </Style>
 
