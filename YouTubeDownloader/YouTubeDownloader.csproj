@@ -100,9 +100,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Data\Internal.cs" />
-    <Compile Include="Data\MediaFile.cs" />
-    <Compile Include="Data\Serialization.cs" />
+    <Compile Include="Models\Internal.cs" />
+    <Compile Include="Models\MediaFile.cs" />
+    <Compile Include="Models\JsonSerialization.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -176,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\magnifying-glass-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fluent-right-arrow-30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

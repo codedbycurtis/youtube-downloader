@@ -1,20 +1,21 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
+using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Collections.Generic;
 using YoutubeExplode;
+using YoutubeExplode.Videos;
 
 namespace YouTubeDownloader
 {
     public class MainViewModel : BaseViewModel
     {
-        #region Private Properties
+        #region Private Members
 
         private bool _isSearchHighlighted;
         private bool _isLibraryHighlighted;
         private YoutubeClient _youtubeClient;
         private string _searchQuery;
+        private IAsyncEnumerable<Video> _requestedVideos;
 
         #endregion
 
@@ -97,6 +98,12 @@ namespace YouTubeDownloader
             set => SetProperty(ref _searchQuery, value);
         }
 
+        public IAsyncEnumerable<Video> RequestedVideos
+        {
+            get => _requestedVideos;
+            set => SetProperty(ref _requestedVideos, value);
+        }
+
         #endregion
 
         #region Commands
@@ -114,31 +121,18 @@ namespace YouTubeDownloader
         /// </summary>
         public MainViewModel()
         {
-            // Initialize application
-            Initialize();
-
             // Initialize commands
             SearchTabButton = new RelayCommand(() => SearchButtonClicked());
             LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
             VideoSearchButton = new RelayCommand(() => VideoSearchButtonClicked());
+
+            // Initialize members
+            _youtubeClient = new YoutubeClient();
         }
 
         #endregion
 
         #region Helper Methods
-
-        /// <summary>
-        /// Performs initialization checks to ensure application continuity.
-        /// </summary>
-        private void Initialize()
-        {
-            if (!Directory.Exists(Internal.LIBRARY_CACHE_PATH)) { Directory.CreateDirectory(Internal.LIBRARY_CACHE_PATH); }
-            if (!Directory.Exists(Internal.THUMBNAIL_CACHE_PATH)) { Directory.CreateDirectory(Internal.THUMBNAIL_CACHE_PATH); }
-            if (!Directory.Exists(Internal.MEDIA_CACHE_PATH)) { Directory.CreateDirectory(Internal.MEDIA_CACHE_PATH); }
-            if (!File.Exists(Internal.LIBRARY_PATH)) { Internal.Library = new List<MediaFile>(); }
-            else { Serialization.JsonDeserialize(); }
-            _youtubeClient = new YoutubeClient();
-        }
 
         /// <summary>
         /// If the Search button is clicked, this method is called by <see cref="SearchTabButton"/>.
@@ -172,12 +166,12 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// If the magnifying glass icon in the video search box is clicked, this method is called by
-        /// <see cref="VideoSearchButton"/>.
+        /// If the right-arrow in the search box is clicked, this method is called by <see cref="VideoSearchButton"/>.
         /// </summary>
         private void VideoSearchButtonClicked()
         {
             if (string.IsNullOrEmpty(SearchQuery)) { MessageBox.Show("This field cannot be left blank.", "Search Query", MessageBoxButton.OK); }
+            _requestedVideos = _youtubeClient.Search.GetVideosAsync(SearchQuery, 0, 1);
         }
 
         #endregion

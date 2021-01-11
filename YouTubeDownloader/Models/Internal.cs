@@ -5,14 +5,14 @@ namespace YouTubeDownloader
     internal static class Internal
     {
         /// <summary>
-        /// Relative path to the library cache folder.
+        /// Relative path to the library folder.
         /// </summary>
-        internal const string LIBRARY_CACHE_PATH = @"libraryCache";
+        internal const string LIBRARY_FOLDER_PATH = @"library";
 
         /// <summary>
-        /// Relative path to the media cache folder.
+        /// Relative path to the media store folder.
         /// </summary>
-        internal const string MEDIA_CACHE_PATH = @"mediaCache";
+        internal const string MEDIA_STORE_PATH = @"mediaStore";
 
         /// <summary>
         /// Relative path to the thumbnail cache folder.
@@ -22,7 +22,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// The normalized, relative path to the <see cref="Internal.Library"/>.
         /// </summary>
-        internal static readonly string LIBRARY_PATH = $"{LIBRARY_CACHE_PATH}\\library.json";
+        internal static readonly string LIBRARY_PATH = $"{LIBRARY_FOLDER_PATH}\\library.json";
 
         /// <summary>
         /// The user's media library.

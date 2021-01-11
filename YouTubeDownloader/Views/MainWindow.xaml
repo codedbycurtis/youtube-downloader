@@ -68,29 +68,29 @@
 
         <!-- Search tab content -->
         <Grid Grid.Row="1" Visibility="{Binding IsSearchHighlighted, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Padding="100, 26" Grid.Row="0">
-                <Border Style="{StaticResource DropShadowHoverBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1.0" CornerRadius="25" MaxWidth="800">
+            <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro">
+                <Border Style="{StaticResource DropShadowHoverBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="25" Height="48" MaxWidth="800">
                     <Grid>
-
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="11*"/>
+                            <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderThickness="0" Cursor="Hand">
-                            <Button.Content>
-                                <Image Source="../Images/magnifying-glass-30.png" Stretch="None"/>
-                            </Button.Content>
-                        </Button>
+                        <Image Grid.Column="0" Source="../Images/magnifying-glass-30.png" Stretch="None"/>
 
                         <TextBox Grid.Column="1" Text="{Binding SearchQuery, Mode=OneWayToSource}" Style="{StaticResource TransparentTextBox}" FontSize="18" VerticalAlignment="Center"/>
 
+                        <Button Grid.Column="2" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderThickness="0" Cursor="Hand" ToolTip="Search">
+                            <Button.Content>
+                                <Image Source="../Images/fluent-right-arrow-30.png" Stretch="None"/>
+                            </Button.Content>
+                        </Button>
                     </Grid>
                 </Border>
             </Border>
@@ -98,7 +98,6 @@
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
 
             </ScrollViewer>
-            
         </Grid>
         
         <!-- Library tab content -->
