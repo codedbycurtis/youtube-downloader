@@ -1,56 +1,88 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace YouTubeDownloader
+/// <summary>
+/// A simple command that performs an action.
+/// </summary>
+public class RelayCommand : ICommand
 {
+    #region Private Members
+
     /// <summary>
-    /// A basic command that performs an action.
+    /// The action to perform.
     /// </summary>
-    public class RelayCommand : ICommand
-    {
-        #region Private Properties
+    Action _action { get; set; }
 
-        /// <summary>
-        /// The action to execute.
-        /// </summary>
-        private Action _action;
+    #endregion
 
-        #endregion
+    #region Public Members
 
-        #region Public Events
+    /// <summary>
+    /// Invoked when the <see cref="CanExecute(object)"/> property changes.
+    /// </summary>
+    public event EventHandler CanExecuteChanged;
 
-        /// <summary>
-        /// The event that is invoked when the <see cref="CanExecute(object)"/> property changes.
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
+    /// <summary>
+    /// Whether or not the command can execute.
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <returns>True; A RelayCommand can always execute.</returns>
+    public bool CanExecute(object parameter) => true;
 
-        #endregion
+    /// <summary>
+    /// Executes the <see cref="_action"/>
+    /// </summary>
+    /// <param name="parameter"></param>
+    public void Execute(object parameter) => _action();
 
-        #region Public Command Methods
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    /// <param name="action">The action to perform.</param>
+    public RelayCommand(Action action) => _action = action;
 
-        /// <summary>
-        /// Whether or not the command can execute.
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns>True; a Relay Command can always execute.</returns>
-        public bool CanExecute(object parameter) => true;
+    #endregion
+}
 
-        /// <summary>
-        /// Executes the <see cref="_action"/>
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void Execute(object parameter) => _action();
+/// <summary>
+/// A simple command that performs an action with a given parameter.
+/// </summary>
+public class RelayCommand<T> : ICommand
+{
+    #region Private Members
 
-        #endregion
+    /// <summary>
+    /// The action to perform.
+    /// </summary>
+    Action<T> _action { get; set; }
 
-        #region Constructor
+    #endregion
 
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        /// <param name="action"></param>
-        public RelayCommand(Action action) => _action = action;
+    #region Public Members
 
-        #endregion
-    }
+    /// <summary>
+    /// Invoked when the <see cref="CanExecute(object)"/> property changes.
+    /// </summary>
+    public event EventHandler CanExecuteChanged;
+
+    /// <summary>
+    /// Whether or not the command can execute.
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <returns>True; A RelayCommand can always execute.</returns>
+    public bool CanExecute(object parameter) => true;
+
+    /// <summary>
+    /// Executes the <see cref="_action"/>
+    /// </summary>
+    /// <param name="parameter"></param>
+    public void Execute(object parameter) => _action((T)parameter);
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    /// <param name="action">The action to perform.</param>
+    public RelayCommand(Action<T> action) => _action = action;
+
+    #endregion
 }

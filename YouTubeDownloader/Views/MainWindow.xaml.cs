@@ -10,8 +10,6 @@ namespace YouTubeDownloader
         public MainWindow()
         {
             InitializeComponent();
-
-            this.DataContext = new MainViewModel();
         }
     }
 }

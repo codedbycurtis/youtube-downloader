@@ -8,6 +8,9 @@
         Title="YouTube Downloader" Height="850" Width="1200"
         Icon="../Images/Icons/youtube-play-button-48.ico"
         MinWidth="550">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -74,7 +77,7 @@
             </Grid.RowDefinitions>
 
             <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro">
-                <Border Style="{StaticResource DropShadowHoverBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="25" Height="48" MaxWidth="800">
+                <Border Style="{StaticResource DropShadowHoverBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="25" Height="48" MaxWidth="800" UseLayoutRounding="True">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
@@ -96,7 +99,9 @@
             </Border>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
-
+                <ListView ItemsSource="{Binding RequestedVideos}">
+                    
+                </ListView>
             </ScrollViewer>
         </Grid>
         

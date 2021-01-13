@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -103,11 +104,11 @@
     <Compile Include="Models\Internal.cs" />
     <Compile Include="Models\MediaFile.cs" />
     <Compile Include="Models\JsonSerialization.cs" />
+    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,7 +16,8 @@ namespace YouTubeDownloader
         private bool _isLibraryHighlighted;
         private YoutubeClient _youtubeClient;
         private string _searchQuery;
-        private IAsyncEnumerable<Video> _requestedVideos;
+        private IReadOnlyList<Video> _requestedVideos;
+        private bool _isBusy;
 
         #endregion
 
@@ -98,10 +100,19 @@ namespace YouTubeDownloader
             set => SetProperty(ref _searchQuery, value);
         }
 
-        public IAsyncEnumerable<Video> RequestedVideos
+        public IReadOnlyList<Video> RequestedVideos
         {
             get => _requestedVideos;
             set => SetProperty(ref _requestedVideos, value);
+        }
+
+        /// <summary>
+        /// Is the application currently busy (e.g. getting videos).
+        /// </summary>
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
 
         #endregion
@@ -168,10 +179,14 @@ namespace YouTubeDownloader
         /// <summary>
         /// If the right-arrow in the search box is clicked, this method is called by <see cref="VideoSearchButton"/>.
         /// </summary>
-        private void VideoSearchButtonClicked()
+        private async void VideoSearchButtonClicked()
         {
-            if (string.IsNullOrEmpty(SearchQuery)) { MessageBox.Show("This field cannot be left blank.", "Search Query", MessageBoxButton.OK); }
-            _requestedVideos = _youtubeClient.Search.GetVideosAsync(SearchQuery, 0, 1);
+            if (string.IsNullOrEmpty(SearchQuery)) 
+            {
+                MessageBox.Show("This field cannot be left blank.", "Search Query", MessageBoxButton.OK);
+                return;
+            }
+            RequestedVideos = await _youtubeClient.Search.GetVideosAsync(SearchQuery);
         }
 
         #endregion
