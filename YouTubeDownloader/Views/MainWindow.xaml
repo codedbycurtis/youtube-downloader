@@ -99,8 +99,41 @@
             </Border>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
-                <ListView ItemsSource="{Binding RequestedVideos}">
-                    
+                <ListView Padding="25, 0" ItemsSource="{Binding RequestedVideos}" ScrollViewer.CanContentScroll="False">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Setters>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <Border Padding="0, 8">
+                                                <ContentPresenter>
+                                                    <ContentPresenter.Content>
+                                                        <Button Style="{StaticResource SimpleButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.VideoDownloadButton}" CommandParameter="{Binding}" BorderThickness="0" Cursor="Hand">
+                                                            <Button.Content>
+                                                                <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="100" UseLayoutRounding="True">
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="3*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Image Grid.Column="0" Source="{Binding Thumbnails.MediumResUrl}"/>
+                                                                        <Grid Grid.Column="1">
+                                                                            <TextBlock Text="{Binding Title}"/>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </ContentPresenter.Content>
+                                                </ContentPresenter>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style.Setters>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </ScrollViewer>
         </Grid>

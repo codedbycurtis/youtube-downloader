@@ -32,7 +32,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         {
             backingStore = value;
             NotifyPropertyChanged(propertyName);
+            onPropertyChanged?.Invoke();
         }
-        onPropertyChanged?.Invoke();
     }
 }
