@@ -5,6 +5,7 @@ using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
+using System.Windows.Controls;
 
 namespace YouTubeDownloader
 {

@@ -17,5 +17,19 @@
             </Setter>
         </Style.Setters>
     </Style>
+
+    <Style x:Key="DropShadowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.Setters>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="16" ShadowDepth="4" Direction="-90" Color="Gainsboro" Opacity="0.3"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger.Setters>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     
 </ResourceDictionary>

@@ -17,6 +17,7 @@ namespace YouTubeDownloader
         internal static void Serialize(object data, string path)
         {
             string jsonString = JsonConvert.SerializeObject(data);
+
             using (FileStream fileStream = new FileStream(path, FileMode.Create)) 
             using (StreamWriter streamWriter = new StreamWriter(fileStream)) 
             { streamWriter.Write(jsonString); }
@@ -29,12 +30,17 @@ namespace YouTubeDownloader
         {
             string jsonString;
             object data;
+
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) 
+                throw new FileNotFoundException($"Read error: The file '{path}' could not be found.", path);
+
             using (FileStream fileStream = new FileStream(path, FileMode.Open)) 
             using (StreamReader streamReader = new StreamReader(fileStream))
             {
                 jsonString = streamReader.ReadToEnd();
                 data = JsonConvert.DeserializeObject(jsonString);
             }
+
             return data;
         }
     }
