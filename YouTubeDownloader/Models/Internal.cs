@@ -7,17 +7,17 @@ namespace YouTubeDownloader
         /// <summary>
         /// Relative path to the library folder.
         /// </summary>
-        internal const string LIBRARY_FOLDER_PATH = @"library";
+        internal const string LIBRARY_FOLDER_PATH = @"Library";
 
         /// <summary>
         /// Relative path to the media store folder.
         /// </summary>
-        internal const string MEDIA_STORE_PATH = @"mediaStore";
+        internal const string MEDIA_STORE_PATH = @"Media";
 
         /// <summary>
         /// Relative path to the thumbnail cache folder.
         /// </summary>
-        internal const string THUMBNAIL_CACHE_PATH = @"thumbnailCache";
+        internal const string THUMBNAIL_CACHE_PATH = @"Thumbnails";
 
         /// <summary>
         /// The normalized, relative path to the <see cref="Internal.Library"/>.

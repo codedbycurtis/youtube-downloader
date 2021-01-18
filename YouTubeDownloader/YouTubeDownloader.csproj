@@ -101,11 +101,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
+    <Compile Include="Converters\LongToStringConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="Models\Internal.cs" />
     <Compile Include="Models\MediaFile.cs" />
-    <Compile Include="Models\JsonSerialization.cs" />
+    <Compile Include="Models\Json.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -181,7 +182,13 @@
     <Resource Include="Images\magnifying-glass-30.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\fluent-right-arrow-30.png" />
+    <None Include="Images\fluent-right-arrow-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\material-rounded-download-icon-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\material-rounded-right-arrow-30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

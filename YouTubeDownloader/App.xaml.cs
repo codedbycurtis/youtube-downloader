@@ -20,11 +20,14 @@ namespace YouTubeDownloader
             Internal.Library = new List<MediaFile>();
 
             // Attempts to load the user library from the specified path. . .
-            try { Internal.Library = (List<MediaFile>)JsonSerialization.Deserialize(Internal.LIBRARY_PATH); }
-            catch (FileNotFoundException ex) { MessageBox.Show(ex.Message, ex.FileName, MessageBoxButton.OK); } //. . .and handles any FileNotFoundExceptions
+            try { Internal.Library = (List<MediaFile>)Json.Load(Internal.LIBRARY_PATH); }
 
-            // Performs default initialization procedures
-            base.OnStartup(e);
+            catch (FileNotFoundException) { return; } /* . . .and handles any FileNotFoundExceptions.
+                                                       * In this instance, a FileNotFoundException simply means that the user does
+                                                       * not have a saved media library. We can ignore this.
+                                                       */
+
+            finally { base.OnStartup(e); } // Performs default initialization procedures
         }
     }
 }

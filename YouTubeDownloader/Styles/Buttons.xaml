@@ -18,7 +18,7 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="DropShadowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
+    <Style x:Key="ListViewItemButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.Setters>
@@ -31,5 +31,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>

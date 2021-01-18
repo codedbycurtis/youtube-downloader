@@ -5,7 +5,7 @@ using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
-using System.Windows.Controls;
+using Microsoft.Win32;
 
 namespace YouTubeDownloader
 {
@@ -17,7 +17,7 @@ namespace YouTubeDownloader
         private bool _isLibraryHighlighted;
         private bool _isBusy;
         private string _searchQuery;
-        private YoutubeClient _youtubeClient;
+        private readonly YoutubeClient _youtubeClient;
         private IReadOnlyList<Video> _requestedVideos;
 
         #endregion
@@ -110,6 +110,24 @@ namespace YouTubeDownloader
             }
         }
 
+        public Visibility IsSearchContentVisible
+        {
+            get
+            {
+                if (IsSearchHighlighted) { return Visibility.Visible; }
+                else { return Visibility.Hidden; }
+            }
+        }
+
+        public Visibility IsLibraryContentVisible
+        {
+            get
+            {
+                if (IsLibraryHighlighted) { return Visibility.Visible; }
+                else { return Visibility.Hidden; }
+            }
+        }
+
         /// <summary>
         /// A list of videos matching the user's specified <see cref="SearchQuery"/>.
         /// </summary>
@@ -180,6 +198,8 @@ namespace YouTubeDownloader
             NotifyPropertyChanged(nameof(LibraryButtonContentColour));
             NotifyPropertyChanged(nameof(SearchButtonContentDropShadowOpacity));
             NotifyPropertyChanged(nameof(LibraryButtonContentDropShadowOpacity));
+            NotifyPropertyChanged(nameof(IsSearchContentVisible));
+            NotifyPropertyChanged(nameof(IsLibraryContentVisible));
         }
 
         /// <summary>
@@ -206,6 +226,7 @@ namespace YouTubeDownloader
             muxedStreamInfo = streamManifest.GetMuxed();
             videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
             await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Internal.MEDIA_STORE_PATH}\\{video.Title}.mp4");
+            // create http client that downloads video thumbnail, here. . .
         }
 
         #endregion

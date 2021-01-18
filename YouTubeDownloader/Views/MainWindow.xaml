@@ -70,7 +70,7 @@
         </Grid>
 
         <!-- Search tab content -->
-        <Grid Grid.Row="1" Visibility="{Binding IsSearchHighlighted, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
+        <Grid Grid.Row="1" Visibility="{Binding IsSearchContentVisible}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
@@ -91,7 +91,7 @@
 
                         <Button Grid.Column="2" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderThickness="0" Cursor="Hand" ToolTip="Search">
                             <Button.Content>
-                                <Image Source="../Images/fluent-right-arrow-30.png" Stretch="None"/>
+                                <Image Source="../Images/material-rounded-right-arrow-30.png" Stretch="None"/>
                             </Button.Content>
                         </Button>
                     </Grid>
@@ -109,29 +109,37 @@
                                             <Border>
                                                 <ContentPresenter>
                                                     <ContentPresenter.Content>
-                                                        <Button Style="{StaticResource DropShadowButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.VideoDownloadButton}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
+                                                        <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.VideoDownloadButton}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
                                                             <Button.Content>
-                                                                <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="100" UseLayoutRounding="True">
+                                                                <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
                                                                     <Grid>
                                                                         <Grid.ColumnDefinitions>
                                                                             <ColumnDefinition Width="Auto"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
                                                                             <ColumnDefinition Width="*"/>
                                                                         </Grid.ColumnDefinitions>
-                                                                        <Border x:Name="OpacityMask" Background="White" CornerRadius="5"/>
+                                                                        <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
                                                                         <Grid Grid.Column="0">
                                                                             <Grid.OpacityMask>
                                                                                 <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
                                                                             </Grid.OpacityMask>
                                                                             <Image Source="{Binding Thumbnails.MediumResUrl}"/>
-                                                                            <Border Padding="2" CornerRadius="3" Background="Black" Opacity="0.75" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                                            <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                                                                 <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
                                                                             </Border>
                                                                         </Grid>
                                                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                            <TextBlock Padding="3" Text="{Binding Title}" FontSize="20"/>
+                                                                            <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
                                                                             <TextBlock Padding="3" Text="{Binding Author}" FontSize="16" Foreground="Gray"/>
+                                                                            <TextBlock Padding="3" FontSize="16">
+                                                                                <Run Text="{Binding Engagement.ViewCount, Mode=OneWay, Converter={x:Static local:LongToStringConverter.Instance}}"/>
+                                                                                <Run Text="•"/>
+                                                                                <Run Text="{Binding UploadDate, Mode=OneWay, Converter={x:Static local:DateTimeOffsetToStringConverter.Instance}}"/>
+                                                                            </TextBlock>
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                                                            <Image Source="../Images/material-rounded-download-icon-48.png" Stretch="None"/>
+                                                                            <TextBlock Padding="0, 0, 3, 0" Text="Click to download" VerticalAlignment="Center" FontSize="20"/>
                                                                         </StackPanel>
                                                                     </Grid>
                                                                 </Border>
@@ -151,7 +159,7 @@
         </Grid>
         
         <!-- Library tab content -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" Visibility="{Binding IsLibraryHighlighted, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" Visibility="{Binding IsLibraryContentVisible}">
             <TextBlock Text="Library tab selected." FontSize="48"/>
         </ScrollViewer>
 
