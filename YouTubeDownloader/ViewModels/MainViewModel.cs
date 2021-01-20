@@ -3,9 +3,12 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Net.Http;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
+using System.IO;
+using System.Drawing;
 
 namespace YouTubeDownloader
 {
@@ -19,6 +22,7 @@ namespace YouTubeDownloader
         private string _searchQuery;
         private readonly YoutubeClient _youtubeClient;
         private IReadOnlyList<Video> _requestedVideos;
+        private readonly HttpClient _httpClient;
 
         #endregion
 
@@ -178,7 +182,8 @@ namespace YouTubeDownloader
             PlayVideoButton = new RelayCommand<string>((path) => PlayVideoButtonClicked(path));
 
             // Initialize members
-            _youtubeClient = new YoutubeClient();
+            _httpClient = new HttpClient();
+            _youtubeClient = new YoutubeClient(_httpClient);
         }
 
         #endregion
@@ -239,17 +244,21 @@ namespace YouTubeDownloader
         /// <param name="video"></param>
         private async void VideoDownloadButtonClicked(Video video)
         {
+            // check if video had already been downloaded. . .
+            if (Library.Exists(mediaFile => mediaFile.VideoId == video.Id.Value)) { return; } // no need to re-download the video.
             string title = video.Title;
             string uploader = video.Author;
             string videoId = video.Id.Value;
-            TimeSpan length = video.Duration;
+            TimeSpan duration = video.Duration;
             StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
             IEnumerable<MuxedStreamInfo>  muxedStreamInfo = streamManifest.GetMuxed();
             IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
             await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Global.MEDIA_STORE_PATH}\\{video.Id.Value}.mp4");
             // create http client that downloads video thumbnail, here. . .
-
-            new MediaFile(title, uploader, videoId, length).AddToLibrary();
+            var response = await _httpClient.GetAsync(video.Thumbnails.MediumResUrl);
+            using (FileStream fileStream = new FileStream($"{Global.THUMBNAIL_CACHE_PATH}\\{video.Id.Value}.jpg", FileMode.Create)) 
+            { await response.Content.CopyToAsync(fileStream); }
+            new MediaFile(title, uploader, videoId, duration).AddToLibrary();
             NotifyPropertyChanged(nameof(Library));
         }
 

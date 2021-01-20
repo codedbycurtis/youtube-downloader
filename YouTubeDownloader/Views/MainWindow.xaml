@@ -173,7 +173,7 @@
                                         <Border>
                                             <ContentPresenter>
                                                 <ContentPresenter.Content>
-                                                    <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.PlayVideoButton}" CommandParameter="{Binding FilePath}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
+                                                    <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.PlayVideoButton}" CommandParameter="{Binding MediaPath}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
                                                         <Button.Content>
                                                             <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
                                                                 <Grid>
@@ -187,9 +187,9 @@
                                                                         <Grid.OpacityMask>
                                                                             <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
                                                                         </Grid.OpacityMask>
-                                                                        <Image Source="{Binding ThumbnailPath}"/>
+                                                                        <Image Source="{Binding ThumbnailPath, Converter={x:Static local:StringToImageSourceConverter.Instance}}"/>
                                                                         <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                                            <TextBlock Text="{Binding Length, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
+                                                                            <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
                                                                         </Border>
                                                                     </Grid>
                                                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">

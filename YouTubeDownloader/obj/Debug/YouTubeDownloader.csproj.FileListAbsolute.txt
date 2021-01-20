@@ -73,7 +73,6 @@ C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\System.Te
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\System.ValueTuple.xml
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\YoutubeExplode.xml
-C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader.csprojAssemblyReference.cache
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\Views\MainWindow.g.cs
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\App.g.cs
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader_MarkupCompile.cache

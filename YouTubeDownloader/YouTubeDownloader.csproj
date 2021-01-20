@@ -103,6 +103,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
     <Compile Include="Converters\LongToStringConverter.cs" />
+    <Compile Include="Converters\StringToImageSourceConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="Models\Global.cs" />
     <Compile Include="Models\MediaFile.cs" />
