@@ -104,7 +104,7 @@
     <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
     <Compile Include="Converters\LongToStringConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
-    <Compile Include="Models\Internal.cs" />
+    <Compile Include="Models\Global.cs" />
     <Compile Include="Models\MediaFile.cs" />
     <Compile Include="Models\Json.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
@@ -182,13 +182,13 @@
     <Resource Include="Images\magnifying-glass-30.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\fluent-right-arrow-30.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\material-rounded-download-icon-48.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\material-rounded-right-arrow-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\material-rounded-play-icon-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

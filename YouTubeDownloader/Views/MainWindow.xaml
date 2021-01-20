@@ -8,9 +8,12 @@
         Title="YouTube Downloader" Height="850" Width="1200"
         Icon="../Images/Icons/youtube-play-button-48.ico"
         MinWidth="550">
+    
+    <!-- Set window's data context -->
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -160,7 +163,57 @@
         
         <!-- Library tab content -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" Visibility="{Binding IsLibraryContentVisible}">
-            <TextBlock Text="Library tab selected." FontSize="48"/>
+            <ListView BorderThickness="0" ItemsSource="{Binding Library}" ScrollViewer.CanContentScroll="False">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                        <Border>
+                                            <ContentPresenter>
+                                                <ContentPresenter.Content>
+                                                    <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.PlayVideoButton}" CommandParameter="{Binding FilePath}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
+                                                        <Button.Content>
+                                                            <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
+                                                                    <Grid Grid.Column="0">
+                                                                        <Grid.OpacityMask>
+                                                                            <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
+                                                                        </Grid.OpacityMask>
+                                                                        <Image Source="{Binding ThumbnailPath}"/>
+                                                                        <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                                            <TextBlock Text="{Binding Length, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                        <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
+                                                                        <TextBlock Padding="3" Text="{Binding Uploader}" FontSize="16" Foreground="Gray"/>
+                                                                    </StackPanel>
+                                                                    <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                                                        <Image Source="../Images/material-rounded-play-icon-48.png" Stretch="None"/>
+                                                                        <TextBlock Padding="0, 0, 3, 0" Text="Click to play" VerticalAlignment="Center" FontSize="20"/>
+                                                                    </StackPanel>
+                                                                </Grid>
+                                                            </Border>
+                                                        </Button.Content>
+                                                    </Button>
+                                                </ContentPresenter.Content>
+                                            </ContentPresenter>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </ScrollViewer>
 
     </Grid>

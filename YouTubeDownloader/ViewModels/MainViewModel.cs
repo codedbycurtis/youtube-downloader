@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
-using Microsoft.Win32;
 
 namespace YouTubeDownloader
 {
@@ -110,6 +110,9 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The visibility of the search tab, depending on whether or not it is currently selected.
+        /// </summary>
         public Visibility IsSearchContentVisible
         {
             get
@@ -119,6 +122,9 @@ namespace YouTubeDownloader
             }
         }
 
+        /// <summary>
+        /// The visibility of the library tab, depending on whether or not it is currently selected.
+        /// </summary>
         public Visibility IsLibraryContentVisible
         {
             get
@@ -137,6 +143,14 @@ namespace YouTubeDownloader
             set => SetProperty(ref _requestedVideos, value);
         }
 
+        /// <summary>
+        /// The user's media library.
+        /// </summary>
+        public List<MediaFile> Library
+        {
+            get => Global.Library;
+        }
+
         #endregion
 
         #region Commands
@@ -145,6 +159,7 @@ namespace YouTubeDownloader
         public ICommand LibraryTabButton { get; set; }
         public ICommand VideoSearchButton { get; set; }
         public ICommand VideoDownloadButton { get; set; }
+        public ICommand PlayVideoButton { get; set; }
 
         #endregion
 
@@ -160,6 +175,7 @@ namespace YouTubeDownloader
             LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
             VideoSearchButton = new RelayCommand(() => VideoSearchButtonClicked());
             VideoDownloadButton = new RelayCommand<Video>((video) => VideoDownloadButtonClicked(video));
+            PlayVideoButton = new RelayCommand<string>((path) => PlayVideoButtonClicked(path));
 
             // Initialize members
             _youtubeClient = new YoutubeClient();
@@ -217,16 +233,29 @@ namespace YouTubeDownloader
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Downloads the specified <see cref="Video"/> and saves it to the user's <see cref="Global.Library"/>.
+        /// </summary>
+        /// <param name="video"></param>
         private async void VideoDownloadButtonClicked(Video video)
         {
-            StreamManifest streamManifest;
-            IEnumerable<MuxedStreamInfo> muxedStreamInfo;
-            IVideoStreamInfo videoStreamInfo;
-            streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
-            muxedStreamInfo = streamManifest.GetMuxed();
-            videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
-            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Internal.MEDIA_STORE_PATH}\\{video.Title}.mp4");
+            string title = video.Title;
+            string uploader = video.Author;
+            string videoId = video.Id.Value;
+            TimeSpan length = video.Duration;
+            StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
+            IEnumerable<MuxedStreamInfo>  muxedStreamInfo = streamManifest.GetMuxed();
+            IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
+            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Global.MEDIA_STORE_PATH}\\{video.Id.Value}.mp4");
             // create http client that downloads video thumbnail, here. . .
+
+            new MediaFile(title, uploader, videoId, length).AddToLibrary();
+            NotifyPropertyChanged(nameof(Library));
+        }
+
+        private void PlayVideoButtonClicked(string path)
+        {
+
         }
 
         #endregion
