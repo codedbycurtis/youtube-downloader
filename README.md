@@ -3,4 +3,4 @@ YouTube Downloader is a user-friendly, feature-rich Windows client for downloadi
 
 # Installation
 ## Requirements
-- '.NET Framework' >= **4.0**
+- `.NET Framework` >= **4.0**
