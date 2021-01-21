@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace YouTubeDownloader
+﻿namespace YouTubeDownloader
 {
-    public static class Global
+    public static class Globals
     {
         /// <summary>
         /// Relative path to the library folder.
@@ -20,13 +18,8 @@ namespace YouTubeDownloader
         public const string THUMBNAIL_CACHE_PATH = @"Thumbnails";
 
         /// <summary>
-        /// The normalized, relative path to the <see cref="Global.Library"/>.
+        /// The normalized, relative path to the user library file.
         /// </summary>
         public static readonly string LIBRARY_PATH = $"{LIBRARY_FOLDER_PATH}\\library.json";
-
-        /// <summary>
-        /// The user's media library.
-        /// </summary>
-        public static List<MediaFile> Library;
     }
 }

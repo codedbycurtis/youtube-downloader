@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Net.Http;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Linq;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
-using System.IO;
-using System.Drawing;
 
 namespace YouTubeDownloader
 {
@@ -148,12 +149,9 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// The user's media library.
+        /// The user's <see cref="MediaFile"/> library.
         /// </summary>
-        public List<MediaFile> Library
-        {
-            get => Global.Library;
-        }
+        public ObservableCollection<MediaFile> Library { get; set; } = new ObservableCollection<MediaFile>();
 
         #endregion
 
@@ -184,6 +182,17 @@ namespace YouTubeDownloader
             // Initialize members
             _httpClient = new HttpClient();
             _youtubeClient = new YoutubeClient(_httpClient);
+
+            // Initialize properties
+            IsBusy = false;
+
+            // Attempts to load the user library from the specified path. . .
+            try { this.Library = (ObservableCollection<MediaFile>)Json.Load<ObservableCollection<MediaFile>>(Globals.LIBRARY_PATH); }
+
+            catch (FileNotFoundException) { return; } /* . . .and handles any FileNotFoundExceptions.
+                                                       * In this instance, a FileNotFoundException simply means that the user does
+                                                       * not have a saved media library. We can ignore this.
+                                                       */
         }
 
         #endregion
@@ -239,13 +248,13 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Downloads the specified <see cref="Video"/> and saves it to the user's <see cref="Global.Library"/>.
+        /// Downloads the specified <see cref="Video"/> and saves it to the user's <see cref="Globals.Library"/>.
         /// </summary>
         /// <param name="video"></param>
         private async void VideoDownloadButtonClicked(Video video)
         {
-            // check if video had already been downloaded. . .
-            if (Library.Exists(mediaFile => mediaFile.VideoId == video.Id.Value)) { return; } // no need to re-download the video.
+            if (Library.Any(mediaFile => mediaFile.VideoId == video.Id)) { return; }
+            IsBusy = true;
             string title = video.Title;
             string uploader = video.Author;
             string videoId = video.Id.Value;
@@ -253,18 +262,29 @@ namespace YouTubeDownloader
             StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
             IEnumerable<MuxedStreamInfo>  muxedStreamInfo = streamManifest.GetMuxed();
             IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
-            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Global.MEDIA_STORE_PATH}\\{video.Id.Value}.mp4");
-            // create http client that downloads video thumbnail, here. . .
+            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.MEDIA_STORE_PATH}\\{video.Id.Value}.mp4");
+            // http client downloads the video's thumbnail
             var response = await _httpClient.GetAsync(video.Thumbnails.MediumResUrl);
-            using (FileStream fileStream = new FileStream($"{Global.THUMBNAIL_CACHE_PATH}\\{video.Id.Value}.jpg", FileMode.Create)) 
+            using (FileStream fileStream = new FileStream($"{Globals.THUMBNAIL_CACHE_PATH}\\{video.Id.Value}.jpg", FileMode.Create)) 
             { await response.Content.CopyToAsync(fileStream); }
-            new MediaFile(title, uploader, videoId, duration).AddToLibrary();
-            NotifyPropertyChanged(nameof(Library));
+            this.AddToLibrary(new MediaFile(title, uploader, videoId, duration));
+            IsBusy = false;
+            
         }
 
         private void PlayVideoButtonClicked(string path)
         {
 
+        }
+
+        /// <summary>
+        /// Adds a <see cref="MediaFile"/> to the <see cref="Library"/> and saves it.
+        /// </summary>
+        /// <param name="toAdd"></param>
+        private void AddToLibrary(MediaFile toAdd)
+        {
+            this.Library.Add(toAdd);
+            Json.Write(this.Library, Globals.LIBRARY_PATH);
         }
 
         #endregion

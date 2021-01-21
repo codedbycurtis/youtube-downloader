@@ -57,18 +57,9 @@ namespace YouTubeDownloader
             VideoId = videoId;
             Title = title;
             Uploader = uploader;
-            MediaPath = $"{Global.MEDIA_STORE_PATH}\\{VideoId}.mp4";
-            ThumbnailPath = $"{Global.THUMBNAIL_CACHE_PATH}\\{VideoId}.jpg";
+            MediaPath = $"{Globals.MEDIA_STORE_PATH}\\{VideoId}.mp4";
+            ThumbnailPath = $"{Globals.THUMBNAIL_CACHE_PATH}\\{VideoId}.jpg";
             Duration = duration;
-        }
-
-        /// <summary>
-        /// Adds this <see cref="MediaFile"/> to the user's <see cref="Global.Library"/>.
-        /// </summary>
-        public void AddToLibrary()
-        {
-            Global.Library.Add(this);
-            Json.Write(Global.Library, Global.LIBRARY_PATH);
         }
 
         ///<inheritdoc/>

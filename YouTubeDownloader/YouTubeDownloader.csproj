@@ -102,10 +102,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\LongToStringConverter.cs" />
     <Compile Include="Converters\StringToImageSourceConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
-    <Compile Include="Models\Global.cs" />
+    <Compile Include="Models\Globals.cs" />
     <Compile Include="Models\MediaFile.cs" />
     <Compile Include="Models\Json.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
@@ -190,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\material-rounded-play-icon-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Animated\loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

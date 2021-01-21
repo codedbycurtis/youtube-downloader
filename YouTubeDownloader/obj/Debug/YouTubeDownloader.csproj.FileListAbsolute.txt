@@ -92,3 +92,4 @@ C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDo
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader.exe
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader.pdb
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader.csprojAssemblyReference.cache
