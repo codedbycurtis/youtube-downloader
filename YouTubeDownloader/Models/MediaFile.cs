@@ -27,18 +27,6 @@ namespace YouTubeDownloader
         public string Uploader { get; private set; }
 
         /// <summary>
-        /// Relative path to the downloaded video file.
-        /// </summary>
-        [JsonProperty("mediaPath")]
-        public string MediaPath { get; private set; }
-
-        /// <summary>
-        /// Relative path to the downloaded video file's thumbnail.
-        /// </summary>
-        [JsonProperty("thumbnailPath")]
-        public string ThumbnailPath { get; private set; }
-
-        /// <summary>
         /// The duration of the downloaded video.
         /// </summary>
         [JsonProperty("duration")]
@@ -57,13 +45,10 @@ namespace YouTubeDownloader
             VideoId = videoId;
             Title = title;
             Uploader = uploader;
-            MediaPath = $"{Globals.MEDIA_STORE_PATH}\\{VideoId}.mp4";
-            ThumbnailPath = $"{Globals.THUMBNAIL_CACHE_PATH}\\{VideoId}.jpg";
             Duration = duration;
         }
 
         ///<inheritdoc/>
-        public override string ToString() { return $"Video Id: {this.VideoId}\nTitle: {this.Title}\nUploader:{this.Uploader}\n" +
-                $"Media Path: {this.MediaPath}\nThumbnail Path: {this.ThumbnailPath}\nDuration: {this.Duration}"; }
+        public override string ToString() { return $"Video Id: {this.VideoId}\nTitle: {this.Title}\nUploader:{this.Uploader}\nDuration: {this.Duration}"; }
     }
 }

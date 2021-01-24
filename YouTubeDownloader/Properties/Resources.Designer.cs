@@ -63,16 +63,6 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap loading {
-            get {
-                object obj = ResourceManager.GetObject("loading", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap magnifying_glass_30 {
             get {
                 object obj = ResourceManager.GetObject("magnifying_glass_30", resourceCulture);
@@ -147,16 +137,6 @@ namespace YouTubeDownloader.Properties {
             get {
                 object obj = ResourceManager.GetObject("youtube_play_button_48", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap youtube_play_button_481 {
-            get {
-                object obj = ResourceManager.GetObject("youtube_play_button_481", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

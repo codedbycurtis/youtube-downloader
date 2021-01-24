@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -178,9 +180,6 @@
     <Resource Include="Images\Icons\youtube-play-button-48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\youtube-play-button-48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\magnifying-glass-30.png" />
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\material-rounded-play-icon-48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Animated\loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

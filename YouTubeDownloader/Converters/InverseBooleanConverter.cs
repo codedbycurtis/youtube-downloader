@@ -4,6 +4,11 @@ using System.Windows.Data;
 
 namespace YouTubeDownloader
 {
+    /// <summary>
+    /// Inverses a boolean value.
+    /// <para>Example: Converts true to false.</para>
+    /// </summary>
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
         public static InverseBooleanConverter Instance = new InverseBooleanConverter();

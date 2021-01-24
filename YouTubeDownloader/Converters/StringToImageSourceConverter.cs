@@ -13,9 +13,10 @@ namespace YouTubeDownloader
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string path = (string)value;
+            string videoId = (string)value;
+            string path = $"{Globals.ThumbnailFolderPath}\\{videoId}.jpg";
             if (!File.Exists(path)) { return null; }
-            else return new ImageSourceConverter().ConvertFromString((string)value);
+            else { return new ImageSourceConverter().ConvertFromString(path); }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

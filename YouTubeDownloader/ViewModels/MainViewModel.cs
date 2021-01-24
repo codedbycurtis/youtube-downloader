@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Diagnostics;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
@@ -20,10 +22,11 @@ namespace YouTubeDownloader
         private bool _isSearchHighlighted;
         private bool _isLibraryHighlighted;
         private bool _isBusy;
+        private double _progress;
         private string _searchQuery;
         private readonly YoutubeClient _youtubeClient;
+		private readonly HttpClient _httpClient;
         private IReadOnlyList<Video> _requestedVideos;
-        private readonly HttpClient _httpClient;
 
         #endregion
 
@@ -54,6 +57,15 @@ namespace YouTubeDownloader
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
+        }
+
+        /// <summary>
+        /// The progress of the application's current task.
+        /// </summary>
+        public double Progress
+        {
+            get => _progress;
+            set => SetProperty(ref _progress, value);
         }
 
         /// <summary>
@@ -92,30 +104,6 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// The colour of the Search button, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush SearchButtonContentColour
-        {
-            get
-            {
-                if (IsSearchHighlighted) { return new SolidColorBrush(Colors.White); }
-                else { return new SolidColorBrush(Colors.DarkGray); }
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Library button, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush LibraryButtonContentColour
-        {
-            get
-            {
-                if (IsLibraryHighlighted) { return new SolidColorBrush(Colors.White); }
-                else { return new SolidColorBrush(Colors.DarkGray); }
-            }
-        }
-
-        /// <summary>
         /// The visibility of the search tab, depending on whether or not it is currently selected.
         /// </summary>
         public Visibility IsSearchContentVisible
@@ -136,6 +124,30 @@ namespace YouTubeDownloader
             {
                 if (IsLibraryHighlighted) { return Visibility.Visible; }
                 else { return Visibility.Hidden; }
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Search button, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush SearchButtonContentColour
+        {
+            get
+            {
+                if (IsSearchHighlighted) { return new SolidColorBrush(Colors.White); }
+                else { return new SolidColorBrush(Colors.DarkGray); }
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Library button, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush LibraryButtonContentColour
+        {
+            get
+            {
+                if (IsLibraryHighlighted) { return new SolidColorBrush(Colors.White); }
+                else { return new SolidColorBrush(Colors.DarkGray); }
             }
         }
 
@@ -175,9 +187,9 @@ namespace YouTubeDownloader
             // Initialize commands
             SearchTabButton = new RelayCommand(() => SearchButtonClicked());
             LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
-            VideoSearchButton = new RelayCommand(() => VideoSearchButtonClicked());
-            VideoDownloadButton = new RelayCommand<Video>((video) => VideoDownloadButtonClicked(video));
-            PlayVideoButton = new RelayCommand<string>((path) => PlayVideoButtonClicked(path));
+            VideoSearchButton = new RelayCommand(async () => await VideoSearchButtonClicked());
+            VideoDownloadButton = new RelayCommand<Video>(async (video) => await VideoDownloadButtonClicked(video));
+            PlayVideoButton = new RelayCommand<MediaFile>((mediaFile) => PlayVideoButtonClicked(mediaFile));
 
             // Initialize members
             _httpClient = new HttpClient();
@@ -187,9 +199,9 @@ namespace YouTubeDownloader
             IsBusy = false;
 
             // Attempts to load the user library from the specified path. . .
-            try { this.Library = (ObservableCollection<MediaFile>)Json.Load<ObservableCollection<MediaFile>>(Globals.LIBRARY_PATH); }
+            try { this.Library = (ObservableCollection<MediaFile>)Json.Load<ObservableCollection<MediaFile>>(Globals.LibraryFilePath); }
 
-            catch (FileNotFoundException) { return; } /* . . .and handles any FileNotFoundExceptions.
+            catch (FileNotFoundException) { } /* . . .and handles any FileNotFoundExceptions.
                                                        * In this instance, a FileNotFoundException simply means that the user does
                                                        * not have a saved media library. We can ignore this.
                                                        */
@@ -235,7 +247,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// If the right-arrow in the search box is clicked, this method is called by <see cref="VideoSearchButton"/>.
         /// </summary>
-        private async void VideoSearchButtonClicked()
+        private async Task VideoSearchButtonClicked()
         {
             if (string.IsNullOrEmpty(SearchQuery)) 
             {
@@ -251,31 +263,40 @@ namespace YouTubeDownloader
         /// Downloads the specified <see cref="Video"/> and saves it to the user's <see cref="Globals.Library"/>.
         /// </summary>
         /// <param name="video"></param>
-        private async void VideoDownloadButtonClicked(Video video)
+        private async Task VideoDownloadButtonClicked(Video video)
         {
+            // Ensure the video has not been downloaded previously
             if (Library.Any(mediaFile => mediaFile.VideoId == video.Id)) { return; }
+
+            // Set the application to the busy state
             IsBusy = true;
-            string title = video.Title;
-            string uploader = video.Author;
-            string videoId = video.Id.Value;
-            TimeSpan duration = video.Duration;
+
+            // Initialize progress handler
+            Progress<double> handler = new Progress<double>(p => Progress = p);
+
+            // Download the highest-quality muxed video stream
             StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
             IEnumerable<MuxedStreamInfo>  muxedStreamInfo = streamManifest.GetMuxed();
             IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
-            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.MEDIA_STORE_PATH}\\{video.Id.Value}.mp4");
-            // http client downloads the video's thumbnail
+            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.MediaFolderPath}\\{video.Id.Value}.mp4", handler);
+
+            // Download the thumbnail of the requested video
             var response = await _httpClient.GetAsync(video.Thumbnails.MediumResUrl);
-            using (FileStream fileStream = new FileStream($"{Globals.THUMBNAIL_CACHE_PATH}\\{video.Id.Value}.jpg", FileMode.Create)) 
+            using (FileStream fileStream = new FileStream($"{Globals.ThumbnailFolderPath}\\{video.Id.Value}.jpg", FileMode.Create)) 
             { await response.Content.CopyToAsync(fileStream); }
-            this.AddToLibrary(new MediaFile(title, uploader, videoId, duration));
+
+            // Add the video to the user's library
+            this.AddToLibrary(new MediaFile(video.Title, video.Author, video.Id.Value, video.Duration));
+
             IsBusy = false;
             
         }
 
-        private void PlayVideoButtonClicked(string path)
-        {
-
-        }
+        /// <summary>
+        /// Opens the specified video in the default video player.
+        /// </summary>
+        /// <param name="mediaFile"></param>
+        private void PlayVideoButtonClicked(MediaFile mediaFile) { Process.Start($"{Globals.MediaFolderPath}\\{mediaFile.VideoId}.mp4"); }
 
         /// <summary>
         /// Adds a <see cref="MediaFile"/> to the <see cref="Library"/> and saves it.
@@ -284,7 +305,7 @@ namespace YouTubeDownloader
         private void AddToLibrary(MediaFile toAdd)
         {
             this.Library.Add(toAdd);
-            Json.Write(this.Library, Globals.LIBRARY_PATH);
+            Json.Write(this.Library, Globals.LibraryFilePath);
         }
 
         #endregion
