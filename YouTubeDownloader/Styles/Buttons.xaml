@@ -18,16 +18,41 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="ListViewItemButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
+    <Style x:Key="VideoButton" TargetType="{x:Type Button}">
+        <Style.Setters>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Padding="4" BorderThickness="1" BorderBrush="Transparent" CornerRadius="2" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.Setters>
                     <Setter Property="Effect">
                         <Setter.Value>
-                            <DropShadowEffect BlurRadius="16" ShadowDepth="4" Direction="-90" Color="Gainsboro" Opacity="0.3"/>
+                            <DropShadowEffect BlurRadius="24" ShadowDepth="1" Direction="-90" Color="Gainsboro" Opacity="0.4"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger.Setters>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.Setters>
+                    <Setter Property="Background" Value="#E81123"/>
+                </Trigger.Setters>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DownloadButton" TargetType="{x:Type Button}" BasedOn="{StaticResource VideoButton}">
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="Gainsboro"/>
             </Trigger>
         </Style.Triggers>
     </Style>

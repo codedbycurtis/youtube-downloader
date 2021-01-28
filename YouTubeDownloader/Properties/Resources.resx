@@ -124,20 +124,17 @@
   <data name="material_rounded_download_icon_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\material-rounded-download-icon-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="material_rounded_play_icon_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\material-rounded-play-icon-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="material_rounded_play_icon_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\material-rounded-play-icon-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="material_rounded_red_bin_icon_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\material-rounded-red-bin-icon-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="material_rounded_right_arrow_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\material-rounded-right-arrow-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Montserrat_Medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Fonts\Montserrat-Medium.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ProductSans_Light" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Fonts\ProductSans-Light.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ProductSans_Regular" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Fonts\ProductSans-Regular.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Roboto_Medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Fonts\Roboto-Medium.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="youtube_play_button_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Icons\youtube-play-button-48.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

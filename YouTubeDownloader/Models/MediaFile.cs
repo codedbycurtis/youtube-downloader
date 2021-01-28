@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace YouTubeDownloader
 {
@@ -48,7 +48,7 @@ namespace YouTubeDownloader
             Duration = duration;
         }
 
-        ///<inheritdoc/>
+        /// <inheritdoc/>
         public override string ToString() { return $"Video Id: {this.VideoId}\nTitle: {this.Title}\nUploader:{this.Uploader}\nDuration: {this.Duration}"; }
     }
 }

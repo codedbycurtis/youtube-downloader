@@ -83,9 +83,19 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_play_icon_48 {
+        internal static System.Drawing.Bitmap material_rounded_play_icon_30 {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_play_icon_48", resourceCulture);
+                object obj = ResourceManager.GetObject("material_rounded_play_icon_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap material_rounded_red_bin_icon_30 {
+            get {
+                object obj = ResourceManager.GetObject("material_rounded_red_bin_icon_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,29 +113,9 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Montserrat_Medium {
+        internal static byte[] Roboto_Medium {
             get {
-                object obj = ResourceManager.GetObject("Montserrat_Medium", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ProductSans_Light {
-            get {
-                object obj = ResourceManager.GetObject("ProductSans_Light", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ProductSans_Regular {
-            get {
-                object obj = ResourceManager.GetObject("ProductSans_Regular", resourceCulture);
+                object obj = ResourceManager.GetObject("Roboto_Medium", resourceCulture);
                 return ((byte[])(obj));
             }
         }

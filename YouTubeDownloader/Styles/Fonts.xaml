@@ -2,13 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
-    <FontFamily x:Key="MontserratMedium">pack://application,,,/Fonts/#Montserrat Medium</FontFamily>
-    <FontFamily x:Key="ProductSansRegular">pack://application,,,/Fonts/#Product Sans</FontFamily>
-    <FontFamily x:Key="ProductSansLight">pack://application,,,/Fonts/#Product Sans Light</FontFamily>
+    <FontFamily x:Key="RobotoMedium">pack://application,,,/Fonts/#Roboto Medium</FontFamily>
 
     <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
         <Style.Setters>
-            <Setter Property="FontFamily" Value="{StaticResource ProductSansRegular}"/>
+            <Setter Property="FontFamily" Value="{StaticResource RobotoMedium}"/>
         </Style.Setters>
     </Style>
 

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\App.xaml
-61373229028
+9183456083
 
-16-581279674
+22-920776331
 29376514463
-Styles\Borders.xaml;Views\MainWindow.xaml;Styles\Buttons.xaml;Styles\Colours.xaml;Styles\Fonts.xaml;Styles\Texts.xaml;
+Views\LibraryUserControl.xaml;Views\SearchUserControl.xaml;Views\LoadingUserControl.xaml;Styles\Borders.xaml;Views\MainWindow.xaml;Styles\Buttons.xaml;Styles\Colours.xaml;Styles\Fonts.xaml;Styles\Texts.xaml;
 
 False
 

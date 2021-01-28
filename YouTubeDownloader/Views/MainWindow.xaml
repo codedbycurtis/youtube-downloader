@@ -8,12 +8,23 @@
         Title="YouTube Downloader" Height="850" Width="1200"
         Icon="../Images/Icons/youtube-play-button-48.ico"
         MinWidth="550">
-    
+
     <!-- Set window's data context -->
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    
+
+    <!-- Create custom templates for search and library screens -->
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:SearchViewModel}">
+            <local:SearchUserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:LibraryViewModel}">
+            <local:LibraryUserControl/>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -52,7 +63,7 @@
 
             <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource SimpleButton}" Command="{Binding SearchTabButton}" BorderThickness="0, 0, 0, 4" BorderBrush="{Binding SearchButtonContentColour, FallbackValue='DarkGray'}">
                 <Viewbox>
-                    <TextBlock FontFamily="{StaticResource ProductSansLight}" Text="SEARCH" Foreground="{Binding SearchButtonContentColour, FallbackValue='DarkGray'}" Padding="2">
+                    <TextBlock Text="SEARCH" Foreground="{Binding SearchButtonContentColour, FallbackValue='DarkGray'}" Padding="2">
                         <TextBlock.Effect>
                             <DropShadowEffect Color="{StaticResource LightForegroundColour}" BlurRadius="4" ShadowDepth="0" Opacity="{Binding SearchButtonContentDropShadowOpacity, FallbackValue='0.6'}"/>
                         </TextBlock.Effect>
@@ -62,159 +73,18 @@
 
             <Button Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource SimpleButton}" Command="{Binding LibraryTabButton}" BorderThickness="0, 0, 0, 4" BorderBrush="{Binding LibraryButtonContentColour, FallbackValue='DarkGray'}">
                 <Viewbox>
-                    <TextBlock FontFamily="{StaticResource ProductSansLight}" Text="LIBRARY" Foreground="{Binding LibraryButtonContentColour, FallbackValue='DarkGray'}" Padding="2">
+                    <TextBlock Text="LIBRARY" Foreground="{Binding LibraryButtonContentColour, FallbackValue='DarkGray'}" Padding="2">
                         <TextBlock.Effect>
                             <DropShadowEffect Color="{StaticResource LightForegroundColour}" BlurRadius="4" ShadowDepth="0"  Opacity="{Binding LibraryButtonContentDropShadowOpacity, FallbackValue='0.6'}"/>
                         </TextBlock.Effect>
                     </TextBlock>
                 </Viewbox>
             </Button>
-
         </Grid>
 
-        <!-- Search tab content -->
-        <Grid Grid.Row="1" Visibility="{Binding IsSearchContentVisible}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro">
-                <Border Style="{StaticResource SearchBarBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="25" Height="48" MaxWidth="800" UseLayoutRounding="True">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Image Grid.Column="0" Source="../Images/magnifying-glass-30.png" Stretch="None"/>
-
-                        <TextBox Grid.Column="1" Text="{Binding SearchQuery, Mode=OneWayToSource}" Style="{StaticResource TransparentTextBox}" FontSize="18" VerticalAlignment="Center"/>
-
-                        <Button Grid.Column="2" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderThickness="0" Cursor="Hand" ToolTip="Search">
-                            <Button.Content>
-                                <Image Source="../Images/material-rounded-right-arrow-30.png" Stretch="None"/>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                </Border>
-            </Border>
-
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
-                <ListView BorderThickness="0" ItemsSource="{Binding RequestedVideos}" ScrollViewer.CanContentScroll="False">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Style.Setters>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                            <Border>
-                                                <ContentPresenter>
-                                                    <ContentPresenter.Content>
-                                                        <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.VideoDownloadButton}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.IsBusy, Converter={x:Static local:InverseBooleanConverter.Instance}}">
-                                                            <Button.Content>
-                                                                <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
-                                                                    <Grid>
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="Auto"/>
-                                                                            <ColumnDefinition Width="Auto"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
-                                                                        <Grid Grid.Column="0">
-                                                                            <Grid.OpacityMask>
-                                                                                <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
-                                                                            </Grid.OpacityMask>
-                                                                            <Image Source="{Binding Thumbnails.MediumResUrl}"/>
-                                                                            <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                                                <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
-                                                                            </Border>
-                                                                        </Grid>
-                                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                            <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
-                                                                            <TextBlock Padding="3" Text="{Binding Author}" FontSize="16" Foreground="Gray"/>
-                                                                            <TextBlock Padding="3" FontSize="16">
-                                                                                <Run Text="{Binding Engagement.ViewCount, Mode=OneWay, Converter={x:Static local:LongToStringConverter.Instance}}"/>
-                                                                                <Run Text="•"/>
-                                                                                <Run Text="{Binding UploadDate, Mode=OneWay, Converter={x:Static local:DateTimeOffsetToStringConverter.Instance}}"/>
-                                                                            </TextBlock>
-                                                                        </StackPanel>
-                                                                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                                                                            <Image Source="../Images/material-rounded-download-icon-48.png" Stretch="None"/>
-                                                                            <TextBlock Padding="0, 0, 3, 0" Text="Click to download" VerticalAlignment="Center" FontSize="20"/>
-                                                                        </StackPanel>
-                                                                    </Grid>
-                                                                </Border>
-                                                            </Button.Content>
-                                                        </Button>
-                                                    </ContentPresenter.Content>
-                                                </ContentPresenter>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style.Setters>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </ScrollViewer>
-        </Grid>
-        
-        <!-- Library tab content -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" Visibility="{Binding IsLibraryContentVisible}">
-            <ListView BorderThickness="0" ItemsSource="{Binding Library}" ScrollViewer.CanContentScroll="False">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                        <Border>
-                                            <ContentPresenter>
-                                                <ContentPresenter.Content>
-                                                    <Button Style="{StaticResource ListViewItemButton}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.PlayVideoButton}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="8" Cursor="Hand">
-                                                        <Button.Content>
-                                                            <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                        <ColumnDefinition Width="*"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
-                                                                    <Grid Grid.Column="0">
-                                                                        <Grid.OpacityMask>
-                                                                            <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
-                                                                        </Grid.OpacityMask>
-                                                                        <Image Source="{Binding VideoId, Converter={x:Static local:StringToImageSourceConverter.Instance}}"/>
-                                                                        <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                                            <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
-                                                                        </Border>
-                                                                    </Grid>
-                                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                        <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
-                                                                        <TextBlock Padding="3" Text="{Binding Uploader}" FontSize="16" Foreground="Gray"/>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                                                                        <Image Source="../Images/material-rounded-play-icon-48.png" Stretch="None"/>
-                                                                        <TextBlock Padding="0, 0, 3, 0" Text="Click to play" VerticalAlignment="Center" FontSize="20"/>
-                                                                    </StackPanel>
-                                                                </Grid>
-                                                            </Border>
-                                                        </Button.Content>
-                                                    </Button>
-                                                </ContentPresenter.Content>
-                                            </ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </ScrollViewer>
+        <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchContentVisible}"/>
+        <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryContentVisible}"/>
 
     </Grid>
+
 </Window>
