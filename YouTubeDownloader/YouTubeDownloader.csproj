@@ -189,6 +189,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Fonts\Roboto-Medium.ttf" />
+    <Resource Include="Fonts\Roboto-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -202,19 +203,16 @@
     <Resource Include="Images\Icons\youtube-play-button-48.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\magnifying-glass-30.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\material-rounded-download-icon-48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\material-rounded-right-arrow-30.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\material-rounded-play-icon-30.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\material-rounded-red-bin-icon-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\material-rounded-download-333333-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\material-rounded-play-333333-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fluent-regular-search-333333-30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

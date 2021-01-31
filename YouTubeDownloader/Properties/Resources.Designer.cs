@@ -63,9 +63,9 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap magnifying_glass_30 {
+        internal static System.Drawing.Bitmap fluent_regular_search_333333_30 {
             get {
-                object obj = ResourceManager.GetObject("magnifying_glass_30", resourceCulture);
+                object obj = ResourceManager.GetObject("fluent_regular_search_333333_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_download_icon_48 {
+        internal static System.Drawing.Bitmap material_rounded_download_333333_48 {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_download_icon_48", resourceCulture);
+                object obj = ResourceManager.GetObject("material_rounded_download_333333_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_play_icon_30 {
+        internal static System.Drawing.Bitmap material_rounded_play_333333_48 {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_play_icon_30", resourceCulture);
+                object obj = ResourceManager.GetObject("material_rounded_play_333333_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -101,21 +101,21 @@ namespace YouTubeDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_right_arrow_30 {
+        internal static byte[] Roboto_Medium {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_right_arrow_30", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("Roboto_Medium", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Roboto_Medium {
+        internal static byte[] Roboto_Regular {
             get {
-                object obj = ResourceManager.GetObject("Roboto_Medium", resourceCulture);
+                object obj = ResourceManager.GetObject("Roboto_Regular", resourceCulture);
                 return ((byte[])(obj));
             }
         }

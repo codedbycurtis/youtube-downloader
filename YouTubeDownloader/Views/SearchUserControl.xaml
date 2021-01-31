@@ -16,34 +16,32 @@
     
     <!-- Search tab content -->
     <Grid>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro">
-            <Border Style="{StaticResource SearchBarBorder}" Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="25" Height="48" MaxWidth="800" UseLayoutRounding="True">
+        <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro" Background="White" Panel.ZIndex="1">
+            <Border Style="{StaticResource SearchBarBorder}" Background="White" BorderBrush="Gainsboro" MaxWidth="800">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-
-                    <Image Grid.Column="0" Source="../Images/magnifying-glass-30.png" Stretch="None"/>
-
-                    <TextBox Grid.Column="1" Text="{Binding SearchQuery}" Style="{StaticResource TransparentTextBox}" FontSize="18" VerticalAlignment="Center"/>
-
-                    <Button Grid.Column="2" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderThickness="0" Cursor="Hand" ToolTip="Search">
-                        <Button.Content>
-                            <Image Source="../Images/material-rounded-right-arrow-30.png" Stretch="None"/>
-                        </Button.Content>
-                    </Button>
+                    <TextBox Grid.Column="0" Padding="22, 0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TransparentTextBox}" FontFamily="{StaticResource RobotoRegular}" FontSize="18" VerticalAlignment="Center">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding VideoSearchButton}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1, 0, 0, 0" >
+                        <Button Grid.Column="1" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderBrush="Transparent" BorderThickness="10, 0" Cursor="Hand" ToolTip="Search">
+                            <Button.Content>
+                                <Image Source="../Images/fluent-regular-search-333333-30.png" Stretch="None"/>
+                            </Button.Content>
+                        </Button>
+                    </Border>
                 </Grid>
             </Border>
         </Border>
-
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" Visibility="{Binding RequestedVideosVisibility}">
             <ListView BorderThickness="0" ItemsSource="{Binding RequestedVideos}" ScrollViewer.CanContentScroll="False">
                 <ListView.ItemContainerStyle>
@@ -55,7 +53,7 @@
                                         <Border>
                                             <ContentPresenter>
                                                 <ContentPresenter.Content>
-                                                    <Border Style="{StaticResource ListViewItemBorder}" BorderBrush="Transparent" BorderThickness="8">
+                                                    <Border BorderBrush="Transparent" BorderThickness="8">
                                                         <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
@@ -82,17 +80,17 @@
                                                                         <Run Text="{Binding UploadDate, Mode=OneWay, Converter={x:Static local:DateTimeOffsetToStringConverter.Instance}}"/>
                                                                     </TextBlock>
                                                                 </StackPanel>
-                                                                
+
                                                                 <!-- The download button next to each video -->
                                                                 <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                                    <Button Style="{StaticResource VideoButton}" Cursor="Hand"
+                                                                    <Button Style="{StaticResource VideoButton}"
                                                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchUserControl}, Path=DataContext.VideoDownloadButton}"
                                                                         CommandParameter="{Binding}"
                                                                         IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchUserControl}, Path=DataContext.IsBusy, Converter={x:Static local:InverseBooleanConverter.Instance}}">
                                                                         <Button.Content>
                                                                             <Border>
                                                                                 <StackPanel Orientation="Horizontal">
-                                                                                    <Image Source="../Images/material-rounded-download-icon-48.png" Stretch="None"/>
+                                                                                    <Image Source="../Images/material-rounded-download-333333-48.png" Stretch="None"/>
                                                                                     <TextBlock Text="Download" VerticalAlignment="Center" FontSize="20"/>
                                                                                 </StackPanel>
                                                                             </Border>
@@ -113,7 +111,6 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </ScrollViewer>
-
         <Grid Grid.Row="1" Visibility="{Binding LoadingScreenVisibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

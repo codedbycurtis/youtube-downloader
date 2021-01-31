@@ -30,6 +30,6 @@ namespace YouTubeDownloader
         /// <summary>
         /// The user's <see cref="MediaFile"/> library.
         /// </summary>
-        public static ObservableCollection<MediaFile> Library { get; set; } = new ObservableCollection<MediaFile>();
+        public static ObservableCollection<MediaFile> Library = new ObservableCollection<MediaFile>();
     }
 }

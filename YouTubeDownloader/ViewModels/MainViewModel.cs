@@ -10,6 +10,7 @@ namespace YouTubeDownloader
 
         private bool _isSearchHighlighted;
         private bool _isLibraryHighlighted;
+        private bool _isVideoPlayerHighlighted;
 
         #endregion
 
@@ -34,77 +35,120 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// The opacity (visibility) of the Search button's drop shadow, depending on whether or not
-        /// it is currently selected.
+        /// Is the Player tab currently selected.
         /// </summary>
-        public double SearchButtonContentDropShadowOpacity
+        public bool IsVideoPlayerHighlighted
         {
-            get
-            {
-                if (IsSearchHighlighted) { return 0.6; }
-                else { return 0; }
-            }
-        }
-
-        /// <summary>
-        /// The opacity (visibility) of the Library button's drop shadow, depending on whether or not
-        /// it is currently selected.
-        /// </summary>
-        public double LibraryButtonContentDropShadowOpacity
-        {
-            get
-            {
-                if (IsLibraryHighlighted) { return 0.6; }
-                else { return 0; }
-            }
+            get => _isVideoPlayerHighlighted;
+            set => SetProperty(ref _isVideoPlayerHighlighted, value);
         }
 
 
         /// <summary>
-        /// The visibility of the search tab, depending on whether or not it is currently selected.
+        /// The visibility of the Search tab, depending on whether or not it is currently selected.
         /// </summary>
-        public Visibility IsSearchContentVisible
+        public Visibility SearchVisibility
         {
             get
             {
                 if (IsSearchHighlighted) { return Visibility.Visible; }
-                else { return Visibility.Hidden; }
+                return Visibility.Hidden;
             }
         }
 
         /// <summary>
-        /// The visibility of the library tab, depending on whether or not it is currently selected.
+        /// The visibility of the Library tab, depending on whether or not it is currently selected.
         /// </summary>
-        public Visibility IsLibraryContentVisible
+        public Visibility LibraryVisibility
         {
             get
             {
                 if (IsLibraryHighlighted) { return Visibility.Visible; }
-                else { return Visibility.Hidden; }
+                return Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// The visibility of the Player tab, depending on whether or not it is currently selected.
+        /// </summary>
+        public Visibility VideoPlayerVisibility
+        {
+            get
+            {
+                if (IsVideoPlayerHighlighted) { return Visibility.Visible; }
+                return Visibility.Hidden;
             }
         }
 
         /// <summary>
         /// The colour of the Search button, depending on whether or not it is currently selected.
         /// </summary>
-        public SolidColorBrush SearchButtonContentColour
+        public SolidColorBrush SearchButtonColour
         {
             get
             {
-                if (IsSearchHighlighted) { return new SolidColorBrush(Colors.White); }
-                else { return new SolidColorBrush(Colors.DarkGray); }
+                if (IsSearchHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Gray);
             }
         }
 
         /// <summary>
         /// The colour of the Library button, depending on whether or not it is currently selected.
         /// </summary>
-        public SolidColorBrush LibraryButtonContentColour
+        public SolidColorBrush LibraryButtonColour
         {
             get
             {
-                if (IsLibraryHighlighted) { return new SolidColorBrush(Colors.White); }
-                else { return new SolidColorBrush(Colors.DarkGray); }
+                if (IsLibraryHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Gray);
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Player button, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush PlayerButtonColour
+        {
+            get
+            {
+                if (IsVideoPlayerHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Gray);
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Search button's border, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush SearchButtonBorderBrush
+        {
+            get
+            {
+                if (IsSearchHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Library button's border, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush LibraryButtonBorderBrush
+        {
+            get
+            {
+                if (IsLibraryHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Transparent);
+            }
+        }
+
+        /// <summary>
+        /// The colour of the Player button's border, depending on whether or not it is currently selected.
+        /// </summary>
+        public SolidColorBrush PlayerButtonBorderBrush
+        {
+            get
+            {
+                if (IsVideoPlayerHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                return new SolidColorBrush(Colors.Transparent);
             }
         }
 
@@ -124,6 +168,7 @@ namespace YouTubeDownloader
 
         public ICommand SearchTabButton { get; set; }        
         public ICommand LibraryTabButton { get; set; }
+        public ICommand PlayerTabButton { get; set; }
 
         #endregion
 
@@ -137,6 +182,7 @@ namespace YouTubeDownloader
             // Initialize commands
             SearchTabButton = new RelayCommand(() => SearchButtonClicked());
             LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
+            PlayerTabButton = new RelayCommand(() => PlayerButtonClicked());
         }
 
         #endregion
@@ -147,12 +193,22 @@ namespace YouTubeDownloader
         {
             IsSearchHighlighted = true;
             IsLibraryHighlighted = false;
+            IsVideoPlayerHighlighted = false;
             NotifyTabChanged();
         }
 
         private void LibraryButtonClicked()
         {
             IsLibraryHighlighted = true;
+            IsSearchHighlighted = false;
+            IsVideoPlayerHighlighted = false;
+            NotifyTabChanged();
+        }
+
+        private void PlayerButtonClicked()
+        {
+            IsVideoPlayerHighlighted = true;
+            IsLibraryHighlighted = false;
             IsSearchHighlighted = false;
             NotifyTabChanged();
         }
@@ -162,12 +218,15 @@ namespace YouTubeDownloader
         /// </summary>
         private void NotifyTabChanged()
         {
-            NotifyPropertyChanged(nameof(SearchButtonContentColour));
-            NotifyPropertyChanged(nameof(LibraryButtonContentColour));
-            NotifyPropertyChanged(nameof(SearchButtonContentDropShadowOpacity));
-            NotifyPropertyChanged(nameof(LibraryButtonContentDropShadowOpacity));
-            NotifyPropertyChanged(nameof(IsSearchContentVisible));
-            NotifyPropertyChanged(nameof(IsLibraryContentVisible));
+            NotifyPropertyChanged(nameof(SearchButtonColour));
+            NotifyPropertyChanged(nameof(LibraryButtonColour));
+            NotifyPropertyChanged(nameof(PlayerButtonColour));
+            NotifyPropertyChanged(nameof(SearchButtonBorderBrush));
+            NotifyPropertyChanged(nameof(LibraryButtonBorderBrush));
+            NotifyPropertyChanged(nameof(PlayerButtonBorderBrush));
+            NotifyPropertyChanged(nameof(SearchVisibility));
+            NotifyPropertyChanged(nameof(LibraryVisibility));
+            NotifyPropertyChanged(nameof(VideoPlayerVisibility));
         }
 
         #endregion

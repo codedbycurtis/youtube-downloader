@@ -19,7 +19,7 @@
                                     <Border>
                                         <ContentPresenter>
                                             <ContentPresenter.Content>
-                                                <Border Style="{StaticResource ListViewItemBorder}" BorderBrush="Transparent" BorderThickness="8">
+                                                <Border BorderBrush="Transparent" BorderThickness="8">
                                                     <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
@@ -43,34 +43,31 @@
                                                             </StackPanel>
                                                             
                                                             <!-- The play button next to each video -->
-                                                            <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8">
-                                                                <Grid>
-                                                                    <Button Style="{StaticResource VideoButton}" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                            <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                                <StackPanel>
+                                                                    <Button Style="{StaticResource VideoButton}" HorizontalAlignment="Right" VerticalAlignment="Center"
                                                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.PlayVideoButton}"
                                                                         CommandParameter="{Binding}">
                                                                         <Button.Content>
                                                                             <Border>
                                                                                 <StackPanel Orientation="Horizontal">
-                                                                                    <Image Source="../Images/material-rounded-play-icon-30.png" Stretch="None"/>
+                                                                                    <Image Source="../Images/material-rounded-play-333333-48.png" Stretch="None"/>
                                                                                     <TextBlock Text="Play" VerticalAlignment="Center" FontSize="20"/>
                                                                                 </StackPanel>
                                                                             </Border>
                                                                         </Button.Content>
                                                                     </Button>
-                                                                    <Button Style="{StaticResource DownloadButton}" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                                    <Button Style="{StaticResource DeleteButton}" HorizontalAlignment="Right"
                                                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.DeleteVideoButton}"
                                                                         CommandParameter="{Binding}">
                                                                         <Button.Content>
                                                                             <Border>
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <Image Source="../Images/material-rounded-red-bin-icon-30.png" Stretch="None"/>
-                                                                                </StackPanel>
+                                                                                <Image Source="../Images/material-rounded-red-bin-icon-30.png" Stretch="None"/>
                                                                             </Border>
                                                                         </Button.Content>
                                                                     </Button>
-                                                                </Grid>
+                                                                </StackPanel>
                                                             </Border>
-                                                            
                                                         </Grid>
                                                     </Border>
                                                 </Border>
