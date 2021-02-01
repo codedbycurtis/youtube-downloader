@@ -1,13 +1,24 @@
-# About
-YouTube Downloader is a user-friendly, feature-rich Windows client for downloading and arranging audio and video files from YouTube.
+# A lightweight, all-in-one YouTube client for Windows
+YouTube Downloader is a user-friendly, feature-rich Windows client that allows YouTube videos to be _downloaded_ and _watched_ in high-quality.
 
 # Installation
-## User Requirements
-- **.NET Framework Runtime** 4.0 or higher.
+## System Requirements
+- `.NET Framework Runtime` **4.0 or higher.**
 
 [Download .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 
-## Technical Requirements
-- To modify and build code, an editor such as **Microsoft Visual Studio Community 2019** is recommended.
+# Windows
+## Manual Install
+Currently, as the software is still in development, there are no installation packages available. However, you _can_ manually install the program:  
 
-[Download Microsoft Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/)
+1. Ensure you have the specified system requirements installed.  
+
+2. Download or clone the repository using:
+    - https://github.com/codedbycurtis/youtube-downloader/archive/main.zip or
+    - `gh repo clone codedbycurtis/youtube-downloader`  
+    
+3. Copy the contents of `YouTubeDownloader\bin\Debug` to a directory of your choice.  
+
+4. Create a shortcut of `YouTubeDownloader.exe` and move it your Desktop or another location.  
+
+The application should function as normal.
