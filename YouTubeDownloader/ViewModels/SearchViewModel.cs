@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,6 +8,7 @@ using System.Windows.Input;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
+using YoutubeExplode.Exceptions;
 
 namespace YouTubeDownloader
 {
@@ -74,11 +74,6 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.LoadingViewModel"/>.
-        /// </summary>
-        public LoadingViewModel LoadingViewModel { get; set; } = new LoadingViewModel();
-
-        /// <summary>
         /// A list of videos matching the user's specified <see cref="SearchQuery"/>.
         /// </summary>
         public IReadOnlyList<Video> RequestedVideos
@@ -105,7 +100,14 @@ namespace YouTubeDownloader
         {
             _httpClient = new HttpClient();
             _youtubeClient = new YoutubeClient(_httpClient);
-            VideoSearchButton = new RelayCommand(async () => await VideoSearchButtonClicked());
+            VideoSearchButton = new RelayCommand(async () =>
+            {
+                try { await VideoSearchButtonClicked(); }
+                catch (TransientFailureException)
+                {
+                    IsBusy = false;
+                }
+            });
             VideoDownloadButton = new RelayCommand<Video>(async (video) => await VideoDownloadButtonClicked(video));
         }
 
@@ -144,7 +146,7 @@ namespace YouTubeDownloader
             StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
             IEnumerable<MuxedStreamInfo> muxedStreamInfo = streamManifest.GetMuxed();
             IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
-            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.MediaFolderPath}\\{video.Id.Value}.mp4");
+            await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.VideoFolderPath}\\{video.Id.Value}.mp4");
 
             // Download the thumbnail of the requested video
             var response = await _httpClient.GetAsync(video.Thumbnails.MediumResUrl);
@@ -152,16 +154,17 @@ namespace YouTubeDownloader
                 await response.Content.CopyToAsync(fileStream);
 
             // Add the video to the user's library
-            this.AddToLibrary(new MediaFile(video.Title, video.Author, video.Id.Value, video.Duration));
+            this.AddToLibrary(new VideoMetadata(video.Title, video.Author, video.Id.Value, video.Duration));
 
+            // Set the application to the idle state
             IsBusy = false;
         }
 
         /// <summary>
-        /// Adds a <see cref="MediaFile"/> to the <see cref="Globals.Library"/> and saves it.
+        /// Adds a <see cref="VideoMetadata"/> to the <see cref="Globals.Library"/> and saves it.
         /// </summary>
         /// <param name="toAdd"></param>
-        private void AddToLibrary(MediaFile toAdd)
+        private void AddToLibrary(VideoMetadata toAdd)
         {
             Globals.Library.Add(toAdd);
             Json.Write(Globals.Library, Globals.LibraryFilePath);

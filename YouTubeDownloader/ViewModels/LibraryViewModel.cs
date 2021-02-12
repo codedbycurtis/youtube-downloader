@@ -56,8 +56,8 @@ namespace YouTubeDownloader
         /// </summary>
         public LibraryViewModel()
         {
-            PlayVideoButton = new RelayCommand<MediaFile>((mediaFile) => PlayVideoButtonClicked(mediaFile));
-            DeleteVideoButton = new RelayCommand<MediaFile>((mediaFile) => DeleteVideoButtonClicked(mediaFile));
+            PlayVideoButton = new RelayCommand<VideoMetadata>((videoMetadata) => PlayVideoButtonClicked(videoMetadata));
+            DeleteVideoButton = new RelayCommand<VideoMetadata>((videoMetadata) => DeleteVideoButtonClicked(videoMetadata));
             UpdateLibraryPopulation();
         }
 
@@ -69,19 +69,19 @@ namespace YouTubeDownloader
         /// Opens the specified video in the default video player.
         /// </summary>
         /// <param name="mediaFile"></param>
-        private void PlayVideoButtonClicked(MediaFile mediaFile) { Process.Start($"{Globals.MediaFolderPath}\\{mediaFile.VideoId}.mp4"); }
+        private void PlayVideoButtonClicked(VideoMetadata mediaFile) { Process.Start($"{Globals.VideoFolderPath}\\{mediaFile.VideoId}.mp4"); }
 
         /// <summary>
         /// Deletes the specified video from the <see cref="Globals.Library"/>, and associated files.\
         /// </summary>
-        /// <param name="mediaFile">The video to delete.</param>
-        private void DeleteVideoButtonClicked(MediaFile mediaFile)
+        /// <param name="videoMetadata">The video to delete.</param>
+        private void DeleteVideoButtonClicked(VideoMetadata videoMetadata)
         {
-            Globals.Library.Remove(mediaFile);
+            Globals.Library.Remove(videoMetadata);
             Json.Write(Globals.Library, Globals.LibraryFilePath);
             UpdateLibraryPopulation();
-            File.Delete($"{Globals.MediaFolderPath}\\{mediaFile.VideoId}.mp4");
-            File.Delete($"{Globals.ThumbnailFolderPath}\\{mediaFile.VideoId}.jpg");
+            File.Delete($"{Globals.VideoFolderPath}\\{videoMetadata.VideoId}.mp4");
+            File.Delete($"{Globals.ThumbnailFolderPath}\\{videoMetadata.VideoId}.jpg");
         }
 
         /// <summary>

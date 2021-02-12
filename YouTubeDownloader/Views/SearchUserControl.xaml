@@ -7,13 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <!-- Create custom template for the loading screen -->
-    <UserControl.Resources>
-        <DataTemplate DataType="{x:Type local:LoadingViewModel}">
-            <local:LoadingUserControl/>
-        </DataTemplate>
-    </UserControl.Resources>
-    
     <!-- Search tab content -->
     <Grid>
         <Grid.RowDefinitions>
@@ -32,7 +25,7 @@
                             <KeyBinding Key="Return" Command="{Binding VideoSearchButton}"/>
                         </TextBox.InputBindings>
                     </TextBox>
-                    <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1, 0, 0, 0" >
+                    <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 0" >
                         <Button Grid.Column="1" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderBrush="Transparent" BorderThickness="10, 0" Cursor="Hand" ToolTip="Search">
                             <Button.Content>
                                 <Image Source="../Images/fluent-regular-search-333333-30.png" Stretch="None"/>
@@ -118,8 +111,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Text="Working" FontSize="20" HorizontalAlignment="Center" Padding="4"/>
-                <ProgressBar Background="Transparent" Foreground="#E81123" IsIndeterminate="True">
+                <TextBlock Text="Downloading" HorizontalAlignment="Center" Padding="4">
+                    <TextBlock.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+                <ProgressBar Background="Transparent" Foreground="Red" IsIndeterminate="True">
                     <ProgressBar.RenderTransform>
                         <ScaleTransform ScaleY="2"/>
                     </ProgressBar.RenderTransform>

@@ -39,7 +39,7 @@
                                                             </Grid>
                                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                                 <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
-                                                                <TextBlock Padding="3" Text="{Binding Uploader}" FontSize="16" Foreground="Gray"/>
+                                                                <TextBlock Padding="3" Text="{Binding Author}" FontSize="16" Foreground="Gray"/>
                                                             </StackPanel>
                                                             
                                                             <!-- The play button next to each video -->

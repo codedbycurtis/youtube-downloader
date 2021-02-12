@@ -124,6 +124,9 @@
   <data name="material_rounded_download_333333_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\material-rounded-download-333333-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="material_rounded_menu_333333_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\material-rounded-menu-333333-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="material_rounded_play_333333_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\material-rounded-play-333333-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

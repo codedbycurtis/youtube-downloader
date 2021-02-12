@@ -6,7 +6,7 @@ namespace YouTubeDownloader
     /// <summary>
     /// Encapsulates a downloaded <see cref="YoutubeExplode.Videos.Video"/>'s relevant metadata.
     /// </summary>
-    public class MediaFile
+    public class VideoMetadata
     {
         /// <summary>
         /// String representation of the downloaded YouTube video's <see cref="YoutubeExplode.Videos.VideoId"/>.
@@ -23,8 +23,8 @@ namespace YouTubeDownloader
         /// <summary>
         /// The name of the channel that uploaded the downloaded video file.
         /// </summary>
-        [JsonProperty("uploader")]
-        public string Uploader { get; private set; }
+        [JsonProperty("author")]
+        public string Author { get; private set; }
 
         /// <summary>
         /// The duration of the downloaded video.
@@ -36,19 +36,19 @@ namespace YouTubeDownloader
         /// Default constructor
         /// </summary>
         /// <param name="title"></param>
-        /// <param name="uploader"></param>
+        /// <param name="author"></param>
         /// <param name="videoId"></param>
         /// <param name="duration"></param>
         [JsonConstructor()]
-        public MediaFile(string title, string uploader, string videoId, TimeSpan duration)
+        public VideoMetadata(string title, string author, string videoId, TimeSpan duration)
         {
             VideoId = videoId;
             Title = title;
-            Uploader = uploader;
+            Author = author;
             Duration = duration;
         }
 
         /// <inheritdoc/>
-        public override string ToString() { return $"Video Id: {this.VideoId}\nTitle: {this.Title}\nUploader:{this.Uploader}\nDuration: {this.Duration}"; }
+        public override string ToString() { return $"Video Id: {this.VideoId}\nTitle: {this.Title}\nAuthor:{this.Author}\nDuration: {this.Duration}"; }
     }
 }

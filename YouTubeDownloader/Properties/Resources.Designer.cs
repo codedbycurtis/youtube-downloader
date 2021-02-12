@@ -83,6 +83,16 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap material_rounded_menu_333333_30 {
+            get {
+                object obj = ResourceManager.GetObject("material_rounded_menu_333333_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap material_rounded_play_333333_48 {
             get {
                 object obj = ResourceManager.GetObject("material_rounded_play_333333_48", resourceCulture);

@@ -14,7 +14,7 @@
         <local:MainViewModel/>
     </Window.DataContext>
 
-    <!-- Create custom templates for search and library screens -->
+    <!-- Create custom templates for ViewModels -->
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:SearchViewModel}">
             <local:SearchUserControl/>
@@ -22,6 +22,18 @@
 
         <DataTemplate DataType="{x:Type local:LibraryViewModel}">
             <local:LibraryUserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:VideoPlayerViewModel}">
+            <local:VideoPlayerUserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:AboutViewModel}">
+            <local:AboutUserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:SettingsViewModel}">
+            <local:SettingsUserControl/>
         </DataTemplate>
     </Window.Resources>
 
@@ -33,9 +45,9 @@
 
         <!-- Title strip & tab bar -->
         <Border Grid.Row="0" Background="White" BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 1" Panel.ZIndex="1">
-            <Border.Effect>
+            <!--<Border.Effect>
                 <DropShadowEffect BlurRadius="6" ShadowDepth="0" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
-            </Border.Effect>
+            </Border.Effect>-->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -66,7 +78,23 @@
                 </Grid>
             </Grid>
         </Border>
+        <Menu Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="6" Panel.ZIndex="1" Background="Transparent">
+            <MenuItem>
+                <MenuItem.Header>
+                    <TextBlock Text="☰">
+                        <TextBlock.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </MenuItem.Header>
+                <MenuItem Header="About" Command="{Binding AboutButton}"/>
+                <MenuItem Header="Settings" Command="{Binding SettingsButton}"/>
+            </MenuItem>
+        </Menu>
         <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding SearchVisibility}"/>
         <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding LibraryVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding VideoPlayerViewModel}" Visibility="{Binding VideoPlayerVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding AboutViewModel}" Visibility="{Binding AboutVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding SettingsViewModel}" Visibility="{Binding SettingsVisibility}"/>
     </Grid>
-</Window>
+</Window>                                        

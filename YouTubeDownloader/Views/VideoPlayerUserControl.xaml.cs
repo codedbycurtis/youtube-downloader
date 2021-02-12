@@ -3,11 +3,11 @@
 namespace YouTubeDownloader
 {
     /// <summary>
-    /// Interaction logic for LoadingUserControl.xaml
+    /// Interaction logic for VideoPlayerUserControl.xaml
     /// </summary>
-    public partial class LoadingUserControl : UserControl
+    public partial class VideoPlayerUserControl : UserControl
     {
-        public LoadingUserControl()
+        public VideoPlayerUserControl()
         {
             InitializeComponent();
         }

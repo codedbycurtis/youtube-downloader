@@ -5,31 +5,36 @@ namespace YouTubeDownloader
     /// <summary>
     /// Global properties
     /// </summary>
-    public static class Globals
+    public class Globals
     {
         /// <summary>
         /// Relative path to the library folder.
         /// </summary>
-        public const string LibraryFolderPath = @"library_data";
+        public static string LibraryFolderPath { get; } = "Library";
 
         /// <summary>
-        /// Relative path to the media store folder.
+        /// Relative path to the video folder.
         /// </summary>
-        public const string MediaFolderPath = @"videos";
+        public static string VideoFolderPath { get; } = "Videos";
 
         /// <summary>
-        /// Relative path to the thumbnail cache folder.
+        /// Relative path to the thumbnail folder.
         /// </summary>
-        public const string ThumbnailFolderPath = @"thumbnails";
+        public static string ThumbnailFolderPath { get; } = "Thumbnails";
+
+        /// <summary>
+        /// Relative path to the temp folder.
+        /// </summary>
+        public static string TempFolderPath { get; } = "Temp";
 
         /// <summary>
         /// The normalized, relative path to the user library file.
         /// </summary>
-        public static readonly string LibraryFilePath = $"{LibraryFolderPath}\\library.json";
+        public static string LibraryFilePath { get; } = $"{LibraryFolderPath}\\Library.json";
 
         /// <summary>
-        /// The user's <see cref="MediaFile"/> library.
+        /// The user's <see cref="VideoMetadata"/> library.
         /// </summary>
-        public static ObservableCollection<MediaFile> Library = new ObservableCollection<MediaFile>();
+        public static ObservableCollection<VideoMetadata> Library { get; set; } = new ObservableCollection<VideoMetadata>();
     }
 }

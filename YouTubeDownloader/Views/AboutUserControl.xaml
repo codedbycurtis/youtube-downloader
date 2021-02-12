@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="YouTubeDownloader.AboutUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YouTubeDownloader"
+             mc:Ignorable="d">
+    
+    <Border Background="White" CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="6" ShadowDepth="2" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
+        </Border.Effect>
+        <StackPanel>
+            <TextBlock Padding="20" FontSize="18">
+                <Run Text="YT" Foreground="Red"/>
+                <Run Text="Downloader" Foreground="#333333"/>
+            </TextBlock>
+            <Border BorderBrush="Gainsboro" BorderThickness="0, 1, 0, 0"/>
+            <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                    <Run Text="Assembly Version:"/>
+                    <Run Text="{Binding CurrentAssemblyVersion, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run Text="YoutubeExplode API Version: 5.1.9"/>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run Text="Copyright © 2021 Curtis Caulfield. All rights reserved."/>
+            </TextBlock>
+            <Border BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 1"/>
+            <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                <Run Text="Attributions:" FontSize="20"/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="All icons provided by: "/><Hyperlink NavigateUri="https://icons8.com" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Icons8</Hyperlink>
+                <LineBreak/>
+                <LineBreak/>
+                <Hyperlink NavigateUri="https://icons8.com/icons/set/youtube" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Fluent YouTube Icon</Hyperlink>
+                <LineBreak/>
+                <Hyperlink NavigateUri="https://icons8.com/icons/set/search" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Fluent System Regular Search Icon</Hyperlink>
+                <LineBreak/>
+                <Hyperlink NavigateUri="https://icons8.com/icons/set/download" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Material Rounded Download Icon</Hyperlink>
+                <LineBreak/>
+                <Hyperlink NavigateUri="https://icons8.com/icons/set/play" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Material Rounded Play Icon</Hyperlink>
+                <LineBreak/>
+                <Hyperlink NavigateUri="https://icons8.com/icons/set/bin" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Material Rounded Delete Bin Icon</Hyperlink>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Uses the "/><Hyperlink NavigateUri="https://github.com/Tyrrrz/YoutubeExplode" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">YoutubeExplode API</Hyperlink><Run Text=" by "/><Hyperlink NavigateUri="https://github.com/Tyrrrz" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Tyrrrz</Hyperlink><Run Text=" on Github."/>
+            </TextBlock>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -11,6 +11,8 @@ namespace YouTubeDownloader
         private bool _isSearchHighlighted;
         private bool _isLibraryHighlighted;
         private bool _isVideoPlayerHighlighted;
+        private bool _isAboutHighlighted;
+        private bool _isSettingsHighlighted;
 
         #endregion
 
@@ -22,7 +24,11 @@ namespace YouTubeDownloader
         public bool IsSearchHighlighted
         {
             get => _isSearchHighlighted;
-            set => SetProperty(ref _isSearchHighlighted, value);
+            set
+            {
+                SetProperty(ref _isSearchHighlighted, value);
+                NotifyTabChanged();
+            }
         }
 
         /// <summary>
@@ -31,7 +37,11 @@ namespace YouTubeDownloader
         public bool IsLibraryHighlighted
         {
             get => _isLibraryHighlighted;
-            set => SetProperty(ref _isLibraryHighlighted, value);
+            set
+            {
+                SetProperty(ref _isLibraryHighlighted, value);
+                NotifyTabChanged();
+            }
         }
 
         /// <summary>
@@ -40,9 +50,38 @@ namespace YouTubeDownloader
         public bool IsVideoPlayerHighlighted
         {
             get => _isVideoPlayerHighlighted;
-            set => SetProperty(ref _isVideoPlayerHighlighted, value);
+            set
+            {
+                SetProperty(ref _isVideoPlayerHighlighted, value);
+                NotifyTabChanged();
+            }
         }
 
+        /// <summary>
+        /// Is the About screen currently selected.
+        /// </summary>
+        public bool IsAboutHighlighted
+        {
+            get => _isAboutHighlighted;
+            set
+            {
+                SetProperty(ref _isAboutHighlighted, value);
+                NotifyTabChanged();
+            }
+        }
+
+        /// <summary>
+        /// Is the Settings screen currently selected.
+        /// </summary>
+        public bool IsSettingsHighlighted
+        {
+            get => _isSettingsHighlighted;
+            set
+            {
+                SetProperty(ref _isSettingsHighlighted, value);
+                NotifyTabChanged();
+            }
+        }
 
         /// <summary>
         /// The visibility of the Search tab, depending on whether or not it is currently selected.
@@ -76,6 +115,30 @@ namespace YouTubeDownloader
             get
             {
                 if (IsVideoPlayerHighlighted) { return Visibility.Visible; }
+                return Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// The visibility of the About screen, depending on whether or not it was selected from the drop-down menu.
+        /// </summary>
+        public Visibility AboutVisibility
+        {
+            get
+            {
+                if (IsAboutHighlighted) { return Visibility.Visible; }
+                return Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// The visibility of the Settings screen, depending on whether or not it was selected from the drop-down menu.
+        /// </summary>
+        public Visibility SettingsVisibility
+        {
+            get
+            {
+                if (IsSettingsHighlighted) { return Visibility.Visible; }
                 return Visibility.Hidden;
             }
         }
@@ -155,12 +218,27 @@ namespace YouTubeDownloader
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.SearchViewModel"/>.
         /// </summary>
-        public SearchViewModel SearchViewModel { get; set; } = new SearchViewModel();
+        public SearchViewModel SearchViewModel { get; } = new SearchViewModel();
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
         /// </summary>
-        public LibraryViewModel LibraryViewModel { get; set; } = new LibraryViewModel();
+        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel();
+
+        /// <summary>
+        /// An instance of the <see cref="YouTubeDownloader.VideoPlayerViewModel"/>.
+        /// </summary>
+        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel();
+
+        /// <summary>
+        /// An instance of the <see cref="YouTubeDownloader.AboutViewModel"/>.
+        /// </summary>
+        public AboutViewModel AboutViewModel { get; } = new AboutViewModel();
+
+        /// <summary>
+        /// An instance of the <see cref="YouTubeDownloader.SettingsViewModel"/>.
+        /// </summary>
+        public SettingsViewModel SettingsViewModel { get; } = new SettingsViewModel();
 
         #endregion
 
@@ -169,6 +247,8 @@ namespace YouTubeDownloader
         public ICommand SearchTabButton { get; set; }        
         public ICommand LibraryTabButton { get; set; }
         public ICommand PlayerTabButton { get; set; }
+        public ICommand AboutButton { get; set; }
+        public ICommand SettingsButton { get; set; }
 
         #endregion
 
@@ -183,6 +263,8 @@ namespace YouTubeDownloader
             SearchTabButton = new RelayCommand(() => SearchButtonClicked());
             LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
             PlayerTabButton = new RelayCommand(() => PlayerButtonClicked());
+            AboutButton = new RelayCommand(() => AboutButtonClicked());
+            SettingsButton = new RelayCommand(() => SettingsButtonClicked());
         }
 
         #endregion
@@ -192,25 +274,31 @@ namespace YouTubeDownloader
         private void SearchButtonClicked()
         {
             IsSearchHighlighted = true;
-            IsLibraryHighlighted = false;
-            IsVideoPlayerHighlighted = false;
-            NotifyTabChanged();
+            IsLibraryHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
         }
 
         private void LibraryButtonClicked()
         {
             IsLibraryHighlighted = true;
-            IsSearchHighlighted = false;
-            IsVideoPlayerHighlighted = false;
-            NotifyTabChanged();
+            IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
         }
 
         private void PlayerButtonClicked()
         {
             IsVideoPlayerHighlighted = true;
-            IsLibraryHighlighted = false;
-            IsSearchHighlighted = false;
-            NotifyTabChanged();
+            IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+        }
+
+        private void AboutButtonClicked()
+        {
+            IsAboutHighlighted = true;
+            IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsSettingsHighlighted = false;
+        }
+
+        private void SettingsButtonClicked()
+        {
+            IsSettingsHighlighted = true;
+            IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = false;
         }
 
         /// <summary>
@@ -227,6 +315,8 @@ namespace YouTubeDownloader
             NotifyPropertyChanged(nameof(SearchVisibility));
             NotifyPropertyChanged(nameof(LibraryVisibility));
             NotifyPropertyChanged(nameof(VideoPlayerVisibility));
+            NotifyPropertyChanged(nameof(AboutVisibility));
+            NotifyPropertyChanged(nameof(SettingsVisibility));
         }
 
         #endregion

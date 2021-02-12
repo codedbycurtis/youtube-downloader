@@ -15,7 +15,7 @@ namespace YouTubeDownloader
         /// <param name="path">The normalized, relative path to serialize the data to.</param>
         public static void Write(object data, string path)
         {
-            string jsonString = JsonConvert.SerializeObject(data);
+            string jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
 
             using (FileStream fileStream = new FileStream(path, FileMode.Create)) 
             using (StreamWriter streamWriter = new StreamWriter(fileStream)) 

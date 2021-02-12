@@ -14,11 +14,9 @@ namespace YouTubeDownloader
         
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string adjustedTimeSpan;
-            TimeSpan timeSpan = (TimeSpan)value;
-            if (timeSpan.Hours > 0) { adjustedTimeSpan = timeSpan.ToString(@"hh\:mm\:ss"); }
-            else { adjustedTimeSpan = timeSpan.ToString(@"mm\:ss"); }
-            return adjustedTimeSpan;
+            var duration = (TimeSpan)value;
+            var adjustedDuration = duration.Hours > 0 ? duration.ToString(@"hh\:mm\:ss") : duration.ToString(@"mm\:ss");
+            return adjustedDuration;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
