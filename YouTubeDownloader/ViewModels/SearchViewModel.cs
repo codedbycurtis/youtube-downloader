@@ -9,6 +9,7 @@ using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Exceptions;
+using YoutubeExplode.Playlists;
 
 namespace YouTubeDownloader
 {
@@ -20,7 +21,7 @@ namespace YouTubeDownloader
         private string _searchQuery;
         private readonly HttpClient _httpClient;
         private readonly YoutubeClient _youtubeClient;
-        private IReadOnlyList<Video> _requestedVideos;
+        private IReadOnlyList<PlaylistVideo> _requestedVideos;
 
         #endregion
 
@@ -76,7 +77,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// A list of videos matching the user's specified <see cref="SearchQuery"/>.
         /// </summary>
-        public IReadOnlyList<Video> RequestedVideos
+        public IReadOnlyList<PlaylistVideo> RequestedVideos
         {
             get => _requestedVideos;
             set => SetProperty(ref _requestedVideos, value);
@@ -86,8 +87,8 @@ namespace YouTubeDownloader
 
         #region Public Commands
 
-        public ICommand VideoSearchButton { get; set; }
-        public ICommand VideoDownloadButton { get; set; }
+        public ICommand SearchCommand { get; set; }
+        public ICommand DownloadCommand { get; set; }
 
         #endregion
 
@@ -100,7 +101,7 @@ namespace YouTubeDownloader
         {
             _httpClient = new HttpClient();
             _youtubeClient = new YoutubeClient(_httpClient);
-            VideoSearchButton = new RelayCommand(async () =>
+            SearchCommand = new RelayCommand(async () =>
             {
                 try { await VideoSearchButtonClicked(); }
                 catch (TransientFailureException)
@@ -108,7 +109,7 @@ namespace YouTubeDownloader
                     IsBusy = false;
                 }
             });
-            VideoDownloadButton = new RelayCommand<Video>(async (video) => await VideoDownloadButtonClicked(video));
+            DownloadCommand = new RelayCommand<PlaylistVideo>(async (video) => await VideoDownloadButtonClicked(video));
         }
 
         #endregion
@@ -116,7 +117,7 @@ namespace YouTubeDownloader
         #region Helper Methods
 
         /// <summary>
-        /// If the right-arrow in the search box is clicked, this method is called by <see cref="VideoSearchButton"/>.
+        /// Searches for videos based on the specified <see cref="SearchQuery"/>, and downloads them to <see cref="RequestedVideos"/>.
         /// </summary>
         private async Task VideoSearchButtonClicked()
         {
@@ -131,43 +132,34 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Downloads the specified <see cref="Video"/> and saves it to the user's <see cref="Globals.Library"/>.
+        /// Downloads the specified <see cref="PlaylistVideo"/> and saves it to the user's <see cref="Globals.Library"/>.
         /// </summary>
         /// <param name="video"></param>
-        private async Task VideoDownloadButtonClicked(Video video)
+        private async Task VideoDownloadButtonClicked(PlaylistVideo video)
         {
             // Ensure the video has not been downloaded previously
-            if (Globals.Library.Any(mediaFile => mediaFile.VideoId == video.Id)) { return; }
+            if (Globals.Library.Any(videoMetadata => videoMetadata.VideoId == video.Id)) { return; }
 
             // Set the application to the busy state
             IsBusy = true;
 
             // Download the highest-quality muxed video stream
-            StreamManifest streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
-            IEnumerable<MuxedStreamInfo> muxedStreamInfo = streamManifest.GetMuxed();
-            IVideoStreamInfo videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
+            var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(video.Id);
+            var muxedStreamInfo = streamManifest.GetMuxed();
+            var videoStreamInfo = muxedStreamInfo.WithHighestVideoQuality();
             await _youtubeClient.Videos.Streams.DownloadAsync(videoStreamInfo, $"{Globals.VideoFolderPath}\\{video.Id.Value}.mp4");
 
             // Download the thumbnail of the requested video
             var response = await _httpClient.GetAsync(video.Thumbnails.MediumResUrl);
-            using (FileStream fileStream = new FileStream($"{Globals.ThumbnailFolderPath}\\{video.Id.Value}.jpg", FileMode.Create))
-                await response.Content.CopyToAsync(fileStream);
+            using (var stream = new FileStream($"{Globals.ThumbnailFolderPath}\\{video.Id.Value}.jpg", FileMode.Create))
+                await response.Content.CopyToAsync(stream);
 
-            // Add the video to the user's library
-            this.AddToLibrary(new VideoMetadata(video.Title, video.Author, video.Id.Value, video.Duration));
+            // Add the video to the user's library and save it
+            Globals.Library.Add(new VideoMetadata(video.Title, video.Author, video.Id.Value, video.Duration));
+            Json.Write(Globals.Library, Globals.LibraryFilePath);
 
             // Set the application to the idle state
             IsBusy = false;
-        }
-
-        /// <summary>
-        /// Adds a <see cref="VideoMetadata"/> to the <see cref="Globals.Library"/> and saves it.
-        /// </summary>
-        /// <param name="toAdd"></param>
-        private void AddToLibrary(VideoMetadata toAdd)
-        {
-            Globals.Library.Add(toAdd);
-            Json.Write(Globals.Library, Globals.LibraryFilePath);
         }
 
         #endregion

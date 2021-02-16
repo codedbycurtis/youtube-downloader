@@ -27,7 +27,7 @@
                                                                 <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
+                                                            <Border x:Name="OpacityMask" CornerRadius="5, 0, 0, 5" Background="White"/>
                                                             <Grid Grid.Column="0">
                                                                 <Grid.OpacityMask>
                                                                     <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>

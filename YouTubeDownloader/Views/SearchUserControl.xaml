@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Padding="100, 0" Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="Gainsboro" Background="White" Panel.ZIndex="1">
-            <Border Style="{StaticResource SearchBarBorder}" Background="White" BorderBrush="Gainsboro" MaxWidth="800">
+            <Border Style="{StaticResource SearchBarBorder}" Padding="0, 8" Background="White" BorderBrush="Gainsboro" MaxWidth="800">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -22,11 +22,11 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" Padding="22, 0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TransparentTextBox}" FontFamily="{StaticResource RobotoRegular}" FontSize="18" VerticalAlignment="Center">
                         <TextBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding VideoSearchButton}"/>
+                            <KeyBinding Key="Return" Command="{Binding SearchCommand}"/>
                         </TextBox.InputBindings>
                     </TextBox>
-                    <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 0" >
-                        <Button Grid.Column="1" Style="{StaticResource SimpleButton}" Command="{Binding VideoSearchButton}" BorderBrush="Transparent" BorderThickness="10, 0" Cursor="Hand" ToolTip="Search">
+                    <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1, 0, 0, 0" >
+                        <Button Grid.Column="1" Style="{StaticResource SimpleButton}" Command="{Binding SearchCommand}" BorderBrush="Transparent" BorderThickness="10, 0" Cursor="Hand" ToolTip="Search">
                             <Button.Content>
                                 <Image Source="../Images/fluent-regular-search-333333-30.png" Stretch="None"/>
                             </Button.Content>
@@ -54,7 +54,7 @@
                                                                     <ColumnDefinition Width="Auto"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <Border x:Name="OpacityMask" CornerRadius="5" Background="White"/>
+                                                                <Border x:Name="OpacityMask" CornerRadius="5, 0, 0, 5" Background="White"/>
                                                                 <Grid Grid.Column="0">
                                                                     <Grid.OpacityMask>
                                                                         <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
@@ -68,16 +68,14 @@
                                                                     <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
                                                                     <TextBlock Padding="3" Text="{Binding Author}" FontSize="16" Foreground="Gray"/>
                                                                     <TextBlock Padding="3" FontSize="16">
-                                                                        <Run Text="{Binding Engagement.ViewCount, Mode=OneWay, Converter={x:Static local:LongToStringConverter.Instance}}"/>
-                                                                        <Run Text="•"/>
-                                                                        <Run Text="{Binding UploadDate, Mode=OneWay, Converter={x:Static local:DateTimeOffsetToStringConverter.Instance}}"/>
+                                                                        <Run Text="{Binding ViewCount, Mode=OneWay, Converter={x:Static local:LongToStringConverter.Instance}}"/>
                                                                     </TextBlock>
                                                                 </StackPanel>
 
                                                                 <!-- The download button next to each video -->
                                                                 <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                                     <Button Style="{StaticResource VideoButton}"
-                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchUserControl}, Path=DataContext.VideoDownloadButton}"
+                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchUserControl}, Path=DataContext.DownloadCommand}"
                                                                         CommandParameter="{Binding}"
                                                                         IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchUserControl}, Path=DataContext.IsBusy, Converter={x:Static local:InverseBooleanConverter.Instance}}">
                                                                         <Button.Content>
