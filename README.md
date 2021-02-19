@@ -1,5 +1,5 @@
 # A lightweight, all-in-one YouTube client for Windows
-YouTube Downloader is a user-friendly, feature-rich Windows client that allows YouTube videos to be _downloaded_ and _watched_ in high-quality.
+YouTube Downloader is a user-friendly, feature-rich Windows client that allows YouTube videos to be **_downloaded_** and **_watched_** in high definition.
 
 # Installation
 ## System Requirements
@@ -7,7 +7,6 @@ YouTube Downloader is a user-friendly, feature-rich Windows client that allows Y
 
 [Download .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 
-# Windows
 ## Manual Install
 Currently, as the software is still in development, there are no installation packages available. However, you _can_ manually install the program:  
 
@@ -21,4 +20,4 @@ Currently, as the software is still in development, there are no installation pa
 
 4. Create a shortcut of `YouTubeDownloader.exe` and move it your Desktop or another location.  
 
-The application should function as normal.
+Enjoy!
