@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,6 +9,7 @@ namespace YouTubeDownloader
         #region Private Members
 
         private bool _isLibraryPopulated;
+        private SharedViewModel _sharedModel;
 
         #endregion
 
@@ -54,8 +54,9 @@ namespace YouTubeDownloader
         /// <summary>
         /// Default constructor
         /// </summary>
-        public LibraryViewModel()
+        public LibraryViewModel(SharedViewModel sharedModel)
         {
+            _sharedModel = sharedModel;
             PlayVideoButton = new RelayCommand<VideoMetadata>((videoMetadata) => PlayVideoButtonClicked(videoMetadata));
             DeleteVideoButton = new RelayCommand<VideoMetadata>((videoMetadata) => DeleteVideoButtonClicked(videoMetadata));
             UpdateLibraryPopulation();
@@ -66,10 +67,13 @@ namespace YouTubeDownloader
         #region Helper Methods
 
         /// <summary>
-        /// Opens the specified video in the default video player.
+        /// Opens the specified video in the built-in video player.
         /// </summary>
-        /// <param name="mediaFile"></param>
-        private void PlayVideoButtonClicked(VideoMetadata mediaFile) { Process.Start($"{Globals.VideoFolderPath}\\{mediaFile.VideoId}.mp4"); }
+        /// <param name="video">The video to play.</param>
+        private void PlayVideoButtonClicked(VideoMetadata video)
+        {
+            _sharedModel.VideoPath = $"{Globals.VideoFolderPath}\\{video.VideoId}.mp4";
+        }
 
         /// <summary>
         /// Deletes the specified video from the <see cref="Globals.Library"/>, and associated files.\

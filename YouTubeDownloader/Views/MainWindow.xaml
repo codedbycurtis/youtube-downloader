@@ -79,22 +79,40 @@
             </Grid>
         </Border>
         <Menu Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="6" Panel.ZIndex="1" Background="Transparent">
-            <MenuItem>
+            <MenuItem Cursor="Hand" ToolTip="Settings">
                 <MenuItem.Header>
-                    <TextBlock Text="☰">
-                        <TextBlock.LayoutTransform>
-                            <ScaleTransform ScaleX="2" ScaleY="2"/>
-                        </TextBlock.LayoutTransform>
-                    </TextBlock>
+                    <Image Source="../Images/settings.png" Stretch="None"/>
                 </MenuItem.Header>
+                <MenuItem.Style>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type MenuItem}">
+                                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="5">
+                                        <ContentPresenter Content="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter Property="Background" Value="#F6F6F6"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#E4E4E4"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </MenuItem.Style>
                 <MenuItem Header="About" Command="{Binding AboutButton}"/>
                 <MenuItem Header="Settings" Command="{Binding SettingsButton}"/>
             </MenuItem>
         </Menu>
-        <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding SearchVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding LibraryVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding VideoPlayerViewModel}" Visibility="{Binding VideoPlayerVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding AboutViewModel}" Visibility="{Binding AboutVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding SettingsViewModel}" Visibility="{Binding SettingsVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding SearchViewVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding LibraryViewVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding VideoPlayerViewModel}" Visibility="{Binding VideoPlayerViewVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding AboutViewModel}" Visibility="{Binding AboutViewVisibility}"/>
+        <ContentControl Grid.Row="1" Content="{Binding SettingsViewModel}" Visibility="{Binding SettingsViewVisibility}"/>
     </Grid>
 </Window>                                        

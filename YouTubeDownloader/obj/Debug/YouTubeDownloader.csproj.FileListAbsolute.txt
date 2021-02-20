@@ -161,3 +161,6 @@ C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\CliWrap.x
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\Views\VideoPlayerUserControl.g.cs
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\Views\VideoPlayerUserControl.baml
 C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\obj\Debug\YouTubeDownloader.csprojAssemblyReference.cache
+C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\Microsoft.Xaml.Behaviors.dll
+C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+C:\Users\Curtis\Desktop\youtube-downloader\YouTubeDownloader\bin\Debug\Microsoft.Xaml.Behaviors.xml

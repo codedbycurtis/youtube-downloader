@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -13,80 +14,61 @@ namespace YouTubeDownloader
         private bool _isVideoPlayerHighlighted;
         private bool _isAboutHighlighted;
         private bool _isSettingsHighlighted;
+        private static SharedViewModel _sharedModel = new SharedViewModel();
 
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Is the Search tab currently selected.
+        /// Is the Search tab currently selected?
         /// </summary>
         public bool IsSearchHighlighted
         {
             get => _isSearchHighlighted;
-            set
-            {
-                SetProperty(ref _isSearchHighlighted, value);
-                NotifyTabChanged();
-            }
+            set => SetProperty(ref _isSearchHighlighted, value);
         }
 
         /// <summary>
-        /// Is the Library tab currently selected.
+        /// Is the Library tab currently selected?
         /// </summary>
         public bool IsLibraryHighlighted
         {
             get => _isLibraryHighlighted;
-            set
-            {
-                SetProperty(ref _isLibraryHighlighted, value);
-                NotifyTabChanged();
-            }
+            set => SetProperty(ref _isLibraryHighlighted, value);
         }
 
         /// <summary>
-        /// Is the Player tab currently selected.
+        /// Is the Player tab currently selected?
         /// </summary>
         public bool IsVideoPlayerHighlighted
         {
             get => _isVideoPlayerHighlighted;
-            set
-            {
-                SetProperty(ref _isVideoPlayerHighlighted, value);
-                NotifyTabChanged();
-            }
+            set => SetProperty(ref _isVideoPlayerHighlighted, value);
         }
 
         /// <summary>
-        /// Is the About screen currently selected.
+        /// Is the About view currently visible?
         /// </summary>
         public bool IsAboutHighlighted
         {
             get => _isAboutHighlighted;
-            set
-            {
-                SetProperty(ref _isAboutHighlighted, value);
-                NotifyTabChanged();
-            }
+            set => SetProperty(ref _isAboutHighlighted, value);
         }
 
         /// <summary>
-        /// Is the Settings screen currently selected.
+        /// Is the Settings view currently visible?
         /// </summary>
         public bool IsSettingsHighlighted
         {
             get => _isSettingsHighlighted;
-            set
-            {
-                SetProperty(ref _isSettingsHighlighted, value);
-                NotifyTabChanged();
-            }
+            set => SetProperty(ref _isSettingsHighlighted, value);
         }
 
         /// <summary>
         /// The visibility of the Search tab, depending on whether or not it is currently selected.
         /// </summary>
-        public Visibility SearchVisibility
+        public Visibility SearchViewVisibility
         {
             get
             {
@@ -98,7 +80,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// The visibility of the Library tab, depending on whether or not it is currently selected.
         /// </summary>
-        public Visibility LibraryVisibility
+        public Visibility LibraryViewVisibility
         {
             get
             {
@@ -110,7 +92,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// The visibility of the Player tab, depending on whether or not it is currently selected.
         /// </summary>
-        public Visibility VideoPlayerVisibility
+        public Visibility VideoPlayerViewVisibility
         {
             get
             {
@@ -122,7 +104,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// The visibility of the About screen, depending on whether or not it was selected from the drop-down menu.
         /// </summary>
-        public Visibility AboutVisibility
+        public Visibility AboutViewVisibility
         {
             get
             {
@@ -134,7 +116,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// The visibility of the Settings screen, depending on whether or not it was selected from the drop-down menu.
         /// </summary>
-        public Visibility SettingsVisibility
+        public Visibility SettingsViewVisibility
         {
             get
             {
@@ -223,12 +205,12 @@ namespace YouTubeDownloader
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
         /// </summary>
-        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel();
+        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel(_sharedModel);
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.VideoPlayerViewModel"/>.
         /// </summary>
-        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel();
+        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel(_sharedModel);
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.AboutViewModel"/>.
@@ -244,11 +226,11 @@ namespace YouTubeDownloader
 
         #region Commands
 
-        public ICommand SearchTabButton { get; set; }        
-        public ICommand LibraryTabButton { get; set; }
-        public ICommand PlayerTabButton { get; set; }
-        public ICommand AboutButton { get; set; }
-        public ICommand SettingsButton { get; set; }
+        public ICommand SearchTabButton { get; }        
+        public ICommand LibraryTabButton { get; }
+        public ICommand PlayerTabButton { get; }
+        public ICommand AboutButton { get; }
+        public ICommand SettingsButton { get; }
 
         #endregion
 
@@ -260,51 +242,54 @@ namespace YouTubeDownloader
         public MainViewModel()
         {
             // Initialize commands
-            SearchTabButton = new RelayCommand(() => SearchButtonClicked());
-            LibraryTabButton = new RelayCommand(() => LibraryButtonClicked());
-            PlayerTabButton = new RelayCommand(() => PlayerButtonClicked());
-            AboutButton = new RelayCommand(() => AboutButtonClicked());
-            SettingsButton = new RelayCommand(() => SettingsButtonClicked());
+            SearchTabButton = new RelayCommand(() =>
+            {
+                IsSearchHighlighted = true;
+                IsLibraryHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                NotifyViewChanged();
+            });
+
+            LibraryTabButton = new RelayCommand(() =>
+            {
+                IsLibraryHighlighted = true;
+                IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                NotifyViewChanged();
+            });
+
+            PlayerTabButton = new RelayCommand(() =>
+            {
+                IsVideoPlayerHighlighted = true;
+                IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                NotifyViewChanged();
+            });
+
+
+            AboutButton = new RelayCommand(() =>
+            {
+                IsAboutHighlighted = true;
+                IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsSettingsHighlighted = false;
+                NotifyViewChanged();
+            });
+
+            SettingsButton = new RelayCommand(() =>
+            {
+                IsSettingsHighlighted = true;
+                IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = false;
+                NotifyViewChanged();
+            });
+
+            // Initialise event handlers
+            _sharedModel.PropertyChanged += OnSharedModelPropertyChanged;
         }
 
         #endregion
 
         #region Helper Methods
 
-        private void SearchButtonClicked()
-        {
-            IsSearchHighlighted = true;
-            IsLibraryHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
-        }
-
-        private void LibraryButtonClicked()
-        {
-            IsLibraryHighlighted = true;
-            IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
-        }
-
-        private void PlayerButtonClicked()
-        {
-            IsVideoPlayerHighlighted = true;
-            IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
-        }
-
-        private void AboutButtonClicked()
-        {
-            IsAboutHighlighted = true;
-            IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsSettingsHighlighted = false;
-        }
-
-        private void SettingsButtonClicked()
-        {
-            IsSettingsHighlighted = true;
-            IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = false;
-        }
-
         /// <summary>
-        /// Notifies dependent elements that the selected tab has been changed.
+        /// Notifies dependent elements that the selected view has been changed.
         /// </summary>
-        private void NotifyTabChanged()
+        private void NotifyViewChanged()
         {
             NotifyPropertyChanged(nameof(SearchButtonColour));
             NotifyPropertyChanged(nameof(LibraryButtonColour));
@@ -312,11 +297,21 @@ namespace YouTubeDownloader
             NotifyPropertyChanged(nameof(SearchButtonBorderBrush));
             NotifyPropertyChanged(nameof(LibraryButtonBorderBrush));
             NotifyPropertyChanged(nameof(PlayerButtonBorderBrush));
-            NotifyPropertyChanged(nameof(SearchVisibility));
-            NotifyPropertyChanged(nameof(LibraryVisibility));
-            NotifyPropertyChanged(nameof(VideoPlayerVisibility));
-            NotifyPropertyChanged(nameof(AboutVisibility));
-            NotifyPropertyChanged(nameof(SettingsVisibility));
+            NotifyPropertyChanged(nameof(SearchViewVisibility));
+            NotifyPropertyChanged(nameof(LibraryViewVisibility));
+            NotifyPropertyChanged(nameof(VideoPlayerViewVisibility));
+            NotifyPropertyChanged(nameof(AboutViewVisibility));
+            NotifyPropertyChanged(nameof(SettingsViewVisibility));
+        }
+
+        private void OnSharedModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VideoPath")
+            {
+                IsVideoPlayerHighlighted = true;
+                IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                NotifyViewChanged();
+            }
         }
 
         #endregion
