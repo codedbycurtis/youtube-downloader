@@ -22,10 +22,7 @@ namespace YouTubeDownloader
         public bool IsPlaying
         {
             get => _isPlaying;
-            set
-            {
-                SetProperty(ref _isPlaying, value);
-            }
+            set => SetProperty(ref _isPlaying, value);
         }
 
         /// <summary>
