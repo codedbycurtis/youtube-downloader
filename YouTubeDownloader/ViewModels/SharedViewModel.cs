@@ -9,7 +9,7 @@ namespace YouTubeDownloader
     {
         #region Private Members
 
-        private string _videoPath;
+        private VideoMetadata _video;
 
         #endregion
 
@@ -21,15 +21,15 @@ namespace YouTubeDownloader
 
         #region Public Properties
 
-        public string VideoPath
+        public VideoMetadata Video
         {
-            get => _videoPath;
+            get => _video;
             set
             {
-                if (_videoPath != value)
+                if (_video != value)
                 {
-                    _videoPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VideoPath)));
+                    _video = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Video)));
                 }
             }
         }

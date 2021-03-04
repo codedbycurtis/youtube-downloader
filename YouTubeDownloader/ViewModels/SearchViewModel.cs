@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using YoutubeExplode;
-using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 using YoutubeExplode.Exceptions;
 using YoutubeExplode.Playlists;
@@ -155,7 +154,7 @@ namespace YouTubeDownloader
                 await response.Content.CopyToAsync(stream);
 
             // Add the video to the user's library and save it
-            Globals.Library.Add(new VideoMetadata(video.Title, video.Author, video.Id.Value, video.Duration));
+            Globals.Library.Add(new VideoMetadata(video.Id.Value, video.Title, video.Author, video.Duration));
             Json.Write(Globals.Library, Globals.LibraryFilePath);
 
             // Set the application to the idle state

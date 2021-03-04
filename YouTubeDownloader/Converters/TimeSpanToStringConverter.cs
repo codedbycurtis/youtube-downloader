@@ -10,7 +10,7 @@ namespace YouTubeDownloader
     [ValueConversion(typeof(TimeSpan), typeof(string))]
     public sealed class TimeSpanToStringConverter : IValueConverter
     {
-        public static TimeSpanToStringConverter Instance = new TimeSpanToStringConverter();
+        public static TimeSpanToStringConverter Instance { get; } = new TimeSpanToStringConverter();
         
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -19,9 +19,6 @@ namespace YouTubeDownloader
             return adjustedDuration;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

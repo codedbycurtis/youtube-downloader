@@ -5,12 +5,12 @@ using System.Windows.Data;
 namespace YouTubeDownloader
 {
     /// <summary>
-    /// Converts a <see cref="long"/> to a <see cref="string"/>. This class cannot be inherited.
+    /// Converts a <see cref="long"/> to a <see cref="string"/> with custom formatting. This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(long), typeof(string))]
     public sealed class LongToStringConverter : IValueConverter
     {
-        public static LongToStringConverter Instance = new LongToStringConverter();
+        public static LongToStringConverter Instance { get; } = new LongToStringConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -29,9 +29,6 @@ namespace YouTubeDownloader
             return abbreviatedViewCount;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

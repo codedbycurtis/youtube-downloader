@@ -5,28 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:YouTubeDownloader"
              mc:Ignorable="d">
-    
-    <Border Background="White" CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="6" ShadowDepth="2" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
-        </Border.Effect>
-        <StackPanel>
-            <TextBlock Padding="20" FontSize="18">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Background="White" CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="6" ShadowDepth="2" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Padding="20" FontSize="18">
                 <Run Text="YT" Foreground="Red"/>
                 <Run Text="Downloader" Foreground="#333333"/>
-            </TextBlock>
-            <Border BorderBrush="Gainsboro" BorderThickness="0, 1, 0, 0"/>
-            <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                </TextBlock>
+                <Border BorderBrush="Gainsboro" BorderThickness="0, 1, 0, 0"/>
+                <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
                     <Run Text="Assembly Version:"/>
                     <Run Text="{Binding CurrentAssemblyVersion, Mode=OneWay}"/>
                     <LineBreak/>
-                    <Run Text="YoutubeExplode API Version: 5.1.9"/>
+                    <Run Text="YoutubeExplode API Version: Prerelease 6.0.0-alpha"/>
                     <LineBreak/>
                     <LineBreak/>
                     <Run Text="Copyright © 2021 Curtis Caulfield. All rights reserved."/>
-            </TextBlock>
-            <Border BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 1"/>
-            <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                </TextBlock>
+                <Border BorderBrush="Gainsboro" BorderThickness="0, 0, 0, 1"/>
+                <TextBlock Foreground="Gray" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
                 <Run Text="Attributions:" FontSize="20"/>
                 <LineBreak/>
                 <LineBreak/>
@@ -45,7 +46,8 @@
                 <LineBreak/>
                 <LineBreak/>
                 <Run Text="Uses the "/><Hyperlink NavigateUri="https://github.com/Tyrrrz/YoutubeExplode" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">YoutubeExplode API</Hyperlink><Run Text=" by "/><Hyperlink NavigateUri="https://github.com/Tyrrrz" Command="{Binding OpenWebUrl}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}">Tyrrrz</Hyperlink><Run Text=" on Github."/>
-            </TextBlock>
-        </StackPanel>
-    </Border>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
 </UserControl>

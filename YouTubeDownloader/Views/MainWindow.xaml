@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="YouTube Downloader" Height="850" Width="1200"
         Icon="../Images/Icons/youtube-play-button-48.ico"
-        MinWidth="550">
+        MinWidth="450" MinHeight="380">
 
     <!-- Set window's data context -->
     <Window.DataContext>
@@ -78,41 +78,28 @@
                 </Grid>
             </Grid>
         </Border>
-        <Menu Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="6" Panel.ZIndex="1" Background="Transparent">
-            <MenuItem Cursor="Hand" ToolTip="Settings">
-                <MenuItem.Header>
-                    <Image Source="../Images/settings.png" Stretch="None"/>
-                </MenuItem.Header>
-                <MenuItem.Style>
-                    <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Padding" Value="6"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type MenuItem}">
-                                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="5">
-                                        <ContentPresenter Content="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsHighlighted" Value="True">
-                                            <Setter Property="Background" Value="#F6F6F6"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="#E4E4E4"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </MenuItem.Style>
-                <MenuItem Header="About" Command="{Binding AboutButton}"/>
-                <MenuItem Header="Settings" Command="{Binding SettingsButton}"/>
-            </MenuItem>
-        </Menu>
-        <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding SearchViewVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding LibraryViewVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding VideoPlayerViewModel}" Visibility="{Binding VideoPlayerViewVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding AboutViewModel}" Visibility="{Binding AboutViewVisibility}"/>
-        <ContentControl Grid.Row="1" Content="{Binding SettingsViewModel}" Visibility="{Binding SettingsViewVisibility}"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="1">
+            <Menu Padding="0, 0, 6, 0" Background="Transparent">
+                <MenuItem Style="{StaticResource TopLevelMenuItem}" ToolTip="Download Manager">
+                    <MenuItem.Header>
+                        <Image Source="../Images/download.png" Stretch="None"/>
+                    </MenuItem.Header>
+                </MenuItem>
+            </Menu>
+            <Menu Padding="0, 0, 6, 0" Background="Transparent">
+                <MenuItem Style="{StaticResource TopLevelMenuItem}" ToolTip="Menu">
+                    <MenuItem.Header>
+                        <Image Source="../Images/menu.png" Stretch="None"/>
+                    </MenuItem.Header>
+                    <MenuItem Header="About" Command="{Binding AboutButton}" Style="{StaticResource SubmenuItem}"/>
+                    <MenuItem Header="Settings" Command="{Binding SettingsButton}" Style="{StaticResource SubmenuItem}"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+        <ContentControl Grid.Row="1" Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
+        <ContentControl Grid.Row="1" Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
+        <ContentControl Grid.Row="1" Content="{Binding VideoPlayerViewModel}" Visibility="{Binding IsVideoPlayerViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
+        <ContentControl Grid.Row="1" Content="{Binding AboutViewModel}" Visibility="{Binding IsAboutViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
+        <ContentControl Grid.Row="1" Content="{Binding SettingsViewModel}" Visibility="{Binding IsSettingsViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
     </Grid>
 </Window>                                        

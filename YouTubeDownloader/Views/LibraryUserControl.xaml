@@ -32,7 +32,7 @@
                                                                 <Grid.OpacityMask>
                                                                     <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
                                                                 </Grid.OpacityMask>
-                                                                <Image Source="{Binding VideoId, Converter={x:Static local:StringToStreamConverter.Instance}}"/>
+                                                                <Image Source="{Binding VideoId, Converter={x:Static local:StringToBitmapImageConverter.Instance}}"/>
                                                                 <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                                                     <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
                                                                 </Border>
@@ -46,7 +46,7 @@
                                                             <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                                                 <StackPanel>
                                                                     <Button Style="{StaticResource VideoButton}" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.PlayVideoButton}"
+                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.PlayCommand}"
                                                                         CommandParameter="{Binding}">
                                                                         <Button.Content>
                                                                             <Border>
@@ -58,7 +58,7 @@
                                                                         </Button.Content>
                                                                     </Button>
                                                                     <Button Style="{StaticResource DeleteButton}" HorizontalAlignment="Right"
-                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.DeleteVideoButton}"
+                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LibraryUserControl}, Path=DataContext.DeleteCommand}"
                                                                         CommandParameter="{Binding}">
                                                                         <Button.Content>
                                                                             <Border>

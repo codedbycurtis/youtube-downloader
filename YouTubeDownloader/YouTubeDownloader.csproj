@@ -106,9 +106,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="YoutubeExplode, Version=5.1.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\YoutubeExplode-playlist_fix\YoutubeExplode-playlist_fix\YoutubeExplode\bin\Debug\net461\YoutubeExplode.dll</HintPath>
+    <Reference Include="YoutubeExplode, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\YoutubeExplode.6.0.0-alpha\lib\net461\YoutubeExplode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +115,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\TimeSpanToDoubleConverter.cs" />
+    <Compile Include="Services\DownloadService.cs" />
     <Compile Include="Services\IMediaService.cs" />
     <Compile Include="ViewModels\SharedViewModel.cs" />
     <Compile Include="ViewModels\VideoPlayerViewModel.cs" />
@@ -131,7 +133,7 @@
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\LongToStringConverter.cs" />
-    <Compile Include="Converters\StringToStreamConverter.cs" />
+    <Compile Include="Converters\StringToBitmapImageConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="Views\LibraryUserControl.xaml.cs">
@@ -253,10 +255,10 @@
     <Resource Include="Images\fluent-regular-search-333333-30.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\material-rounded-menu-333333-30.png" />
+    <Resource Include="Images\menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\download.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\fast-forward.png" />

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -9,120 +8,60 @@ namespace YouTubeDownloader
     {
         #region Private Members
 
-        private bool _isSearchHighlighted;
-        private bool _isLibraryHighlighted;
-        private bool _isVideoPlayerHighlighted;
-        private bool _isAboutHighlighted;
-        private bool _isSettingsHighlighted;
-        private static SharedViewModel _sharedModel = new SharedViewModel();
+        private bool _isSearchViewVisible;
+        private bool _isLibraryViewVisible;
+        private bool _isVideoPlayerViewVisible;
+        private bool _isAboutViewVisible;
+        private bool _isSettingsViewVisible;
+        private static SharedViewModel _sharedViewModel = new SharedViewModel();
 
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Is the Search tab currently selected?
+        /// Is the SearchView visible?
         /// </summary>
-        public bool IsSearchHighlighted
+        public bool IsSearchViewVisible
         {
-            get => _isSearchHighlighted;
-            set => SetProperty(ref _isSearchHighlighted, value);
+            get => _isSearchViewVisible;
+            set => SetProperty(ref _isSearchViewVisible, value);
         }
 
         /// <summary>
-        /// Is the Library tab currently selected?
+        /// Is the LibraryView visible?
         /// </summary>
-        public bool IsLibraryHighlighted
+        public bool IsLibraryViewVisible
         {
-            get => _isLibraryHighlighted;
-            set => SetProperty(ref _isLibraryHighlighted, value);
+            get => _isLibraryViewVisible;
+            set => SetProperty(ref _isLibraryViewVisible, value);
         }
 
         /// <summary>
-        /// Is the Player tab currently selected?
+        /// Is the VideoPlayerView visible?
         /// </summary>
-        public bool IsVideoPlayerHighlighted
+        public bool IsVideoPlayerViewVisible
         {
-            get => _isVideoPlayerHighlighted;
-            set => SetProperty(ref _isVideoPlayerHighlighted, value);
+            get => _isVideoPlayerViewVisible;
+            set => SetProperty(ref _isVideoPlayerViewVisible, value);
         }
 
         /// <summary>
-        /// Is the About view currently visible?
+        /// Is the AboutView visible?
         /// </summary>
-        public bool IsAboutHighlighted
+        public bool IsAboutViewVisible
         {
-            get => _isAboutHighlighted;
-            set => SetProperty(ref _isAboutHighlighted, value);
+            get => _isAboutViewVisible;
+            set => SetProperty(ref _isAboutViewVisible, value);
         }
 
         /// <summary>
-        /// Is the Settings view currently visible?
+        /// Is the SettingsView visible?
         /// </summary>
-        public bool IsSettingsHighlighted
+        public bool IsSettingsViewVisible
         {
-            get => _isSettingsHighlighted;
-            set => SetProperty(ref _isSettingsHighlighted, value);
-        }
-
-        /// <summary>
-        /// The visibility of the Search tab, depending on whether or not it is currently selected.
-        /// </summary>
-        public Visibility SearchViewVisibility
-        {
-            get
-            {
-                if (IsSearchHighlighted) { return Visibility.Visible; }
-                return Visibility.Hidden;
-            }
-        }
-
-        /// <summary>
-        /// The visibility of the Library tab, depending on whether or not it is currently selected.
-        /// </summary>
-        public Visibility LibraryViewVisibility
-        {
-            get
-            {
-                if (IsLibraryHighlighted) { return Visibility.Visible; }
-                return Visibility.Hidden;
-            }
-        }
-
-        /// <summary>
-        /// The visibility of the Player tab, depending on whether or not it is currently selected.
-        /// </summary>
-        public Visibility VideoPlayerViewVisibility
-        {
-            get
-            {
-                if (IsVideoPlayerHighlighted) { return Visibility.Visible; }
-                return Visibility.Hidden;
-            }
-        }
-
-        /// <summary>
-        /// The visibility of the About screen, depending on whether or not it was selected from the drop-down menu.
-        /// </summary>
-        public Visibility AboutViewVisibility
-        {
-            get
-            {
-                if (IsAboutHighlighted) { return Visibility.Visible; }
-                return Visibility.Hidden;
-            }
-        }
-
-        /// <summary>
-        /// The visibility of the Settings screen, depending on whether or not it was selected from the drop-down menu.
-        /// </summary>
-        public Visibility SettingsViewVisibility
-        {
-            get
-            {
-                if (IsSettingsHighlighted) { return Visibility.Visible; }
-                return Visibility.Hidden;
-            }
+            get => _isSettingsViewVisible;
+            set => SetProperty(ref _isSettingsViewVisible, value);
         }
 
         /// <summary>
@@ -132,7 +71,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsSearchHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsSearchViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Gray);
             }
         }
@@ -144,7 +83,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsLibraryHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsLibraryViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Gray);
             }
         }
@@ -156,7 +95,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsVideoPlayerHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsVideoPlayerViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Gray);
             }
         }
@@ -168,7 +107,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsSearchHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsSearchViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Transparent);
             }
         }
@@ -180,7 +119,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsLibraryHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsLibraryViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Transparent);
             }
         }
@@ -192,7 +131,7 @@ namespace YouTubeDownloader
         {
             get
             {
-                if (IsVideoPlayerHighlighted) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
+                if (IsVideoPlayerViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
                 return new SolidColorBrush(Colors.Transparent);
             }
         }
@@ -205,12 +144,12 @@ namespace YouTubeDownloader
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
         /// </summary>
-        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel(_sharedModel);
+        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel(_sharedViewModel);
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.VideoPlayerViewModel"/>.
         /// </summary>
-        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel(_sharedModel);
+        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel(_sharedViewModel);
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.AboutViewModel"/>.
@@ -241,45 +180,47 @@ namespace YouTubeDownloader
         /// </summary>
         public MainViewModel()
         {
+            IsSearchViewVisible = false;
+
             // Initialize commands
             SearchTabButton = new RelayCommand(() =>
             {
-                IsSearchHighlighted = true;
-                IsLibraryHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                IsSearchViewVisible = true;
+                IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
                 NotifyViewChanged();
             });
 
             LibraryTabButton = new RelayCommand(() =>
             {
-                IsLibraryHighlighted = true;
-                IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                IsLibraryViewVisible = true;
+                IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
                 NotifyViewChanged();
             });
 
             PlayerTabButton = new RelayCommand(() =>
             {
-                IsVideoPlayerHighlighted = true;
-                IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                IsVideoPlayerViewVisible = true;
+                IsLibraryViewVisible = IsSearchViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
                 NotifyViewChanged();
             });
 
 
             AboutButton = new RelayCommand(() =>
             {
-                IsAboutHighlighted = true;
-                IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsSettingsHighlighted = false;
+                IsAboutViewVisible = true;
+                IsLibraryViewVisible = IsSearchViewVisible = IsVideoPlayerViewVisible = IsSettingsViewVisible = false;
                 NotifyViewChanged();
             });
 
             SettingsButton = new RelayCommand(() =>
             {
-                IsSettingsHighlighted = true;
-                IsLibraryHighlighted = IsSearchHighlighted = IsVideoPlayerHighlighted = IsAboutHighlighted = false;
+                IsSettingsViewVisible = true;
+                IsLibraryViewVisible = IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = false;
                 NotifyViewChanged();
             });
 
             // Initialise event handlers
-            _sharedModel.PropertyChanged += OnSharedModelPropertyChanged;
+            _sharedViewModel.PropertyChanged += OnSharedModelPropertyChanged;
         }
 
         #endregion
@@ -297,19 +238,14 @@ namespace YouTubeDownloader
             NotifyPropertyChanged(nameof(SearchButtonBorderBrush));
             NotifyPropertyChanged(nameof(LibraryButtonBorderBrush));
             NotifyPropertyChanged(nameof(PlayerButtonBorderBrush));
-            NotifyPropertyChanged(nameof(SearchViewVisibility));
-            NotifyPropertyChanged(nameof(LibraryViewVisibility));
-            NotifyPropertyChanged(nameof(VideoPlayerViewVisibility));
-            NotifyPropertyChanged(nameof(AboutViewVisibility));
-            NotifyPropertyChanged(nameof(SettingsViewVisibility));
         }
 
         private void OnSharedModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "VideoPath")
+            if (e.PropertyName == "Video")
             {
-                IsVideoPlayerHighlighted = true;
-                IsLibraryHighlighted = IsSearchHighlighted = IsAboutHighlighted = IsSettingsHighlighted = false;
+                IsVideoPlayerViewVisible = true;
+                IsLibraryViewVisible = IsSearchViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
                 NotifyViewChanged();
             }
         }

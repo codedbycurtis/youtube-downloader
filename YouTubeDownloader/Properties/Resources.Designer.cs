@@ -63,6 +63,16 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fast_forward {
             get {
                 object obj = ResourceManager.GetObject("fast_forward", resourceCulture);
@@ -93,16 +103,6 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_menu_333333_30 {
-            get {
-                object obj = ResourceManager.GetObject("material_rounded_menu_333333_30", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap material_rounded_play_333333_48 {
             get {
                 object obj = ResourceManager.GetObject("material_rounded_play_333333_48", resourceCulture);
@@ -116,6 +116,16 @@ namespace YouTubeDownloader.Properties {
         internal static System.Drawing.Bitmap material_rounded_red_bin_icon_30 {
             get {
                 object obj = ResourceManager.GetObject("material_rounded_red_bin_icon_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap menu {
+            get {
+                object obj = ResourceManager.GetObject("menu", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -167,16 +177,6 @@ namespace YouTubeDownloader.Properties {
             get {
                 object obj = ResourceManager.GetObject("Roboto_Regular", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap settings {
-            get {
-                object obj = ResourceManager.GetObject("settings", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
