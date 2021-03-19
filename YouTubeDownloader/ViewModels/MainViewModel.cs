@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace YouTubeDownloader
 {
@@ -14,6 +13,7 @@ namespace YouTubeDownloader
         private bool _isAboutViewVisible;
         private bool _isSettingsViewVisible;
         private static SharedViewModel _sharedViewModel = new SharedViewModel();
+        private static DownloadService _downloadService = new DownloadService();
 
         #endregion
 
@@ -65,81 +65,9 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// The colour of the Search button, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush SearchButtonColour
-        {
-            get
-            {
-                if (IsSearchViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Gray);
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Library button, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush LibraryButtonColour
-        {
-            get
-            {
-                if (IsLibraryViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Gray);
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Player button, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush PlayerButtonColour
-        {
-            get
-            {
-                if (IsVideoPlayerViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Gray);
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Search button's border, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush SearchButtonBorderBrush
-        {
-            get
-            {
-                if (IsSearchViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Transparent);
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Library button's border, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush LibraryButtonBorderBrush
-        {
-            get
-            {
-                if (IsLibraryViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Transparent);
-            }
-        }
-
-        /// <summary>
-        /// The colour of the Player button's border, depending on whether or not it is currently selected.
-        /// </summary>
-        public SolidColorBrush PlayerButtonBorderBrush
-        {
-            get
-            {
-                if (IsVideoPlayerViewVisible) { return new SolidColorBrush(Color.FromRgb(51, 51, 51)); }
-                return new SolidColorBrush(Colors.Transparent);
-            }
-        }
-
-        /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.SearchViewModel"/>.
         /// </summary>
-        public SearchViewModel SearchViewModel { get; } = new SearchViewModel();
+        public SearchViewModel SearchViewModel { get; } = new SearchViewModel(_downloadService);
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
@@ -180,47 +108,41 @@ namespace YouTubeDownloader
         /// </summary>
         public MainViewModel()
         {
-            IsSearchViewVisible = false;
+            // Initialise commands
 
-            // Initialize commands
             SearchTabButton = new RelayCommand(() =>
             {
                 IsSearchViewVisible = true;
                 IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
-                NotifyViewChanged();
             });
 
             LibraryTabButton = new RelayCommand(() =>
             {
                 IsLibraryViewVisible = true;
                 IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
-                NotifyViewChanged();
             });
 
             PlayerTabButton = new RelayCommand(() =>
             {
                 IsVideoPlayerViewVisible = true;
-                IsLibraryViewVisible = IsSearchViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
-                NotifyViewChanged();
+                IsSearchViewVisible = IsLibraryViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
 
 
             AboutButton = new RelayCommand(() =>
             {
                 IsAboutViewVisible = true;
-                IsLibraryViewVisible = IsSearchViewVisible = IsVideoPlayerViewVisible = IsSettingsViewVisible = false;
-                NotifyViewChanged();
+                IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsSettingsViewVisible = false;
             });
 
             SettingsButton = new RelayCommand(() =>
             {
                 IsSettingsViewVisible = true;
-                IsLibraryViewVisible = IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = false;
-                NotifyViewChanged();
+                IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = false;
             });
 
-            // Initialise event handlers
-            _sharedViewModel.PropertyChanged += OnSharedModelPropertyChanged;
+            // Bind event handlers
+            _sharedViewModel.PropertyChanged += OnSharedViewModelPropertyChanged;
         }
 
         #endregion
@@ -228,25 +150,16 @@ namespace YouTubeDownloader
         #region Helper Methods
 
         /// <summary>
-        /// Notifies dependent elements that the selected view has been changed.
+        /// Handles PropertyChanged events invoked by the <see cref="_sharedViewModel"/>.
         /// </summary>
-        private void NotifyViewChanged()
-        {
-            NotifyPropertyChanged(nameof(SearchButtonColour));
-            NotifyPropertyChanged(nameof(LibraryButtonColour));
-            NotifyPropertyChanged(nameof(PlayerButtonColour));
-            NotifyPropertyChanged(nameof(SearchButtonBorderBrush));
-            NotifyPropertyChanged(nameof(LibraryButtonBorderBrush));
-            NotifyPropertyChanged(nameof(PlayerButtonBorderBrush));
-        }
-
-        private void OnSharedModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSharedViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Video")
             {
                 IsVideoPlayerViewVisible = true;
-                IsLibraryViewVisible = IsSearchViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
-                NotifyViewChanged();
+                IsSearchViewVisible = IsLibraryViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             }
         }
 

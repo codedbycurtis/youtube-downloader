@@ -133,7 +133,7 @@ namespace YouTubeDownloader
         {
             if (e.PropertyName == "Video")
             {
-                VideoPath = $"{Globals.VideoFolderPath}\\{_sharedViewModel.Video.VideoId}.mp4";
+                VideoPath = $"{Globals.VideoFolderPath}\\{_sharedViewModel.Video.Id}.mp4";
                 VideoDuration = _sharedViewModel.Video.Duration;
                 IsPlaying = true;
                 _mediaService.Play();

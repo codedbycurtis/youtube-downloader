@@ -9,7 +9,7 @@ namespace YouTubeDownloader
     {
         #region Private Members
 
-        private VideoMetadata _video;
+        private LibraryVideo _video;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace YouTubeDownloader
 
         #region Public Properties
 
-        public VideoMetadata Video
+        public LibraryVideo Video
         {
             get => _video;
             set

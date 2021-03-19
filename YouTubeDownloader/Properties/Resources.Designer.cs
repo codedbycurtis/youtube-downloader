@@ -63,9 +63,19 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap download {
+        internal static System.Drawing.Bitmap download_hover {
             get {
-                object obj = ResourceManager.GetObject("download", resourceCulture);
+                object obj = ResourceManager.GetObject("download_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap download_static {
+            get {
+                object obj = ResourceManager.GetObject("download_static", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -76,16 +86,6 @@ namespace YouTubeDownloader.Properties {
         internal static System.Drawing.Bitmap fast_forward {
             get {
                 object obj = ResourceManager.GetObject("fast_forward", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fluent_regular_search_333333_30 {
-            get {
-                object obj = ResourceManager.GetObject("fluent_regular_search_333333_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_red_bin_icon_30 {
+        internal static System.Drawing.Bitmap menu_hover {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_red_bin_icon_30", resourceCulture);
+                object obj = ResourceManager.GetObject("menu_hover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,29 @@ namespace YouTubeDownloader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap menu {
+        internal static System.Drawing.Bitmap menu_static {
             get {
-                object obj = ResourceManager.GetObject("menu", resourceCulture);
+                object obj = ResourceManager.GetObject("menu_static", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap more_vertical_hover {
+            get {
+                object obj = ResourceManager.GetObject("more_vertical_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap more_vertical_static {
+            get {
+                object obj = ResourceManager.GetObject("more_vertical_static", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -177,6 +197,36 @@ namespace YouTubeDownloader.Properties {
             get {
                 object obj = ResourceManager.GetObject("Roboto_Regular", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search_hover {
+            get {
+                object obj = ResourceManager.GetObject("search_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search_static {
+            get {
+                object obj = ResourceManager.GetObject("search_static", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap x_octagon {
+            get {
+                object obj = ResourceManager.GetObject("x_octagon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -10,12 +9,9 @@ namespace YouTubeDownloader
         #region Public Properties
 
         /// <summary>
-        /// The string representation of the current application's <see cref="AssemblyName.Version"/>.
+        /// The string representation of the current application's <see cref="System.Version"/>.
         /// </summary>
-        public string CurrentAssemblyVersion
-        {
-            get => Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+        public string AssemblyVersionString { get => App.AssemblyVersionString; }
 
         #endregion
 
@@ -24,7 +20,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// Opens the specified <see cref="Hyperlink.NavigateUri"/>.
         /// </summary>
-        public ICommand OpenWebUrl { get; set; }
+        public ICommand OpenWebUrlCommand { get; set; }
 
         #endregion
 
@@ -36,7 +32,7 @@ namespace YouTubeDownloader
         public AboutViewModel()
         {
             // Initialise commands
-            OpenWebUrl = new RelayCommand<Hyperlink>((hyperlink) => { Process.Start(hyperlink.NavigateUri.ToString()); });
+            OpenWebUrlCommand = new RelayCommand<string>((url) => { Process.Start(url); });
         }
 
         #endregion

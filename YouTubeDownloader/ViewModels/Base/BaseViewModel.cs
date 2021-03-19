@@ -26,7 +26,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <param name="value">The new value to set.</param>
     /// <param name="onPropertyChanged">The custom action to execute once the property's value changes.</param>
     /// <param name="propertyName">The name of the property that called this method.</param>
-    public void SetProperty<T>(ref T backingStore, T value, Action onPropertyChanged = null, [CallerMemberName] string propertyName = "")
+    public void SetProperty<T>(ref T backingStore, T value, Action onPropertyChanged = null, [CallerMemberName]string propertyName = "")
     {
         if (!Equals(backingStore, value))
         {

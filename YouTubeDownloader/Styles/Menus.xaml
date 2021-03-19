@@ -2,36 +2,41 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colours.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="TopLevelMenuItem" TargetType="{x:Type MenuItem}">
-        <Setter Property="Padding" Value="6"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="5">
-                        <Grid>
-                            <ContentPresenter Content="{TemplateBinding Header}"/>
-                            <Popup HorizontalAlignment="Center" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" PopupAnimation="Slide">
-                                <Popup.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                </Popup.LayoutTransform>
-                                <Border Padding="10" BorderThickness="0" Background="Transparent">
-                                    <Border Padding="0, 6" SnapsToDevicePixels="True" CornerRadius="5" BorderThickness="0" Background="White">
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
-                                        </Border.Effect>
-                                        <StackPanel IsItemsHost="True"/>
-                                    </Border>
+                    <Grid>
+                        <Ellipse Width="40" Height="40" Fill="{TemplateBinding Background}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter Content="{TemplateBinding Header}"/>
+                        <Popup HorizontalAlignment="Center" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" PopupAnimation="Slide">
+                            <Popup.LayoutTransform>
+                                <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                            </Popup.LayoutTransform>
+                            <Border Padding="10" BorderThickness="0" Background="Transparent">
+                                <Border Padding="0, 6" SnapsToDevicePixels="True" CornerRadius="5" BorderThickness="0" Background="{StaticResource PrimaryDarkBrush}">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="-90" Color="{StaticResource PrimaryDarkColour}" Opacity="0.6"/>
+                                    </Border.Effect>
+                                    <StackPanel IsItemsHost="True"/>
                                 </Border>
-                            </Popup>
-                        </Grid>
-                    </Border>
+                            </Border>
+                        </Popup>
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Background" Value="#F6F6F6"/>
-                        </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E4E4E4"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.11"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -40,6 +45,7 @@
     </Style>
 
     <Style x:Key="SubmenuItem" TargetType="{x:Type MenuItem}">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryLightBrush}"/>
         <Setter Property="Padding" Value="18, 6"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -50,10 +56,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Background" Value="#F6F6F6"/>
+                            <Setter Property="Background" Value="{StaticResource SecondaryLightBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource PrimaryDarkBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E4E4E4"/>
+                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

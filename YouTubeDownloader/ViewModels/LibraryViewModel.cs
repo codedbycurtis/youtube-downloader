@@ -8,11 +8,7 @@ namespace YouTubeDownloader
     {
         #region Private Members
 
-        private SharedViewModel _sharedViewModel;
-
-        #endregion
-
-        #region Public Properties
+        private readonly SharedViewModel _sharedViewModel;
 
         #endregion
 
@@ -31,30 +27,14 @@ namespace YouTubeDownloader
         public LibraryViewModel(SharedViewModel sharedViewModel)
         {
             _sharedViewModel = sharedViewModel;
-            PlayCommand = new RelayCommand<VideoMetadata>((videoMetadata) => PlayVideoButtonClicked(videoMetadata));
-            DeleteCommand = new RelayCommand<VideoMetadata>((videoMetadata) => DeleteVideoButtonClicked(videoMetadata));
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        /// <summary>
-        /// Opens the specified video in the built-in video player.
-        /// </summary>
-        /// <param name="video">The video to play.</param>
-        private void PlayVideoButtonClicked(VideoMetadata video) => _sharedViewModel.Video = video;
-
-        /// <summary>
-        /// Deletes the specified video from the <see cref="Globals.Library"/>, and all associated files.
-        /// </summary>
-        /// <param name="videoMetadata">The video to delete.</param>
-        private void DeleteVideoButtonClicked(VideoMetadata videoMetadata)
-        {
-            Globals.Library.Remove(videoMetadata);
-            Json.Write(Globals.Library, Globals.LibraryFilePath);
-            File.Delete($"{Globals.VideoFolderPath}\\{videoMetadata.VideoId}.mp4");
-            File.Delete($"{Globals.ThumbnailFolderPath}\\{videoMetadata.VideoId}.jpg");
+            PlayCommand = new RelayCommand<LibraryVideo>((video) => _sharedViewModel.Video = video);
+            DeleteCommand = new RelayCommand<LibraryVideo>((video) =>
+            {
+                Globals.Library.Remove(video);
+                Json.Save(Globals.Library, Globals.LibraryFilePath);
+                File.Delete($"{Globals.VideoFolderPath}\\{video.Id}.mp4");
+                File.Delete($"{Globals.ThumbnailFolderPath}\\{video.Id}.jpg");
+            });
         }
 
         #endregion

@@ -7,9 +7,9 @@ using System.Windows.Controls.Primitives;
 namespace YouTubeDownloader
 {
     /// <summary>
-    /// Interaction logic for VideoPlayerUserControl.xaml
+    /// Interaction logic for VideoPlayerView.xaml
     /// </summary>
-    public partial class VideoPlayerUserControl : UserControl, IMediaService
+    public partial class VideoPlayerView : UserControl, IMediaService
     {
         #region Private Members
 
@@ -21,7 +21,8 @@ namespace YouTubeDownloader
         #region Public Properties
 
         /// <summary>
-        /// Is the <see cref="slider"/> control currently being manipulated (e.g. dragged)?
+        /// Is the <see cref="slider"/> control currently being manipulated?
+        /// <para>E.g. being dragged.</para>
         /// </summary>
         public bool IsSliderBeingManipulated
         {
@@ -65,7 +66,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// Default constructor
         /// </summary>
-        public VideoPlayerUserControl()
+        public VideoPlayerView()
         {
             InitializeComponent();
             TimeElapsed = new TimeSpan(0, 0, 0, 0, 0);

@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="YouTubeDownloader.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YouTubeDownloader"
+             mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
+            </Border.BorderBrush>
+            <StackPanel>
+                <TextBlock Padding="20" FontSize="18">
+                <Run Text="YT" Foreground="Red"/>
+                <Run Text="Downloader" Foreground="{StaticResource PrimaryLightBrush}"/>
+                </TextBlock>
+                <Border BorderThickness="0, 1, 0, 0">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
+                    </Border.BorderBrush>
+                </Border>
+                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                    <Run Text="App Version:"/>
+                    <Run Text="{Binding AssemblyVersionString, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run Text="API Version: Prerelease 6.0.0-alpha"/>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run Text="Copyright © 2021 Curtis Caulfield. All rights reserved."/>
+                </TextBlock>
+                <Border BorderThickness="0, 0, 0, 1">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
+                    </Border.BorderBrush>
+                </Border>
+                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                <Run Text="Attributions:" FontSize="20"/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="All icons provided by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://feathericons.com">Feather Icons</Hyperlink>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Uses the "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz/YoutubeExplode">YoutubeExplode API</Hyperlink><Run Text=" by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz">Tyrrrz</Hyperlink><Run Text=" on Github."/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</UserControl>

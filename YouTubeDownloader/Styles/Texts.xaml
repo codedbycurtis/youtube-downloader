@@ -3,10 +3,8 @@
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
     <Style x:Key="TransparentTextBox" TargetType="{x:Type TextBox}">
-        <Style.Setters>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style.Setters>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
 </ResourceDictionary>

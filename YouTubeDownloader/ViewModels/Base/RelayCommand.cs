@@ -11,7 +11,7 @@ public class RelayCommand : ICommand
     /// <summary>
     /// The action to perform.
     /// </summary>
-    Action _action { get; set; }
+    private readonly Action _action;
 
     #endregion
 
@@ -54,7 +54,7 @@ public class RelayCommand<T> : ICommand
     /// <summary>
     /// The action to perform.
     /// </summary>
-    Action<T> _action { get; set; }
+    private readonly Action<T> _action;
 
     #endregion
 

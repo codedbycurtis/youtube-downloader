@@ -4,15 +4,15 @@ using Newtonsoft.Json;
 namespace YouTubeDownloader
 {
     /// <summary>
-    /// Encapsulates the relevant metadata of a <see cref="YoutubeExplode.Videos.Video"/>.
+    /// Encapsulates metadata relevant to video playback.
     /// </summary>
-    public class VideoMetadata
+    public class LibraryVideo
     {
         /// <summary>
-        /// String representation of a <see cref="YoutubeExplode.Videos.VideoId"/>.
+        /// Video identifier. This will be used to determine the video and thumbnail filenames.
         /// </summary>
-        [JsonProperty("videoId")]
-        public string VideoId { get; private set; }
+        [JsonProperty("id")]
+        public string Id { get; private set; }
 
         /// <summary>
         /// The title of the video.
@@ -33,21 +33,21 @@ namespace YouTubeDownloader
         public TimeSpan Duration { get; private set; }
 
         /// <summary>
-        /// Default constructor
+        /// Initialises a new instance of a <see cref="LibraryVideo"/> with the specified parameters.
         /// </summary>
-        /// <param name="videoId">String representation of a <see cref="YoutubeExplode.Videos.VideoId"/>.</param>
+        /// <param name="id">Video identifier. This will be used to determine the video and thumbnail filenames.</param>
         /// <param name="title">The title of the video.</param>
         /// <param name="author">The name of the channel that uploaded the video.</param>
         /// <param name="duration">The duration of the video.</param>
         [JsonConstructor()]
-        public VideoMetadata(string videoId, string title, string author, TimeSpan duration)
+        public LibraryVideo(string id, string title, string author, TimeSpan duration)
         {
-            VideoId = videoId;
+            Id = id;
             Title = title;
             Author = author;
             Duration = duration;
         }
 
-        public override string ToString() { return $"Video Id: {this.VideoId} | Title: {this.Title} | Author: {this.Author} | Duration: {this.Duration}"; }
+        public override string ToString() { return $"Video Id: {this.Id} | Title: {this.Title} | Author: {this.Author} | Duration: {this.Duration}"; }
     }
 }

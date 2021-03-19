@@ -61,16 +61,17 @@
     </Style>
 
     <Style x:Key="TabButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
-        <Style.Setters>
-            <Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style.Setters>
+        <Setter Property="Foreground" Value="{StaticResource TertiaryLightBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TertiaryLightBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#F6F6F6"/>
+                <Setter Property="TextElement.Foreground" Value="{StaticResource SecondaryLightBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#E4E4E4"/>
+                <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryLightBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

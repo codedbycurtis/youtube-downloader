@@ -6,9 +6,7 @@
     <FontFamily x:Key="RobotoMedium">pack://application,,,/Fonts/#Roboto Medium</FontFamily>
 
     <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
-        <Style.Setters>
-            <Setter Property="FontFamily" Value="{StaticResource RobotoMedium}"/>
-        </Style.Setters>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoMedium}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}"/>

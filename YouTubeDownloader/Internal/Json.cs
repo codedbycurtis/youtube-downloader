@@ -13,7 +13,7 @@ namespace YouTubeDownloader
         /// </summary>
         /// <param name="data">The data to serialize.</param>
         /// <param name="path">The normalized, relative path to serialize the data to.</param>
-        public static void Write(object data, string path)
+        public static void Save(object data, string path)
         {
             string jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
 
@@ -23,17 +23,14 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Reads a Json string from a file and converts it to a .NET object.
+        /// Reads a Json string from a file and converts it to a .NET type.
         /// </summary>
-        public static object Load<T>(string path)
+        public static T Load<T>(string path)
         {
             string jsonString;
-            object data;
+            T data;
 
-            if (string.IsNullOrEmpty(path) || !File.Exists(path)) 
-                throw new FileNotFoundException();
-
-            using (FileStream fileStream = new FileStream(path, FileMode.Open)) 
+            using (FileStream fileStream = new FileStream(path, FileMode.Open))
             using (StreamReader streamReader = new StreamReader(fileStream))
             {
                 jsonString = streamReader.ReadToEnd();
