@@ -6,26 +6,25 @@ namespace YouTubeDownloader
     /// <summary>
     /// Provides methods for serializing and deserializing data in the Json format.
     /// </summary>
-    public static class Json
+    internal static class Json
     {
         /// <summary>
         /// Converts a .NET object to a Json string and writes it to a file.
         /// </summary>
         /// <param name="data">The data to serialize.</param>
         /// <param name="path">The normalized, relative path to serialize the data to.</param>
-        public static void Save(object data, string path)
+        internal static void Save(object data, string path)
         {
             string jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
 
             using (FileStream fileStream = new FileStream(path, FileMode.Create)) 
-            using (StreamWriter streamWriter = new StreamWriter(fileStream)) 
-            { streamWriter.Write(jsonString); }
+            using (StreamWriter streamWriter = new StreamWriter(fileStream)) { streamWriter.Write(jsonString); }
         }
 
         /// <summary>
         /// Reads a Json string from a file and converts it to a .NET type.
         /// </summary>
-        public static T Load<T>(string path)
+        internal static T Load<T>(string path)
         {
             string jsonString;
             T data;

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Converters
 {
     /// <summary>
     /// Converts a <see cref="bool"/> value to <see cref="Visibility.Visible"/> or <see cref="Visibility.Hidden"/>.
@@ -21,8 +21,7 @@ namespace YouTubeDownloader
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var visibilityValue = (Visibility)value;
-            return visibilityValue == Visibility.Visible;
+            throw new NotImplementedException();
         }
     }
 }

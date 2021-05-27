@@ -127,11 +127,11 @@
   <data name="fast_forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\fast-forward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="material_rounded_download_333333_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\material-rounded-download-333333-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="favicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\favicon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="material_rounded_play_333333_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\material-rounded-play-333333-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="menu_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\menu-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -168,8 +168,5 @@
   </data>
   <data name="x_octagon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\x-octagon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="youtube_play_button_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\Icons\youtube-play-button-48.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

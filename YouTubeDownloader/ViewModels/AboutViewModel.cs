@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Documents;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
@@ -12,6 +13,11 @@ namespace YouTubeDownloader
         /// The string representation of the current application's <see cref="System.Version"/>.
         /// </summary>
         public string AssemblyVersionString { get => App.AssemblyVersionString; }
+
+        /// <summary>
+        /// The string representation of the YoutubeExplode API's <see cref="System.Version"/>.
+        /// </summary>
+        public string YoutubeExplodeVersionString { get => App.YoutubeExplodeVersionString; }
 
         #endregion
 

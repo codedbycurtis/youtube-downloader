@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Converters
 {
     /// <summary>
     /// Inverses a boolean value.
@@ -13,8 +13,14 @@ namespace YouTubeDownloader
     {
         public static InverseBooleanConverter Instance { get; } = new InverseBooleanConverter();
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) { return !(bool)value; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value;
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value;
+        }
     }
 }

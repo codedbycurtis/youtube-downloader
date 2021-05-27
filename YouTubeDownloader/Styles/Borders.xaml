@@ -3,43 +3,24 @@
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
     <Style x:Key="SearchBarBorder" TargetType="{x:Type Border}">
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="3"/>
-        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="CornerRadius" Value="1, 0, 0, 1"/>
+        <Setter Property="BorderThickness" Value="1, 1, 0, 1"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="Black" Opacity="0.16"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.Setters>
-                    <!--<Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
-                        </Setter.Value>
-                    </Setter>-->
-                </Trigger.Setters>
-            </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Trigger.Setters>
-                    <!--<Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="-90" Color="Gainsboro" Opacity="0.6"/>
-                        </Setter.Value>
-                    </Setter>-->
-                </Trigger.Setters>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="BorderBrush" Value="#1C62B9"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <!--<Style x:Key="ListViewItemBorder" TargetType="{x:Type Border}">
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.Setters>
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="16" ShadowDepth="4" Direction="-90" Color="Gainsboro" Opacity="0.2"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger.Setters>
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
 
 </ResourceDictionary>

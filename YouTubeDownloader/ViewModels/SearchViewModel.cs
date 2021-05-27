@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using YoutubeExplode.Playlists;
+using YoutubeExplode.Search;
+using YoutubeExplode.Videos;
+using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
     public class SearchViewModel : BaseViewModel
     {
-        #region Private Members
+        #region Members
 
         private bool _isBusy;
         private string _searchQuery;
         private readonly QueryService _queryService = new QueryService();
-        private readonly DownloadService _downloadService;
-        private IReadOnlyList<PlaylistVideo> _requestedVideos;
+        private readonly DownloadService _downloadService = new DownloadService();
+        private IReadOnlyList<IVideo> _requestedVideos;
 
         #endregion
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// Is the application currently busy (e.g. getting videos).
@@ -41,7 +43,7 @@ namespace YouTubeDownloader
         /// <summary>
         /// A list of videos matching the user's specified <see cref="SearchQuery"/>.
         /// </summary>
-        public IReadOnlyList<PlaylistVideo> RequestedVideos
+        public IReadOnlyList<IVideo> RequestedVideos
         {
             get => _requestedVideos;
             set => SetProperty(ref _requestedVideos, value);
@@ -49,42 +51,72 @@ namespace YouTubeDownloader
 
         #endregion
 
-        #region Public Commands
+        #region Commands
 
-        public ICommand SearchCommand { get; set; }
-        public ICommand DownloadCommand { get; set; }
+        public ICommand SearchCommand { get; }
+        public ICommand ShowDownloadDialogCommand { get; }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Initialise a new instance of the <see cref="SearchViewModel"/> with the specified <see cref="DownloadService"/>.
+        /// Initializes a new instance of <see cref="SearchViewModel"/>.
         /// </summary>
-        public SearchViewModel(DownloadService downloadService)
+        public SearchViewModel()
         {
-            _downloadService = downloadService;
-
             SearchCommand = new RelayCommand(async () =>
             {
-                IsBusy = true;
-                try { RequestedVideos = await _queryService.SearchAsync(SearchQuery); }
-                catch (Exception ex) { MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK); }
-                finally { IsBusy = false; }
+                if (!string.IsNullOrEmpty(SearchQuery))
+                {
+                    IsBusy = true;
+                    try
+                    {
+                        RequestedVideos = await _queryService.SearchAsync(SearchQuery);
+                    }
+                    catch (Exception ex)
+                    {
+                        _ = MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK);
+                    }
+                    finally
+                    {
+                        IsBusy = false;
+                    }
+                }
             });
 
-            DownloadCommand = new RelayCommand<PlaylistVideo>(async (video) =>
+            ShowDownloadDialogCommand = new RelayCommand(() =>
             {
-                IsBusy = true;
-                try { await _downloadService.DownloadAsync(video); }
-                catch (Exception ex) { MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK); }
-                finally { IsBusy = false; }
+
             });
+
+            //DownloadCommand = new RelayCommand<VideoSearchResult>(async (video) =>
+            //{
+            //    IsBusy = true;
+            //    try
+            //    {
+            //        await _downloadService.DownloadVideoAsync(video);
+            //        await _downloadService.DownloadThumbnailAsync(video);
+
+            //        Global.Library.Add(
+            //            new LibraryVideo(
+            //                video.Id.Value,
+            //                video.Title,
+            //                video.Author.Title,
+            //                video.Duration.Value));
+
+            //        Json.Save(Global.Library, Global.LibraryFilePath);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _ = MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK);
+            //    }
+            //    finally
+            //    {
+            //        IsBusy = false;
+            //    }
+            //});
         }
-
-        #endregion
-
-        #region Helper Methods
 
         #endregion
     }

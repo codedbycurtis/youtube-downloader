@@ -33,7 +33,7 @@ namespace YouTubeDownloader
         public TimeSpan Duration { get; private set; }
 
         /// <summary>
-        /// Initialises a new instance of a <see cref="LibraryVideo"/> with the specified parameters.
+        /// Initialises a new instance of <see cref="LibraryVideo"/> with the specified parameters.
         /// </summary>
         /// <param name="id">Video identifier. This will be used to determine the video and thumbnail filenames.</param>
         /// <param name="title">The title of the video.</param>
@@ -48,6 +48,9 @@ namespace YouTubeDownloader
             Duration = duration;
         }
 
-        public override string ToString() { return $"Video Id: {this.Id} | Title: {this.Title} | Author: {this.Author} | Duration: {this.Duration}"; }
+        public override string ToString()
+        {
+            return $"Video Id: {this.Id} | Title: {this.Title} | Author: {this.Author} | Duration: {this.Duration}";
+        }
     }
 }

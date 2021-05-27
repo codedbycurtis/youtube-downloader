@@ -20,11 +20,11 @@
                             <Popup.LayoutTransform>
                                 <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
                             </Popup.LayoutTransform>
-                            <Border Padding="10" BorderThickness="0" Background="Transparent">
-                                <Border Padding="0, 6" SnapsToDevicePixels="True" CornerRadius="5" BorderThickness="0" Background="{StaticResource PrimaryDarkBrush}">
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="8" ShadowDepth="1" Direction="-90" Color="{StaticResource PrimaryDarkColour}" Opacity="0.6"/>
-                                    </Border.Effect>
+                            <Border Padding="16">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="20" ShadowDepth="2" Direction="-90" Opacity="0.3" Color="{StaticResource ToolTipMenuColour}"/>
+                                </Border.Effect>
+                                <Border Padding="0, 6" CornerRadius="5" BorderThickness="0" Background="{StaticResource ToolTipMenuBrush}">
                                     <StackPanel IsItemsHost="True"/>
                                 </Border>
                             </Border>
@@ -32,11 +32,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.11"/>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="Background" Value="{StaticResource MenuItemPressedBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

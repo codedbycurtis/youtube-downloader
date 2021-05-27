@@ -6,34 +6,34 @@
     <members>
         <member name="T:CliWrap.Buffered.BufferedCommandExtensions">
             <summary>
-            Convenience extension for executing a command while buffering its streams.
+            Buffered execution model.
             </summary>
         </member>
         <member name="M:CliWrap.Buffered.BufferedCommandExtensions.ExecuteBufferedAsync(CliWrap.Command,System.Text.Encoding,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
             Executes the command asynchronously.
             The result of this execution contains the standard output and standard error streams buffered in-memory as strings.
-            This method can be awaited.
             </summary>
+            <remarks>This method can be awaited.</remarks>
         </member>
         <member name="M:CliWrap.Buffered.BufferedCommandExtensions.ExecuteBufferedAsync(CliWrap.Command,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
             Executes the command asynchronously.
             The result of this execution contains the standard output and standard error streams buffered in-memory as strings.
-            This method can be awaited.
             </summary>
+            <remarks>This method can be awaited.</remarks>
         </member>
         <member name="M:CliWrap.Buffered.BufferedCommandExtensions.ExecuteBufferedAsync(CliWrap.Command,System.Threading.CancellationToken)">
             <summary>
             Executes the command asynchronously.
             The result of this execution contains the standard output and standard error streams buffered in-memory as strings.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the strings from byte streams.
-            This method can be awaited.
             </summary>
+            <remarks>This method can be awaited.</remarks>
         </member>
         <member name="T:CliWrap.Buffered.BufferedCommandResult">
             <summary>
-            Represents the result of an execution of a command, with buffered data from standard output and standard error streams.
+            Represents the result of a command execution, with buffered data from standard output and standard error streams.
             </summary>
         </member>
         <member name="P:CliWrap.Buffered.BufferedCommandResult.StandardOutput">
@@ -53,7 +53,7 @@
         </member>
         <member name="T:CliWrap.Builders.ArgumentsBuilder">
             <summary>
-            Builder that helps generate a well-formed arguments string.
+            Builder that helps generate well-formed arguments string.
             </summary>
         </member>
         <member name="M:CliWrap.Builders.ArgumentsBuilder.Add(System.String,System.Boolean)">
@@ -76,6 +76,11 @@
             Adds the specified values to the list of arguments.
             </summary>
         </member>
+        <member name="M:CliWrap.Builders.ArgumentsBuilder.Add(System.IFormattable,System.IFormatProvider,System.Boolean)">
+            <summary>
+            Adds the specified value to the list of arguments.
+            </summary>
+        </member>
         <member name="M:CliWrap.Builders.ArgumentsBuilder.Add(System.IFormattable,System.Globalization.CultureInfo,System.Boolean)">
             <summary>
             Adds the specified value to the list of arguments.
@@ -96,6 +101,11 @@
             <summary>
             Adds the specified value to the list of arguments.
             The value is converted to string using invariant culture.
+            </summary>
+        </member>
+        <member name="M:CliWrap.Builders.ArgumentsBuilder.Add(System.Collections.Generic.IEnumerable{System.IFormattable},System.IFormatProvider,System.Boolean)">
+            <summary>
+            Adds the specified values to the list of arguments.
             </summary>
         </member>
         <member name="M:CliWrap.Builders.ArgumentsBuilder.Add(System.Collections.Generic.IEnumerable{System.IFormattable},System.Globalization.CultureInfo,System.Boolean)">
@@ -179,53 +189,35 @@
         </member>
         <member name="T:CliWrap.Command">
             <summary>
-            Represents a shell command.
+            Represents an object that contains instructions for running a process.
             </summary>
         </member>
         <member name="P:CliWrap.Command.TargetFilePath">
-            <summary>
-            File path of the executable, batch file, or script, that this command runs on.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.Arguments">
-            <summary>
-            Arguments passed on the command line.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.WorkingDirPath">
-            <summary>
-            Working directory path.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.Credentials">
-            <summary>
-            User credentials set for the underlying process.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.EnvironmentVariables">
-            <summary>
-            Environment variables set for the underlying process.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.Validation">
-            <summary>
-            Configured result validation options.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.StandardInputPipe">
-            <summary>
-            Configured standard input pipe source.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.StandardOutputPipe">
-            <summary>
-            Configured standard output pipe target.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:CliWrap.Command.StandardErrorPipe">
-            <summary>
-            Configured standard error pipe target.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:CliWrap.Command.#ctor(System.String,System.String,System.String,CliWrap.Credentials,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},CliWrap.CommandResultValidation,CliWrap.PipeSource,CliWrap.PipeTarget,CliWrap.PipeTarget)">
             <summary>
@@ -259,7 +251,7 @@
         </member>
         <member name="M:CliWrap.Command.WithWorkingDirectory(System.String)">
             <summary>
-            Creates a copy of this command, settings the working directory path to the specified value.
+            Creates a copy of this command, setting the working directory path to the specified value.
             </summary>
         </member>
         <member name="M:CliWrap.Command.WithCredentials(CliWrap.Credentials)">
@@ -305,8 +297,8 @@
         <member name="M:CliWrap.Command.ExecuteAsync(System.Threading.CancellationToken)">
             <summary>
             Executes the command asynchronously.
-            This method can be awaited.
             </summary>
+            <remarks>This method can be awaited.</remarks>
         </member>
         <member name="M:CliWrap.Command.ToString">
             <inheritdoc />
@@ -390,7 +382,7 @@
         </member>
         <member name="T:CliWrap.CommandResult">
             <summary>
-            Represents the result of an execution of a command.
+            Represents the result of a command execution.
             </summary>
         </member>
         <member name="P:CliWrap.CommandResult.ExitCode">
@@ -420,12 +412,12 @@
         </member>
         <member name="T:CliWrap.CommandResultValidation">
             <summary>
-            Specifies enabled validations that run on the result of command execution.
+            Specifies validation strategy to use on the result of a command execution.
             </summary>
         </member>
         <member name="F:CliWrap.CommandResultValidation.None">
             <summary>
-            No validations.
+            No validation.
             </summary>
         </member>
         <member name="F:CliWrap.CommandResultValidation.ZeroExitCode">
@@ -482,7 +474,7 @@
         </member>
         <member name="T:CliWrap.Credentials">
             <summary>
-            User credentials associated with a process.
+            User credentials used for running a process.
             </summary>
         </member>
         <member name="P:CliWrap.Credentials.Domain">
@@ -516,7 +508,7 @@
             <summary>
             Represents an abstract event produced by a command.
             Use pattern matching to handle specific instances of this type.
-            Can be one of the following:
+            Can be either one of the following:
             <see cref="T:CliWrap.EventStream.StartedCommandEvent"/>,
             <see cref="T:CliWrap.EventStream.StandardOutputCommandEvent"/>,
             <see cref="T:CliWrap.EventStream.StandardErrorCommandEvent"/>,
@@ -599,52 +591,123 @@
         </member>
         <member name="T:CliWrap.EventStream.EventStreamCommandExtensions">
             <summary>
-            Convenience extension for executing a command as an event stream.
+            Event stream execution model.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.ListenAsync(CliWrap.Command,System.Text.Encoding,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an asynchronous event stream.
+            Executes the command as an asynchronous (pull-based) event stream.
             Use <code>await foreach</code> to listen to the stream and handle command events.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.ListenAsync(CliWrap.Command,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an asynchronous event stream.
+            Executes the command as an asynchronous (pull-based) event stream.
             Use <code>await foreach</code> to listen to the stream and handle command events.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.ListenAsync(CliWrap.Command,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an asynchronous event stream.
+            Executes the command as an asynchronous (pull-based) event stream.
             Use <code>await foreach</code> to listen to the stream and handle command events.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the strings from byte streams.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.Observe(CliWrap.Command,System.Text.Encoding,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an observable event stream.
+            Executes the command as an observable (push-based) event stream.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.Observe(CliWrap.Command,System.Text.Encoding,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an observable event stream.
+            Executes the command as an observable (push-based) event stream.
             </summary>
         </member>
         <member name="M:CliWrap.EventStream.EventStreamCommandExtensions.Observe(CliWrap.Command,System.Threading.CancellationToken)">
             <summary>
-            Executes the command as an observable event stream.
+            Executes the command as an observable (push-based) event stream.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the strings from byte streams.
             </summary>
+        </member>
+        <member name="T:CliWrap.Exceptions.CliWrapException">
+            <summary>
+            Parent class for domain exceptions thrown by <see cref="N:CliWrap"/>.
+            </summary>
+        </member>
+        <member name="M:CliWrap.Exceptions.CliWrapException.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:CliWrap.Exceptions.CliWrapException"/>.
+            </summary>
+            <param name="message"></param>
         </member>
         <member name="T:CliWrap.Exceptions.CommandExecutionException">
             <summary>
             Exception thrown when the command fails to execute correctly.
             </summary>
         </member>
-        <member name="M:CliWrap.Exceptions.CommandExecutionException.#ctor(System.String)">
+        <member name="P:CliWrap.Exceptions.CommandExecutionException.Command">
+            <summary>
+            Command that triggered the exception.
+            </summary>
+        </member>
+        <member name="P:CliWrap.Exceptions.CommandExecutionException.ExitCode">
+            <summary>
+            Exit code returned by the process.
+            </summary>
+        </member>
+        <member name="M:CliWrap.Exceptions.CommandExecutionException.#ctor(CliWrap.ICommandConfiguration,System.Int32,System.String)">
             <summary>
             Initializes an instance of <see cref="T:CliWrap.Exceptions.CommandExecutionException"/>.
+            </summary>
+        </member>
+        <member name="T:CliWrap.ICommandConfiguration">
+            <summary>
+            Configuration of a command.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.TargetFilePath">
+            <summary>
+            File path of the executable, batch file, or script, that this command runs.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.Arguments">
+            <summary>
+            Arguments passed on the command line.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.WorkingDirPath">
+            <summary>
+            Working directory path set for the underlying process.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.Credentials">
+            <summary>
+            User credentials set for the underlying process.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.EnvironmentVariables">
+            <summary>
+            Environment variables set for the underlying process.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.Validation">
+            <summary>
+            Configured result validation strategy.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.StandardInputPipe">
+            <summary>
+            Configured standard input pipe source.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.StandardOutputPipe">
+            <summary>
+            Configured standard output pipe target.
+            </summary>
+        </member>
+        <member name="P:CliWrap.ICommandConfiguration.StandardErrorPipe">
+            <summary>
+            Configured standard error pipe target.
             </summary>
         </member>
         <member name="T:CliWrap.PipeSource">
@@ -659,38 +722,44 @@
         </member>
         <member name="P:CliWrap.PipeSource.Null">
             <summary>
-            Pipe source that pushes no data.
+            Pipe source that does not provide any data.
+            Logical equivalent to <code>/dev/null</code>.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromStream(System.IO.Stream,System.Boolean)">
             <summary>
-            Creates a pipe source from a readable stream.
+            Creates a pipe source that reads from a stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromStream(System.IO.Stream)">
             <summary>
-            Creates a pipe source from a readable stream.
+            Creates a pipe source that reads from a stream.
+            </summary>
+        </member>
+        <member name="M:CliWrap.PipeSource.FromFile(System.String)">
+            <summary>
+            Creates a pipe source that reads from a file.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromBytes(System.Byte[])">
             <summary>
-            Creates a pipe source from in-memory data.
+            Creates a pipe source that reads from in-memory data.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromString(System.String,System.Text.Encoding)">
             <summary>
-            Creates a pipe source from a string.
+            Creates a pipe source that reads from a string.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromString(System.String)">
             <summary>
-            Creates a pipe source from a string.
+            Creates a pipe source that reads from a string.
             Uses <see cref="P:System.Console.InputEncoding"/> to encode the string into byte stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeSource.FromCommand(CliWrap.Command)">
             <summary>
-            Creates a pipe source from the standard output of a command.
+            Creates a pipe source that reads from standard output of a command.
             </summary>
         </member>
         <member name="T:CliWrap.PipeTarget">
@@ -705,62 +774,66 @@
         </member>
         <member name="P:CliWrap.PipeTarget.Null">
             <summary>
-            Pipe target that ignores all data.
+            Pipe target that discards all data.
+            Logical equivalent to <code>/dev/null</code>.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToStream(System.IO.Stream,System.Boolean)">
             <summary>
-            Creates a pipe target from a writeable stream.
+            Creates a pipe target that writes to a stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToStream(System.IO.Stream)">
             <summary>
-            Creates a pipe target from a writeable stream.
+            Creates a pipe target that writes to a stream.
+            </summary>
+        </member>
+        <member name="M:CliWrap.PipeTarget.ToFile(System.String)">
+            <summary>
+            Creates a pipe target that writes to a file.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToStringBuilder(System.Text.StringBuilder,System.Text.Encoding)">
             <summary>
-            Creates a pipe target from a string builder.
+            Creates a pipe target that writes to a string builder.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToStringBuilder(System.Text.StringBuilder)">
             <summary>
-            Creates a pipe target from a string builder.
+            Creates a pipe target that writes to a string builder.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the string from byte stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToDelegate(System.Action{System.String},System.Text.Encoding)">
             <summary>
-            Creates a pipe target from a delegate that handles the content on a line-by-line basis.
+            Creates a pipe target that triggers a delegate on every line written.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToDelegate(System.Action{System.String})">
             <summary>
-            Creates a pipe target from a delegate that handles the content on a line-by-line basis.
+            Creates a pipe target that triggers a delegate on every line written.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the string from byte stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToDelegate(System.Func{System.String,System.Threading.Tasks.Task},System.Text.Encoding)">
             <summary>
-            Creates a pipe target from a delegate that asynchronously handles the content on a line-by-line basis.
+            Creates a pipe target that triggers an asynchronous delegate on every line written.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.ToDelegate(System.Func{System.String,System.Threading.Tasks.Task})">
             <summary>
-            Creates a pipe target from a delegate that asynchronously handles the content on a line-by-line basis.
+            Creates a pipe target that triggers an asynchronous delegate on every line written.
             Uses <see cref="P:System.Console.OutputEncoding"/> to decode the string from byte stream.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.Merge(System.Collections.Generic.IEnumerable{CliWrap.PipeTarget})">
             <summary>
-            Merges multiple pipe targets into a single one.
-            Data pushed to this pipe will be replicated for all inner targets.
+            Creates a pipe target that replicates data over multiple inner targets.
             </summary>
         </member>
         <member name="M:CliWrap.PipeTarget.Merge(CliWrap.PipeTarget[])">
             <summary>
-            Merges multiple pipe targets into a single one.
-            Data pushed to this pipe will be replicated for all inner targets.
+            Creates a pipe target that replicates data over multiple inner targets.
             </summary>
         </member>
     </members>

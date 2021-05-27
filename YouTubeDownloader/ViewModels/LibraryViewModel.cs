@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using System.Windows;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
@@ -22,7 +22,7 @@ namespace YouTubeDownloader
         #region Constructor
 
         /// <summary>
-        /// Default constructor
+        /// Initialises a new instance of <see cref="LibraryViewModel"/> with the specified <see cref="SharedViewModel"/>.
         /// </summary>
         public LibraryViewModel(SharedViewModel sharedViewModel)
         {
@@ -30,10 +30,10 @@ namespace YouTubeDownloader
             PlayCommand = new RelayCommand<LibraryVideo>((video) => _sharedViewModel.Video = video);
             DeleteCommand = new RelayCommand<LibraryVideo>((video) =>
             {
-                Globals.Library.Remove(video);
-                Json.Save(Globals.Library, Globals.LibraryFilePath);
-                File.Delete($"{Globals.VideoFolderPath}\\{video.Id}.mp4");
-                File.Delete($"{Globals.ThumbnailFolderPath}\\{video.Id}.jpg");
+                Global.Library.Remove(video);
+                Json.Save(Global.Library, Global.LibraryFilePath);
+                File.Delete($"{Global.VideoFolderPath}\\{video.Id}.mp4");
+                File.Delete($"{Global.ThumbnailFolderPath}\\{video.Id}.jpg");
             });
         }
 

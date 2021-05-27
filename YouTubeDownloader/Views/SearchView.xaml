@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:YouTubeDownloader"
-             mc:Ignorable="d">
+             xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
+             d:DataContext="{d:DesignInstance Type=local:SearchViewModel}"
+             mc:Ignorable="d"
+             UseLayoutRounding="True">
 
     <!-- Search tab content -->
     <Grid>
@@ -12,53 +15,73 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Padding="100, 30" Grid.Row="0" BorderThickness="0" Panel.ZIndex="1">
-            <Border Style="{StaticResource SearchBarBorder}" Padding="0, 8" MaxWidth="800">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
-                </Border.BorderBrush>
+        <StackPanel Grid.Row="0"
+                    VerticalAlignment="Center"
+                    MaxWidth="800">
+            <Border Height="36">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Padding="8, 0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TransparentTextBox}" Foreground="{StaticResource PrimaryLightBrush}" FontFamily="{StaticResource RobotoRegular}" FontSize="18" VerticalAlignment="Center">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding SearchCommand}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <Border Grid.Column="1" BorderThickness="1, 0, 0, 0" >
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
-                        </Border.BorderBrush>
-                        <Button Grid.Column="1" BorderBrush="Transparent" BorderThickness="10, 0" Cursor="Hand" ToolTip="Search" Command="{Binding SearchCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="False">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <Image Source="../Images/search-static.png" Stretch="None"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <Image Source="../Images/search-hover.png" Stretch="None"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                    <Border Style="{StaticResource SearchBarBorder}">
+                        <TextBox Padding="8, 0"
+                                 Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource TransparentTextBox}"
+                                 Foreground="{StaticResource PrimaryLightBrush}"
+                                 FontFamily="{StaticResource RobotoRegular}"
+                                 FontSize="18"
+                                 VerticalAlignment="Center">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding SearchCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
                     </Border>
+                    <Button Grid.Column="1"
+                            Command="{Binding SearchCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource SearchButton}">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Border Padding="20, 0">
+                                            <Image Source="../Images/search-static.png"
+                                                   Stretch="None"/>
+                                        </Border>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <Border Padding="20, 0">
+                                                    <Image Source="../Images/search-hover.png"
+                                                           Stretch="None"/>
+                                                </Border>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
             </Border>
-        </Border>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
-            <ListView Background="Transparent" BorderThickness="0" ItemsSource="{Binding RequestedVideos}" ScrollViewer.CanContentScroll="False">
+            <ProgressBar Height="2"
+                         Background="Transparent"
+                         Foreground="White"
+                         BorderThickness="0"
+                         IsIndeterminate="True"
+                         Visibility="{Binding IsBusy, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Disabled">
+            <ListView Background="Transparent"
+                      BorderThickness="0"
+                      ItemsSource="{Binding RequestedVideos}"
+                      ScrollViewer.CanContentScroll="False">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Style.Setters>
@@ -68,51 +91,89 @@
                                         <Border>
                                             <ContentPresenter>
                                                 <ContentPresenter.Content>
-                                                    <Border BorderBrush="Transparent" BorderThickness="8">
-                                                        <Border Background="White" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Height="150" UseLayoutRounding="True">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Border x:Name="OpacityMask" CornerRadius="5, 0, 0, 5" Background="White"/>
-                                                                <Grid Grid.Column="0">
-                                                                    <Grid.OpacityMask>
-                                                                        <VisualBrush Visual="{Binding ElementName=OpacityMask}"/>
-                                                                    </Grid.OpacityMask>
-                                                                    <Image Source="{Binding Thumbnails.MediumResUrl}"/>
-                                                                    <Border Padding="3" Margin="0, 0, 4, 4" CornerRadius="2" Background="Black" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                                        <TextBlock Text="{Binding Duration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="White"/>
-                                                                    </Border>
-                                                                </Grid>
-                                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                    <TextBlock Padding="3" Text="{Binding Title}" FontSize="18" />
-                                                                    <TextBlock Padding="3" Text="{Binding Author}" FontSize="16" Foreground="Gray"/>
-                                                                    <TextBlock Padding="3" FontSize="16">
-                                                                        <Run Text="{Binding ViewCount, Mode=OneWay, Converter={x:Static local:LongToStringConverter.Instance}}"/>
-                                                                    </TextBlock>
-                                                                </StackPanel>
-
-                                                                <!-- The download button next to each video -->
-                                                                <Border Grid.Column="2" BorderBrush="Transparent" BorderThickness="8" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                                    <Button Style="{StaticResource VideoButton}"
-                                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchView}, Path=DataContext.DownloadCommand}"
-                                                                        CommandParameter="{Binding}"
-                                                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchView}, Path=DataContext.IsBusy, Converter={x:Static local:InverseBooleanConverter.Instance}}">
-                                                                        <Button.Content>
-                                                                            <Border>
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <Image Source="../Images/material-rounded-download-333333-48.png" Stretch="None"/>
-                                                                                    <TextBlock Text="Download" VerticalAlignment="Center" FontSize="20"/>
-                                                                                </StackPanel>
+                                                    <Button Name="button"
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SearchView}, Path=DataContext.ShowDownloadDialogCommand}"
+                                                            CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="{x:Type Button}">
+                                                                <Setter Property="Background"
+                                                                        Value="Transparent"/>
+                                                                <Setter Property="Cursor"
+                                                                        Value="Hand"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                                            <Border Padding="15"
+                                                                                    Background="{TemplateBinding Background}"
+                                                                                    Height="125">
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="Auto"/>
+                                                                                        <ColumnDefinition Width="Auto"/>
+                                                                                        <ColumnDefinition Width="*"/>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <Grid Grid.Column="0">
+                                                                                        <Image Source="{Binding Thumbnails, Converter={x:Static converters:ThumbnailUrlExtractor.Instance}}"/>
+                                                                                        <Border Padding="3"
+                                                                                                Margin="0, 0, 4, 4"
+                                                                                                CornerRadius="2"
+                                                                                                Background="Black"
+                                                                                                Opacity="0.8"
+                                                                                                HorizontalAlignment="Right"
+                                                                                                VerticalAlignment="Bottom">
+                                                                                            <TextBlock Text="{Binding Duration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}"
+                                                                                                       Foreground="{StaticResource PrimaryLightBrush}"/>
+                                                                                        </Border>
+                                                                                    </Grid>
+                                                                                    <StackPanel Grid.Column="1"
+                                                                                                VerticalAlignment="Center">
+                                                                                        <TextBlock Padding="12, 3"
+                                                                                                   Text="{Binding Title}"
+                                                                                                   FontSize="18"
+                                                                                                   Foreground="{StaticResource PrimaryLightBrush}"/>
+                                                                                        <TextBlock Padding="12, 3"
+                                                                                                   Text="{Binding Author}"
+                                                                                                   FontSize="16"
+                                                                                                   Foreground="{StaticResource TertiaryLightBrush}"/>
+                                                                                    </StackPanel>
+                                                                                    <TextBlock Grid.Column="2"
+                                                                                               Text="Click to download"
+                                                                                               HorizontalAlignment="Right"
+                                                                                               VerticalAlignment="Center"
+                                                                                               Foreground="{StaticResource PrimaryLightBrush}"
+                                                                                               FontSize="18">
+                                                                                        <TextBlock.Style>
+                                                                                            <Style TargetType="{x:Type TextBlock}">
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding ElementName=button, Path=IsMouseOver}"
+                                                                                                                 Value="False">
+                                                                                                        <Setter Property="Visibility"
+                                                                                                                Value="Hidden"/>
+                                                                                                    </DataTrigger>
+                                                                                                    <DataTrigger Binding="{Binding ElementName=button, Path=IsMouseOver}"
+                                                                                                                 Value="True">
+                                                                                                        <Setter Property="Visibility"
+                                                                                                                Value="Visible"/>
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </TextBlock.Style>
+                                                                                    </TextBlock>
+                                                                                </Grid>
                                                                             </Border>
-                                                                        </Button.Content>
-                                                                    </Button>
-                                                                </Border>
-                                                            </Grid>
-                                                        </Border>
-                                                    </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver"
+                                                                             Value="True">
+                                                                        <Setter Property="Background"
+                                                                                Value="{StaticResource PlaylistItemHoverBrush}"/>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
                                                 </ContentPresenter.Content>
                                             </ContentPresenter>
                                         </Border>
@@ -124,24 +185,5 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </ScrollViewer>
-        <Grid Grid.Row="1" Background="{StaticResource PrimaryDarkBrush}" Visibility="{Binding IsBusy, Converter={x:Static local:BoolToVisibilityConverter.Instance}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Text="Downloading" HorizontalAlignment="Center" Padding="4">
-                    <TextBlock.LayoutTransform>
-                        <ScaleTransform ScaleX="2" ScaleY="2"/>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-                <ProgressBar Background="Transparent" Foreground="Red" IsIndeterminate="True">
-                    <ProgressBar.RenderTransform>
-                        <ScaleTransform ScaleY="2"/>
-                    </ProgressBar.RenderTransform>
-                </ProgressBar>
-            </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>

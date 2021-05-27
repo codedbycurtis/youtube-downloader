@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Converters
 {
     /// <summary>
-    /// Converts a <see cref="TimeSpan"/> to a <see cref="double"/>. This class cannot be inherited.
+    /// Returns the <see cref="TimeSpan.TotalSeconds"/> property.
     /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(double))]
     public sealed class TimeSpanToDoubleConverter : IValueConverter
@@ -15,9 +15,12 @@ namespace YouTubeDownloader
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var duration = (TimeSpan)value;
-            return (double)duration.TotalSeconds;
+            return duration.TotalSeconds;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

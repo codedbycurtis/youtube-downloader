@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTubeDownloader"
+        xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
         mc:Ignorable="d"
-        Title="YouTube Downloader" Height="850" Width="1200"
-        Icon="../Images/Icons/youtube-play-button-48.ico"
-        MinWidth="450" MinHeight="380">
+        Title="{Binding Title}" Height="850" Width="1200"
+        Icon="../favicon.ico"
+        MinWidth="800" MinHeight="600">
 
     <!-- Set window's data context -->
     <Window.DataContext>
@@ -37,6 +38,7 @@
         </DataTemplate>
     </Window.Resources>
 
+    <!-- Main window content -->
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="{StaticResource PrimaryDarkColour}"/>
@@ -51,32 +53,32 @@
         </Grid.RowDefinitions>
 
         <!-- Tab strip -->
-        <Border Grid.Row="0" BorderThickness="0" Panel.ZIndex="1">
-            <Border.Background>
-                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.05"/>
-            </Border.Background>
-            <!--<Border.Effect>
-                <DropShadowEffect BlurRadius="6" ShadowDepth="0" Direction="-90" Color="{StaticResource PrimaryDarkColour}" Opacity="0.6"/>
-            </Border.Effect>-->
+        <Border Grid.Row="0" BorderThickness="0" Background="{StaticResource TabBarBackgroundBrush}" Panel.ZIndex="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Padding="6">
-                        <Run Text="YouTube" Foreground="Red"/>
-                        <Run Text="Downloader" Foreground="White"/>
-                    </TextBlock>
-                </Viewbox>
+                <Border Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="../Images/logo.png" Stretch="Uniform"/>
+                        <Viewbox Grid.Column="1">
+                            <TextBlock Text="Downloader" Foreground="{StaticResource DefaultTextBrush}" Padding="4, 2"/>
+                        </Viewbox>
+                    </Grid>
+                </Border>
                 <Grid Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Command="{Binding SearchTabButton}">
+                    <Button Grid.Column="0" Command="{Binding ShowSearchCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
@@ -96,7 +98,7 @@
                         </Button.Style>
                         <TextBlock Text="Search" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="1" Command="{Binding LibraryTabButton}">
+                    <Button Grid.Column="1" Command="{Binding ShowLibraryCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
@@ -116,7 +118,7 @@
                         </Button.Style>
                         <TextBlock Text="Library" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="2" Command="{Binding PlayerTabButton}">
+                    <Button Grid.Column="2" Command="{Binding ShowPlayerCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
@@ -184,19 +186,19 @@
                                     </Style.Triggers>
                                 </Style>
                             </MenuItem.Style>
-                            <MenuItem Header="About" Command="{Binding AboutButton}" Style="{StaticResource SubmenuItem}"/>
-                            <MenuItem Header="Settings" Command="{Binding SettingsButton}" Style="{StaticResource SubmenuItem}"/>
+                            <MenuItem Header="About" Command="{Binding ShowAboutCommand}" Style="{StaticResource SubmenuItem}"/>
+                            <MenuItem Header="Settings" Command="{Binding ShowSettingsCommand}" Style="{StaticResource SubmenuItem}"/>
                         </MenuItem>
                     </Menu>
                 </StackPanel>
             </Grid>
         </Border>
         <Grid Grid.Row="1" Background="{StaticResource PrimaryDarkBrush}">
-            <ContentControl Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding VideoPlayerViewModel}" Visibility="{Binding IsVideoPlayerViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding AboutViewModel}" Visibility="{Binding IsAboutViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding SettingsViewModel}" Visibility="{Binding IsSettingsViewVisible, Converter={x:Static local:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding VideoPlayerViewModel}" Visibility="{Binding IsVideoPlayerViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding AboutViewModel}" Visibility="{Binding IsAboutViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding SettingsViewModel}" Visibility="{Binding IsSettingsViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
         </Grid>
     </Grid>
 </Window>                                        

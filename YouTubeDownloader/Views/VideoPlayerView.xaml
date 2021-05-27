@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:YouTubeDownloader" 
+             xmlns:local="clr-namespace:YouTubeDownloader"
+             xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
              mc:Ignorable="d"
              x:Name="videoPlayerView">
 
@@ -31,10 +32,10 @@
             <Border Grid.Row="1" CornerRadius="5" Width="{Binding ElementName=mediaElement, Path=ActualWidth}">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid>
-                        <TextBlock Text="{Binding TimeElapsed, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding VideoDuration, Converter={x:Static local:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding TimeElapsed, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Right"/>
                     </Grid>
-                    <Slider x:Name="slider" Width="{Binding ElementName=mediaElement, Path=ActualWidth}" Minimum="0" Maximum="{Binding VideoDuration, Converter={x:Static local:TimeSpanToDoubleConverter.Instance}}" Thumb.DragStarted="slider_DragStarted" Thumb.DragCompleted="slider_DragCompleted" ValueChanged="slider_ValueChanged"/>
+                    <Slider x:Name="slider" Width="{Binding ElementName=mediaElement, Path=ActualWidth}" Minimum="0" Maximum="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToDoubleConverter.Instance}}" Thumb.DragStarted="slider_DragStarted" Thumb.DragCompleted="slider_DragCompleted" ValueChanged="slider_ValueChanged"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button Style="{StaticResource SimpleButton}" BorderThickness="0" Cursor="Hand" ToolTip="Previous" Command="{Binding PreviousVideoCommand}">
                             <Image Source="../Images/rewind.png" Stretch="None"/>

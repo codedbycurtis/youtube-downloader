@@ -1,37 +1,25 @@
-﻿using System.ComponentModel;
+﻿using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
     /// <summary>
     /// Allows properties to be shared across multiple ViewModels.
     /// </summary>
-    public class SharedViewModel : INotifyPropertyChanged
+    /// <remarks>An alternative to dependency injection.</remarks>
+    public class SharedViewModel : BaseViewModel
     {
-        #region Private Members
+        #region Members
 
         private LibraryVideo _video;
 
         #endregion
 
-        #region Public Events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Public Properties
+        #region Properties
 
         public LibraryVideo Video
         {
             get => _video;
-            set
-            {
-                if (_video != value)
-                {
-                    _video = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Video)));
-                }
-            }
+            set => SetProperty(ref _video, value);
         }
 
         #endregion

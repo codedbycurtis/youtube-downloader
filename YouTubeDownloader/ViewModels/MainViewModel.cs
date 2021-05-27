@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
@@ -12,8 +13,7 @@ namespace YouTubeDownloader
         private bool _isVideoPlayerViewVisible;
         private bool _isAboutViewVisible;
         private bool _isSettingsViewVisible;
-        private static SharedViewModel _sharedViewModel = new SharedViewModel();
-        private static DownloadService _downloadService = new DownloadService();
+        private readonly SharedViewModel _sharedViewModel = new SharedViewModel();
 
         #endregion
 
@@ -65,19 +65,27 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
+        /// Title of the application with the current version appended.
+        /// </summary>
+        public string Title
+        {
+            get => $"YouTube Downloader v{App.AssemblyVersionString}";
+        }
+
+        /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.SearchViewModel"/>.
         /// </summary>
-        public SearchViewModel SearchViewModel { get; } = new SearchViewModel(_downloadService);
+        public SearchViewModel SearchViewModel { get; }
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
         /// </summary>
-        public LibraryViewModel LibraryViewModel { get; } = new LibraryViewModel(_sharedViewModel);
+        public LibraryViewModel LibraryViewModel { get; }
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.VideoPlayerViewModel"/>.
         /// </summary>
-        public VideoPlayerViewModel VideoPlayerViewModel { get; } = new VideoPlayerViewModel(_sharedViewModel);
+        public VideoPlayerViewModel VideoPlayerViewModel { get; }
 
         /// <summary>
         /// An instance of the <see cref="YouTubeDownloader.AboutViewModel"/>.
@@ -93,56 +101,58 @@ namespace YouTubeDownloader
 
         #region Commands
 
-        public ICommand SearchTabButton { get; }        
-        public ICommand LibraryTabButton { get; }
-        public ICommand PlayerTabButton { get; }
-        public ICommand AboutButton { get; }
-        public ICommand SettingsButton { get; }
+        public ICommand ShowSearchCommand { get; }
+        public ICommand ShowLibraryCommand { get; }
+        public ICommand ShowPlayerCommand { get; }
+        public ICommand ShowAboutCommand { get; }
+        public ICommand ShowSettingsCommand { get; }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of <see cref="MainViewModel"/>.
         /// </summary>
         public MainViewModel()
         {
-            // Initialise commands
+            // Initialise services and ViewModels
+            SearchViewModel = new SearchViewModel();
+            LibraryViewModel = new LibraryViewModel(_sharedViewModel);
+            VideoPlayerViewModel = new VideoPlayerViewModel(_sharedViewModel);
 
-            SearchTabButton = new RelayCommand(() =>
+            // Initialise commands
+            ShowSearchCommand = new RelayCommand(() =>
             {
                 IsSearchViewVisible = true;
                 IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
 
-            LibraryTabButton = new RelayCommand(() =>
+            ShowLibraryCommand = new RelayCommand(() =>
             {
                 IsLibraryViewVisible = true;
                 IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
 
-            PlayerTabButton = new RelayCommand(() =>
+            ShowPlayerCommand = new RelayCommand(() =>
             {
                 IsVideoPlayerViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
 
-
-            AboutButton = new RelayCommand(() =>
+            ShowAboutCommand = new RelayCommand(() =>
             {
                 IsAboutViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsSettingsViewVisible = false;
             });
 
-            SettingsButton = new RelayCommand(() =>
+            ShowSettingsCommand = new RelayCommand(() =>
             {
                 IsSettingsViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = false;
             });
 
-            // Bind event handlers
-            _sharedViewModel.PropertyChanged += OnSharedViewModelPropertyChanged;
+            _sharedViewModel.PropertyChanged += OnSharedViewModelPropertyChanged; // Bind event handler
         }
 
         #endregion
@@ -152,8 +162,6 @@ namespace YouTubeDownloader
         /// <summary>
         /// Handles PropertyChanged events invoked by the <see cref="_sharedViewModel"/>.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OnSharedViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Video")

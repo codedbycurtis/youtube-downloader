@@ -91,21 +91,21 @@ namespace YouTubeDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_download_333333_48 {
+        internal static System.Drawing.Icon favicon {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_download_333333_48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("favicon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap material_rounded_play_333333_48 {
+        internal static System.Drawing.Bitmap logo {
             get {
-                object obj = ResourceManager.GetObject("material_rounded_play_333333_48", resourceCulture);
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -227,16 +227,6 @@ namespace YouTubeDownloader.Properties {
             get {
                 object obj = ResourceManager.GetObject("x_octagon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon youtube_play_button_48 {
-            get {
-                object obj = ResourceManager.GetObject("youtube_play_button_48", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
     }

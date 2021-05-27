@@ -7,42 +7,34 @@
              mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Border CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
-            </Border.BorderBrush>
+        <Border CornerRadius="5" BorderBrush="{StaticResource TabBarBackgroundBrush}" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
             <StackPanel>
                 <TextBlock Padding="20" FontSize="18">
                 <Run Text="YT" Foreground="Red"/>
-                <Run Text="Downloader" Foreground="{StaticResource PrimaryLightBrush}"/>
+                <Run Text="Downloader" Foreground="{StaticResource DefaultTextBrush}"/>
                 </TextBlock>
-                <Border BorderThickness="0, 1, 0, 0">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
-                    </Border.BorderBrush>
-                </Border>
+                <Border BorderBrush="{StaticResource TabBarBackgroundBrush}" BorderThickness="0, 1, 0, 0"/>
                 <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
                     <Run Text="App Version:"/>
                     <Run Text="{Binding AssemblyVersionString, Mode=OneWay}"/>
                     <LineBreak/>
-                    <Run Text="API Version: Prerelease 6.0.0-alpha"/>
+                    <Run Text="YoutubeExplode Version:"/>
+                    <Run Text="{Binding YoutubeExplodeVersionString, Mode=OneWay}"/>
                     <LineBreak/>
                     <LineBreak/>
                     <Run Text="Copyright © 2021 Curtis Caulfield. All rights reserved."/>
                 </TextBlock>
-                <Border BorderThickness="0, 0, 0, 1">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
-                    </Border.BorderBrush>
-                </Border>
+                <Border BorderBrush="{StaticResource TabBarBackgroundBrush}" BorderThickness="0, 0, 0, 1"/>
                 <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
                 <Run Text="Attributions:" FontSize="20"/>
                 <LineBreak/>
                 <LineBreak/>
-                <Run Text="All icons provided by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://feathericons.com">Feather Icons</Hyperlink>
+                <Run Text="All icons provided by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://feathericons.com">Feather Icons</Hyperlink><Run Text=", unless otherwise stated."/>
+                <LineBreak/>
+                <Run Text="App icon created by me."/>
                 <LineBreak/>
                 <LineBreak/>
-                <Run Text="Uses the "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz/YoutubeExplode">YoutubeExplode API</Hyperlink><Run Text=" by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz">Tyrrrz</Hyperlink><Run Text=" on Github."/>
+                <Run Text="Uses the "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz/YoutubeExplode">YoutubeExplode</Hyperlink><Run Text=" API by "/><Hyperlink Command="{Binding OpenWebUrlCommand}" CommandParameter="https://github.com/Tyrrrz">Tyrrrz</Hyperlink><Run Text=" on Github."/>
                 </TextBlock>
             </StackPanel>
         </Border>

@@ -1,21 +1,39 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:YouTubeDownloader">
-
-    <!-- Primary dark -->
+    
     <Color x:Key="PrimaryDarkColour">#121212</Color>
     <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDarkColour}"/>
-    
-    <!-- Primary light -->
+
+    <Color x:Key="DefaultTextColour">White</Color>
+    <SolidColorBrush x:Key="DefaultTextBrush" Color="{StaticResource DefaultTextColour}"/>
+
+    <Color x:Key="TabBarBackgroundColour">#1E1E1E</Color>
+    <SolidColorBrush x:Key="TabBarBackgroundBrush" Color="{StaticResource TabBarBackgroundColour}"/>
+
+    <Color x:Key="TabButtonHoverColour">#CDCDCD</Color>
+    <SolidColorBrush x:Key="TabButtonHoverBrush" Color="{StaticResource TabButtonHoverColour}"/>
+
+    <Color x:Key="TabButtonSelectedColour">White</Color>
+    <SolidColorBrush x:Key="TabButtonSelectedBrush" Color="{StaticResource TabButtonSelectedColour}"/>
+
+    <Color x:Key="PlaylistItemHoverColour">#252525</Color>
+    <SolidColorBrush x:Key="PlaylistItemHoverBrush" Color="{StaticResource PlaylistItemHoverColour}"/>
+
+    <Color x:Key="MenuItemPressedColour">#121212</Color>
+    <SolidColorBrush x:Key="MenuItemPressedBrush" Color="{StaticResource MenuItemPressedColour}"/>
+
     <Color x:Key="PrimaryLightColour">#FFFFFF</Color>
     <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColour}"/>
     
-    <!-- Secondary light -->
     <Color x:Key="SecondaryLightColour">#CDCDCD</Color>
     <SolidColorBrush x:Key="SecondaryLightBrush" Color="{StaticResource SecondaryLightColour}"/>
     
-    <!-- Tertiary light -->
     <Color x:Key="TertiaryLightColour">#AFAFAF</Color>
     <SolidColorBrush x:Key="TertiaryLightBrush" Color="{StaticResource TertiaryLightColour}"/>
+
+    <!-- ToolTip and Menu Colour -->
+    <Color x:Key="ToolTipMenuColour">#3C3C3C</Color>
+    <SolidColorBrush x:Key="ToolTipMenuBrush" Color="{StaticResource ToolTipMenuColour}"/>
 
 </ResourceDictionary>

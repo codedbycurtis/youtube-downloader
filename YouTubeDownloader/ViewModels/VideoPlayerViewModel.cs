@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Timers;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Framework;
 
 namespace YouTubeDownloader
 {
@@ -71,27 +72,25 @@ namespace YouTubeDownloader
         #region Constructor
 
         /// <summary>
-        /// Default constructor
+        /// Initialises a new instance of <see cref="VideoPlayerViewModel"/> with the specified <see cref="SharedViewModel"/>.
         /// </summary>
         public VideoPlayerViewModel(SharedViewModel sharedViewModel)
         {
-            // Initialise properties
-
+            // Initialize properties
             VideoPath = "";
             TimeElapsed = new TimeSpan(0, 0, 0, 0, 0);
 
             _sharedViewModel = sharedViewModel;
             _sharedViewModel.PropertyChanged += OnSharedModelPropertyChanged; // Bind PropertyChanged event handler
 
-            // Initialise timer
+            // Initialize timer
             _timer = new Timer();
             _timer.BeginInit();
             _timer.Interval = 100;
             _timer.Elapsed += OnTimerElapsed;
             _timer.EndInit();
 
-            // Initialise commands
-
+            // Initialize commands
             LoadedCommand = new RelayCommand<IMediaService>((mediaService) =>
             {
                 _mediaService = mediaService;
@@ -133,7 +132,7 @@ namespace YouTubeDownloader
         {
             if (e.PropertyName == "Video")
             {
-                VideoPath = $"{Globals.VideoFolderPath}\\{_sharedViewModel.Video.Id}.mp4";
+                VideoPath = $"{Global.VideoFolderPath}\\{_sharedViewModel.Video.Id}.mp4";
                 VideoDuration = _sharedViewModel.Video.Duration;
                 IsPlaying = true;
                 _mediaService.Play();
@@ -170,35 +169,35 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Skips to the next video in the <see cref="Globals.Library"/>.
+        /// Skips to the next video in the <see cref="Global.Library"/>.
         /// </summary>
         private void NextVideo()
         {
-            var currentIndex = Globals.Library.IndexOf(_sharedViewModel.Video);
+            var currentIndex = Global.Library.IndexOf(_sharedViewModel.Video);
 
-            if (currentIndex == (Globals.Library.Count - 1))
-                _sharedViewModel.Video = Globals.Library[0];
+            if (currentIndex == (Global.Library.Count - 1))
+                _sharedViewModel.Video = Global.Library[0];
 
             else
-                _sharedViewModel.Video = Globals.Library[currentIndex + 1];
+                _sharedViewModel.Video = Global.Library[currentIndex + 1];
 
             TimeElapsed = TimeSpan.Zero;
             _mediaService.Reset();
         }
 
         /// <summary>
-        /// Skips to the previous video in the <see cref="Globals.Library"/>.
+        /// Skips to the previous video in the <see cref="Global.Library"/>.
         /// </summary>
         private void PreviousVideo()
         {
-            var currentIndex = Globals.Library.IndexOf(_sharedViewModel.Video);
-            var maxIndex = Globals.Library.Count - 1;
+            var currentIndex = Global.Library.IndexOf(_sharedViewModel.Video);
+            var maxIndex = Global.Library.Count - 1;
 
             if (currentIndex == 0)
-                _sharedViewModel.Video = Globals.Library[maxIndex];
+                _sharedViewModel.Video = Global.Library[maxIndex];
 
             else
-                _sharedViewModel.Video = Globals.Library[currentIndex - 1];
+                _sharedViewModel.Video = Global.Library[currentIndex - 1];
 
             TimeElapsed = TimeSpan.Zero;
             _mediaService.Reset();
