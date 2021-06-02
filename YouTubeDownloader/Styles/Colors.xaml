@@ -36,4 +36,8 @@
     <Color x:Key="ToolTipMenuColour">#3C3C3C</Color>
     <SolidColorBrush x:Key="ToolTipMenuBrush" Color="{StaticResource ToolTipMenuColour}"/>
 
+    <!-- Dialog Window Background Color -->
+    <Color x:Key="DialogBackgroundColor">#1E1E1E</Color>
+    <SolidColorBrush x:Key="DialogBackgroundBrush" Color="{StaticResource DialogBackgroundColor}" />
+
 </ResourceDictionary>

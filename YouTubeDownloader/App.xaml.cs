@@ -4,6 +4,9 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Newtonsoft.Json;
+using YouTubeDownloader.Utils;
+using YouTubeDownloader.Models;
+using YouTubeDownloader.ViewModels.Dialogs;
 
 namespace YouTubeDownloader
 {
@@ -22,8 +25,15 @@ namespace YouTubeDownloader
         /// </summary>
         public static string YoutubeExplodeVersionString { get; } = AssemblyName.GetAssemblyName("YoutubeExplode.dll").Version.ToString(3);
 
+        /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
+            Application.Current.DispatcherUnhandledException += (_, ea) =>
+            {
+                Dialog.Service.OpenDialog(new ExceptionViewModel("Something went wrong", ea.Exception.Message));
+                ea.Handled = true;
+            };
+
             // Check that required directories exist
             EnsureRequiredDirectoriesExist();
 
@@ -51,7 +61,7 @@ namespace YouTubeDownloader
                 else { Application.Current.Shutdown(); }
             }
 
-            finally // Perform default initialisation procedures
+            finally // Perform default initialization procedures
             {
                 // Ensures that ToolTip controls don't close automatically after 5 seconds
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));

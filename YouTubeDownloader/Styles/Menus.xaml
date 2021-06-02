@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:YouTubeDownloader">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Colours.xaml"/>
+        <ResourceDictionary Source="Colors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="TopLevelMenuItem" TargetType="{x:Type MenuItem}">

@@ -7,6 +7,9 @@ namespace YouTubeDownloader
     /// </summary>
     public partial class SearchView : UserControl
     {
-        public SearchView() => InitializeComponent();
+        public SearchView()
+        {
+            InitializeComponent();
+        }
     }
 }

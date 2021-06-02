@@ -18,7 +18,10 @@ namespace YouTubeDownloader.ViewModels.Framework
         /// Fires a <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property whose value has changed.</param>
-        public void NotifyPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Updates a property's value and fires the <see cref="PropertyChanged"/> event.

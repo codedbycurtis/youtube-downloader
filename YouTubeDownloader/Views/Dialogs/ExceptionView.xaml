@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="YouTubeDownloader.Views.Dialogs.ExceptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dialogViewModels="clr-namespace:YouTubeDownloader.ViewModels.Dialogs"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=dialogViewModels:ExceptionViewModel}">
+    <TextBlock Text="{Binding Message}"
+               Foreground="{StaticResource DefaultTextBrush}"
+               FontSize="16"
+               HorizontalAlignment="Center"/>
+</UserControl>

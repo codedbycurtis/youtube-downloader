@@ -132,7 +132,7 @@
                                                                                                    FontSize="18"
                                                                                                    Foreground="{StaticResource PrimaryLightBrush}"/>
                                                                                         <TextBlock Padding="12, 3"
-                                                                                                   Text="{Binding Author}"
+                                                                                                   Text="{Binding Author.Title}"
                                                                                                    FontSize="16"
                                                                                                    Foreground="{StaticResource TertiaryLightBrush}"/>
                                                                                     </StackPanel>

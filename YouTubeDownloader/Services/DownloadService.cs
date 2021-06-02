@@ -3,7 +3,7 @@ using System.Linq;
 using System.IO;
 using YoutubeExplode.Converter;
 using YoutubeExplode.Videos.Streams;
-using YoutubeExplode.Search;
+using YoutubeExplode.Videos;
 using YouTubeDownloader.Utils;
 
 namespace YouTubeDownloader
@@ -14,44 +14,48 @@ namespace YouTubeDownloader
     public sealed class DownloadService
     {
         /// <summary>
-        /// Downloads a video's highest-quality video and audio streams - multiplexing them together.
+        /// Downloads an already multiplexed or audio/video-only stream.
         /// </summary>
         /// <param name="video">The video to download.</param>
-        public async Task DownloadVideoAsync(VideoSearchResult video)
+        /// <param name="streamInfo">Multiplexed or audio/video-only stream information.</param>
+        public async Task DownloadSingleStreamAsync(IVideo video, IStreamInfo streamInfo)
         {
-            // Ensure the video has not been downloaded previously or is currently downloading
             if (!Global.Library.Any(o => o.Id == video.Id.Value))
             {
-                // Get stream manifest
-                var streamManifest = await Youtube.Client.Videos.Streams.GetManifestAsync(video.Id);
+                await Youtube.Client.Videos.Streams.DownloadAsync(
+                    streamInfo,
+                    $@"{Global.VideoFolderPath}\{video.Id.Value}.{streamInfo.Container.Name}");
+            }
+        }
 
-                /* Get highest-quality mp4 encoded audio and video streams
-                * 
-                * Only mp4-encoded video streams are used because playback of webm and other popular codecs is unsupported on
-                * MediaElement controls unless the codec is installed on the user's system
-                * Playback of these videos would require packaging the necessary codecs with the application, which is
-                * unfeasible given how many there are
-                */
-                // Attempts to get audio-only streams with the same encoding as the video
-                var audioStreamInfo = streamManifest.GetAudioStreams().GetWithHighestBitrate();
-                var videoStreamInfo = streamManifest.GetVideoStreams().GetWithHighestVideoQuality();
+        /// <summary>
+        /// Downloads separate audio and video streams, and multiplexes them together.
+        /// </summary>
+        /// <param name="video">The video to download.</param>
+        /// <param name="audioStreamInfo">Audio stream information.</param>
+        /// <param name="videoStreamInfo">Video stream information.</param>
+        /// <returns></returns>
+        public async Task DownloadMultipleStreamAsync(IVideo video, IStreamInfo audioStreamInfo, IStreamInfo videoStreamInfo)
+        {
+            if (!Global.Library.Any(o => o.Id == video.Id.Value))
+            {
                 var streamInfos = new IStreamInfo[] { audioStreamInfo, videoStreamInfo };
 
-                // Use converter extensions to download and mux both streams, and output an mp4 file
-                var conversion = new ConversionRequestBuilder($@"{Global.VideoFolderPath}\{video.Id.Value}.mp4")
-                    .SetFormat("mp4")
+                var conversionRequest = new ConversionRequestBuilder(
+                    $@"{Global.VideoFolderPath}\{video.Id.Value}.{videoStreamInfo.Container.Name}")
+                    .SetFormat(videoStreamInfo.Container.Name)
                     .SetPreset(ConversionPreset.Medium)
                     .Build();
 
-                await Youtube.Client.Videos.DownloadAsync(streamInfos, conversion);
+                await Youtube.Client.Videos.DownloadAsync(streamInfos, conversionRequest);
             }
         }
 
         /// <summary>
         /// Downloads a video's thumbnail.
         /// </summary>
-        /// <param name="video">The video with the desired thumbnail.</param>
-        public async Task DownloadThumbnailAsync(VideoSearchResult video)
+        /// <param name="video">The video with thumbnail to download.</param>
+        public async Task DownloadThumbnailAsync(IVideo video)
         {
             using (var response = await Http.Client.GetAsync(video.Thumbnails
                 .OrderByDescending(o => o.Resolution.Area)

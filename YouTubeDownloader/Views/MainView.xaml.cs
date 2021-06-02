@@ -7,6 +7,9 @@ namespace YouTubeDownloader
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView() => InitializeComponent();
+        public MainView()
+        {
+            InitializeComponent();
+        }
     }
 }

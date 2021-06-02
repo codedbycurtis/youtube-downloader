@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Models
 {
     /// <summary>
     /// Encapsulates metadata relevant to video playback.

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Utils
 {
     /// <summary>
     /// Provides methods for serializing and deserializing data in the Json format.

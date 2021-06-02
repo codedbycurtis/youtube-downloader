@@ -122,16 +122,30 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ThumbnailUrlExtractor.cs" />
     <Compile Include="Converters\TimeSpanToDoubleConverter.cs" />
-    <Compile Include="Internal\QueryType.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\DownloadService.cs" />
+    <Compile Include="Services\IDialogWindow.cs" />
     <Compile Include="Services\IMediaService.cs" />
     <Compile Include="Services\QueryService.cs" />
+    <Compile Include="Utils\Dialog.cs" />
     <Compile Include="Utils\Http.cs" />
     <Compile Include="Utils\Youtube.cs" />
+    <Compile Include="ViewModels\Dialogs\ExceptionViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\VideoDownloadOptionsViewModel.cs" />
+    <Compile Include="ViewModels\Framework\BaseDialogViewModel.cs" />
     <Compile Include="ViewModels\Framework\BaseViewModel.cs" />
     <Compile Include="ViewModels\Framework\RelayCommand.cs" />
     <Compile Include="ViewModels\SharedViewModel.cs" />
     <Compile Include="ViewModels\VideoPlayerViewModel.cs" />
+    <Compile Include="Views\Dialogs\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\ExceptionView.xaml.cs">
+      <DependentUpon>ExceptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\VideoDownloadOptionsView.xaml.cs">
+      <DependentUpon>VideoDownloadOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VideoPlayerView.xaml.cs">
       <DependentUpon>VideoPlayerView.xaml</DependentUpon>
     </Compile>
@@ -155,7 +169,7 @@
     </Compile>
     <Compile Include="Internal\Global.cs" />
     <Compile Include="Models\LibraryVideo.cs" />
-    <Compile Include="Internal\Json.cs" />
+    <Compile Include="Utils\Json.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
@@ -167,6 +181,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Styles\ToolTips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ExceptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\VideoDownloadOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\Colours.xaml">
+    <Page Include="Styles\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -293,5 +323,10 @@
   <ItemGroup>
     <Resource Include="favicon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

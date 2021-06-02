@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
 using YouTubeDownloader.ViewModels.Framework;
+using YouTubeDownloader.ViewModels.Dialogs;
+using YouTubeDownloader.Utils;
 
 namespace YouTubeDownloader
 {
@@ -14,9 +13,8 @@ namespace YouTubeDownloader
 
         private bool _isBusy;
         private string _searchQuery;
-        private readonly QueryService _queryService = new QueryService();
-        private readonly DownloadService _downloadService = new DownloadService();
         private IReadOnlyList<IVideo> _requestedVideos;
+        private readonly QueryService _queryService = new QueryService();
 
         #endregion
 
@@ -72,11 +70,16 @@ namespace YouTubeDownloader
                     IsBusy = true;
                     try
                     {
-                        RequestedVideos = await _queryService.SearchAsync(SearchQuery);
-                    }
-                    catch (Exception ex)
-                    {
-                        _ = MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK);
+                        if (VideoId.TryParse(SearchQuery).HasValue)
+                        {
+                            var video = await Youtube.Client.Videos.GetAsync(VideoId.Parse(SearchQuery));
+                            IsBusy = false;
+                            Dialog.Service.OpenDialog(new VideoDownloadOptionsViewModel(video.Title, video));
+                        }
+                        else
+                        {
+                            RequestedVideos = await _queryService.SearchAsync(SearchQuery);
+                        }
                     }
                     finally
                     {
@@ -85,37 +88,10 @@ namespace YouTubeDownloader
                 }
             });
 
-            ShowDownloadDialogCommand = new RelayCommand(() =>
+            ShowDownloadDialogCommand = new RelayCommand<IVideo>((video) =>
             {
-
+                Dialog.Service.OpenDialog(new VideoDownloadOptionsViewModel(video.Title, video));
             });
-
-            //DownloadCommand = new RelayCommand<VideoSearchResult>(async (video) =>
-            //{
-            //    IsBusy = true;
-            //    try
-            //    {
-            //        await _downloadService.DownloadVideoAsync(video);
-            //        await _downloadService.DownloadThumbnailAsync(video);
-
-            //        Global.Library.Add(
-            //            new LibraryVideo(
-            //                video.Id.Value,
-            //                video.Title,
-            //                video.Author.Title,
-            //                video.Duration.Value));
-
-            //        Json.Save(Global.Library, Global.LibraryFilePath);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _ = MessageBox.Show(ex.ToString(), "Unexpected exception thrown", MessageBoxButton.OK);
-            //    }
-            //    finally
-            //    {
-            //        IsBusy = false;
-            //    }
-            //});
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using YouTubeDownloader.Models;
 
 namespace YouTubeDownloader
 {

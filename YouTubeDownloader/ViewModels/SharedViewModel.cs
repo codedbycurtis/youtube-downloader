@@ -1,4 +1,5 @@
 ﻿using YouTubeDownloader.ViewModels.Framework;
+using YouTubeDownloader.Models;
 
 namespace YouTubeDownloader
 {

@@ -7,6 +7,9 @@ namespace YouTubeDownloader
     /// </summary>
     public partial class AboutView : UserControl
     {
-        public AboutView() => InitializeComponent();
+        public AboutView()
+        {
+            InitializeComponent();
+        }
     }
 }

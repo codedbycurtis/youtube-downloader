@@ -1,0 +1,28 @@
+﻿<Window x:Class="YouTubeDownloader.Views.Dialogs.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="450" Width="800"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome  CaptionHeight="42"
+                       CornerRadius="3"
+                       ResizeBorderThickness="10"/>
+    </WindowChrome.WindowChrome>
+    
+    <StackPanel>
+        <Grid Height="42">
+            <TextBlock Text="{Binding Title}"
+                   FontSize="18"
+                   Foreground="{StaticResource DefaultTextBrush}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+        </Grid>
+        <ContentControl Content="{Binding}" />
+    </StackPanel>
+</Window>

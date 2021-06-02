@@ -26,3 +26,5 @@ $zip.Dispose()
 Write-Host "Cleaning up..."
 Remove-Item $zipPath
 Copy-Item "$ffmpegPath" "$PSScriptRoot\bin\Debug"
+
+Pause
