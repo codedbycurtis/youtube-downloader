@@ -49,17 +49,101 @@
 
     <!-- Tab selection button -->
     <Style x:Key="TabButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
-        <Setter Property="Foreground" Value="{StaticResource TertiaryLightBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource TertiaryLightBrush}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{StaticResource TertiaryLightBrush}" />
+        <Setter Property="BorderThickness" Value="0, 0, 0, 2" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonHoverBrush}"/>
+                <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonHoverBrush}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonSelectedBrush}"/>
+                <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonSelectedBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- Dialog button -->
+    <Style x:Key="DialogButton" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource DefaultTextBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource PlaylistItemHoverBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Call-To-Action Primary Button -->
+    <Style x:Key="CtaPrimaryButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#016AFB" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Padding="8, 6"
+                            CornerRadius="3"
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#004CDD" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#0038C9" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Call-To-Action Secondary Button -->
+    <Style x:Key="CtaSecondaryButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Padding="8, 6"
+                            CornerRadius="3"
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#505050" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#3C3C3C" />
             </Trigger>
         </Style.Triggers>
     </Style>

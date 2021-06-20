@@ -10,14 +10,14 @@ namespace YouTubeDownloader.Converters
     /// Creates a <see cref="BitmapImage"/> that is cached in memory from a path or URL.
     /// </summary>
     [ValueConversion(typeof(string), typeof(BitmapImage))]
-    public sealed class BitmapImageCreator : IValueConverter
+    public sealed class BitmapImageConverter : IValueConverter
     {
-        public static BitmapImageCreator Instance { get; } = new BitmapImageCreator();
+        public static BitmapImageConverter Instance => new BitmapImageConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var videoId = (string)value;
-            var path = $@"{Global.ThumbnailFolderPath}\{videoId}.jpg";
+            var videoId = value as string;
+            var path = $"{App.ThumbnailFolderPath}/{videoId}.jpg";
 
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
             {
@@ -36,8 +36,6 @@ namespace YouTubeDownloader.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

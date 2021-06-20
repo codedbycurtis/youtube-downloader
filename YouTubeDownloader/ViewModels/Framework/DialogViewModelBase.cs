@@ -2,29 +2,29 @@
 
 namespace YouTubeDownloader.ViewModels.Framework
 {
-    public abstract class BaseDialogViewModel : BaseViewModel
+    public abstract class DialogViewModelBase : BaseViewModel
     {
         public string Title { get; set; }
         public string Message { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BaseDialogViewModel"/> with the specified <paramref name="title"/> and <paramref name="message"/>.
+        /// Initializes a new instance of <see cref="DialogViewModelBase"/> with the specified <paramref name="title"/> and <paramref name="message"/>.
         /// </summary>
-        public BaseDialogViewModel(string title, string message)
+        public DialogViewModelBase(string title, string message)
         {
             Title = title;
             Message = message;
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BaseDialogViewModel"/> with the specified <paramref name="title"/>.
+        /// Initializes a new instance of <see cref="DialogViewModelBase"/> with the specified <paramref name="title"/>.
         /// </summary>
-        public BaseDialogViewModel(string title) : this(title, "") { }
+        public DialogViewModelBase(string title) : this(title, "") { }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="BaseDialogViewModel"/>.
+        /// Initializes a new instance of <see cref="DialogViewModelBase"/>.
         /// </summary>
-        public BaseDialogViewModel() : this("", "") { }
+        public DialogViewModelBase() : this("", "") { }
 
         /// <summary>
         /// Closes the specified <paramref name="dialog"/>.

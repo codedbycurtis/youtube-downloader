@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using YoutubeExplode.Videos;
 using YouTubeDownloader.ViewModels.Framework;
 using YouTubeDownloader.ViewModels.Dialogs;
 using YouTubeDownloader.Utils;
+using YouTubeDownloader.Services;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
-        #region Members
+        #region Fields
 
         private bool _isBusy;
         private string _searchQuery;
         private IReadOnlyList<IVideo> _requestedVideos;
-        private readonly QueryService _queryService = new QueryService();
 
         #endregion
 
@@ -73,12 +74,19 @@ namespace YouTubeDownloader
                         if (VideoId.TryParse(SearchQuery).HasValue)
                         {
                             var video = await Youtube.Client.Videos.GetAsync(VideoId.Parse(SearchQuery));
-                            IsBusy = false;
-                            Dialog.Service.OpenDialog(new VideoDownloadOptionsViewModel(video.Title, video));
+                            if (video.Duration.Value == TimeSpan.Zero)
+                            {
+                                Dialog.Service.OpenDialog(new ExceptionViewModel("Something went wrong", "Specified ID refers to an ongoing livestream and cannot be downloaded."));
+                            }
+                            else
+                            {
+                                IsBusy = false;
+                                Dialog.Service.OpenDialog(await VideoDownloadOptionsViewModel.Create(video.Title, video));
+                            }
                         }
                         else
                         {
-                            RequestedVideos = await _queryService.SearchAsync(SearchQuery);
+                            RequestedVideos = await QueryService.SearchAsync(SearchQuery);
                         }
                     }
                     finally
@@ -87,10 +95,16 @@ namespace YouTubeDownloader
                     }
                 }
             });
-
-            ShowDownloadDialogCommand = new RelayCommand<IVideo>((video) =>
+            ShowDownloadDialogCommand = new RelayCommand<IVideo>(async (video) =>
             {
-                Dialog.Service.OpenDialog(new VideoDownloadOptionsViewModel(video.Title, video));
+                if (!video.Duration.HasValue)
+                {
+                    Dialog.Service.OpenDialog(new ExceptionViewModel("Something went wrong", "Specified ID refers to an ongoing livestream and cannot be downloaded."));
+                }
+                else
+                {
+                    Dialog.Service.OpenDialog(await VideoDownloadOptionsViewModel.Create(video.Title, video));
+                }
             });
         }
 

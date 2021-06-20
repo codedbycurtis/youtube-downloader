@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Reflection;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using Newtonsoft.Json;
 using YouTubeDownloader.Utils;
 using YouTubeDownloader.Models;
 using YouTubeDownloader.ViewModels.Dialogs;
+using System.Linq;
+using YouTubeDownloader.ViewModels;
+using YouTubeDownloader.ViewModels.Framework;
+using YouTubeDownloader.ViewModels.Components;
 
 namespace YouTubeDownloader
 {
@@ -16,67 +17,128 @@ namespace YouTubeDownloader
     public partial class App : Application
     {
         /// <summary>
+        /// Relative path to the library folder.
+        /// </summary>
+        private const string UserdataFolderPath = "Userdata";
+
+        /// <summary>
+        /// Relative path to the video folder.
+        /// </summary>
+        public const string VideoFolderPath = "Videos";
+
+        /// <summary>
+        /// Relative path to the thumbnail folder.
+        /// </summary>
+        public const string ThumbnailFolderPath = "Thumbnails";
+        
+        /// <summary>
+        /// The relative path to the user library file.
+        /// </summary>
+        public static string LibraryFilePath => $"{UserdataFolderPath}/library.json";
+
+        /// <summary>
         /// The string representation of the current application's <see cref="System.Version"/>.
         /// </summary>
-        public static string AssemblyVersionString { get; } = typeof(App).Assembly.GetName().Version.ToString(3);
+        public static string AssemblyVersionString => typeof(App).Assembly.GetName().Version.ToString(3);
 
         /// <summary>
         /// The string representation of the YoutubeExplode API's <see cref="System.Version"/>.
         /// </summary>
-        public static string YoutubeExplodeVersionString { get; } = AssemblyName.GetAssemblyName("YoutubeExplode.dll").Version.ToString(3);
+        public static string YoutubeExplodeVersionString => AssemblyName.GetAssemblyName("YoutubeExplode.dll").Version.ToString(3);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The user's video library.
+        /// </summary>
+        public static Library VideoLibrary { get; private set; } = new Library();
+
+        /// <summary>
+        /// Custom startup procedures that enable dependency injection and more.
+        /// </summary>
         protected override void OnStartup(StartupEventArgs e)
         {
-            Application.Current.DispatcherUnhandledException += (_, ea) =>
+            base.OnStartup(e);
+
+            // Displays a custom dialog in the event of an exception
+            Application.Current.DispatcherUnhandledException += (_, args) =>
             {
-                Dialog.Service.OpenDialog(new ExceptionViewModel("Something went wrong", ea.Exception.Message));
-                ea.Handled = true;
+                Dialog.Service.OpenDialog(new ExceptionViewModel("Something went wrong", args.Exception.Message));
+                args.Handled = true;
             };
 
-            // Check that required directories exist
+            // Checks that required directories exist
             EnsureRequiredDirectoriesExist();
 
-            // Attempts to load the user library from the specified path. . .
-            try { Global.Library = Json.Load<ObservableCollection<LibraryVideo>>(Global.LibraryFilePath); }
+            // Attempts to load the user's library from the specified path
+            if (File.Exists(LibraryFilePath)) { VideoLibrary = Library.Load(); }
+            else { VideoLibrary.Save(); }
 
-            catch (FileNotFoundException) { } /* . . .and handles any FileNotFoundExceptions.
-                                                       * In this instance, a FileNotFoundException simply means that the user does
-                                                       * not have a saved video library. We can ignore this.
-                                                       */
+            // Initialize dependencies for injection
+            ISessionContext sessionContext = new SessionContext();
+            IViewModelFactory viewModelFactory = new ViewModelFactory(sessionContext);
+            var mainViewModel = new MainViewModel(viewModelFactory);
+            MainWindow = new MainView() { DataContext = mainViewModel };
 
-            // If the library json file cannot be read, it is purged along with all downloaded videos and thumbnails.
-            catch (JsonException)
-            {
-                var result = MessageBox.Show("Library data could not be read.\nContinuing will result in the deletion of all downloaded videos.", "Json deserialization exception thrown", MessageBoxButton.OKCancel);
+            // Show the MainWindow
+            MainWindow.Show();
+        }
 
-                if (result == MessageBoxResult.OK)
-                {
-                    Directory.Delete(Global.DataFolderPath, true);
-                    Directory.Delete(Global.VideoFolderPath, true);
-                    Directory.Delete(Global.ThumbnailFolderPath, true);
-                    EnsureRequiredDirectoriesExist();
-                }
-
-                else { Application.Current.Shutdown(); }
-            }
-
-            finally // Perform default initialization procedures
-            {
-                // Ensures that ToolTip controls don't close automatically after 5 seconds
-                ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
-                base.OnStartup(e);
-            }
+        /// <summary>
+        /// Deletes any unused files before shutting down the application.
+        /// </summary>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            // Clean directories of temporary files
+            DeleteUnusedFiles();
+            base.OnExit(e);
         }
 
         /// <summary>
         /// Checks if required directories exist, and if not, creates them.
         /// </summary>
-        private void EnsureRequiredDirectoriesExist()
+        private static void EnsureRequiredDirectoriesExist()
         {
-            if (!Directory.Exists(Global.DataFolderPath)) { _ = Directory.CreateDirectory(Global.DataFolderPath); }
-            if (!Directory.Exists(Global.VideoFolderPath)) { _ = Directory.CreateDirectory(Global.VideoFolderPath); }
-            if (!Directory.Exists(Global.ThumbnailFolderPath)) { _ = Directory.CreateDirectory(Global.ThumbnailFolderPath); }
+            if (!Directory.Exists(UserdataFolderPath)) { _ = Directory.CreateDirectory(UserdataFolderPath); }
+            if (!Directory.Exists(VideoFolderPath)) { _ = Directory.CreateDirectory(VideoFolderPath); }
+            if (!Directory.Exists(ThumbnailFolderPath)) { _ = Directory.CreateDirectory(ThumbnailFolderPath); }
+        }
+
+        /// <summary>
+        /// Iterates through all video and image files and deletes any leftovers.
+        /// </summary>
+        private static void DeleteUnusedFiles()
+        {
+            var videoFiles = Directory.GetFiles(VideoFolderPath);
+            for (int i = 0; i < videoFiles.Length; ++i)
+            {
+                // Delete video files ending in '.tmp'
+                if (videoFiles[i].Substring(videoFiles[i].LastIndexOf('.') + 1) == "tmp") { File.Delete(videoFiles[i]); }
+
+                // Normalize file path
+                videoFiles[i] = videoFiles[i].Replace('\\', '/');
+
+                // Get file name
+                var id = videoFiles[i].Substring(
+                    videoFiles[i].LastIndexOf('/') + 1,
+                    videoFiles[i].LastIndexOf('.') - 1 - videoFiles[i].LastIndexOf('/'));
+
+                // Delete the file if it is not in the user's library
+                if (!VideoLibrary.Any(o => o.Id == id)) { File.Delete(videoFiles[i]); }
+            }
+
+            var imageFiles = Directory.GetFiles(ThumbnailFolderPath);
+            for (int i = 0; i < imageFiles.Length; ++i)
+            {
+                // Normalize file path
+                imageFiles[i] = imageFiles[i].Replace('\\', '/');
+
+                // Get file name
+                var id = imageFiles[i].Substring(
+                    imageFiles[i].LastIndexOf('/') + 1,
+                    imageFiles[i].LastIndexOf('.') - 1 - imageFiles[i].LastIndexOf('/'));
+
+                // Delete the file if it is not in the user's library
+                if (!VideoLibrary.Any(o => o.Id == id)) { File.Delete(imageFiles[i]); }
+            }
         }
     }
 }

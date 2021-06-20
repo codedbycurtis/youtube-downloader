@@ -8,9 +8,9 @@ namespace YouTubeDownloader.Converters
     /// Formats a video's view count as a <see cref="string"/>.
     /// </summary>
     [ValueConversion(typeof(long), typeof(string))]
-    public sealed class ViewCountFormatter : IValueConverter
+    public sealed class ViewCountConverter : IValueConverter
     {
-        public static ViewCountFormatter Instance { get; } = new ViewCountFormatter();
+        public static ViewCountConverter Instance => new ViewCountConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -49,8 +49,6 @@ namespace YouTubeDownloader.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

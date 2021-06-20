@@ -4,46 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTubeDownloader"
+        xmlns:viewModels="clr-namespace:YouTubeDownloader.ViewModels"
         xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         Title="{Binding Title}" Height="850" Width="1200"
         Icon="../favicon.ico"
         MinWidth="800" MinHeight="600">
 
-    <!-- Set window's data context -->
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
-
     <!-- Create custom templates for ViewModels -->
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:SearchViewModel}">
-            <local:SearchView/>
+        <DataTemplate DataType="{x:Type viewModels:SearchViewModel}">
+            <local:SearchView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type local:LibraryViewModel}">
-            <local:LibraryView/>
+        <DataTemplate DataType="{x:Type viewModels:LibraryViewModel}">
+            <local:LibraryView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type local:VideoPlayerViewModel}">
-            <local:VideoPlayerView/>
+        <DataTemplate DataType="{x:Type viewModels:VideoPlayerViewModel}">
+            <local:VideoPlayerView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type local:AboutViewModel}">
-            <local:AboutView/>
+        <DataTemplate DataType="{x:Type viewModels:AboutViewModel}">
+            <local:AboutView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type local:SettingsViewModel}">
-            <local:SettingsView/>
+        <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+            <local:SettingsView />
         </DataTemplate>
     </Window.Resources>
 
     <!-- Main window content -->
-    <Grid>
-        <Grid.Background>
-            <SolidColorBrush Color="{StaticResource PrimaryDarkColour}"/>
-        </Grid.Background>
-        
+    <Grid Background="{StaticResource PrimaryDarkBrush}">
+
         <!-- Window layout -->
         <Grid.RowDefinitions>
             <!-- Tab strip -->
@@ -53,22 +47,32 @@
         </Grid.RowDefinitions>
 
         <!-- Tab strip -->
-        <Border Grid.Row="0" BorderThickness="0" Background="{StaticResource TabBarBackgroundBrush}" Panel.ZIndex="1">
+        <Border Grid.Row="0"
+                BorderThickness="0"
+                Background="{StaticResource TabBarBackgroundBrush}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="12">
+                <Border Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Padding="12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="../Images/logo.png" Stretch="Uniform"/>
+                        <Image Grid.Column="0"
+                               Source="../Images/logo.png"
+                               Stretch="Uniform"/>
                         <Viewbox Grid.Column="1">
-                            <TextBlock Text="Downloader" Foreground="{StaticResource DefaultTextBrush}" Padding="4, 2"/>
+                            <TextBlock Text="Downloader"
+                                       Foreground="{StaticResource DefaultTextBrush}"
+                                       FontWeight="SemiBold"
+                                       Padding="4, 2"/>
                         </Viewbox>
                     </Grid>
                 </Border>
@@ -78,69 +82,107 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Command="{Binding ShowSearchCommand}">
+                    <Button Grid.Column="0"
+                            Command="{Binding ShowSearchCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSearchViewVisible}" Value="False">
-                                        <DataTrigger.Setters>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsSearchViewVisible}" Value="True">
                                         <DataTrigger.Setters>
-                                            <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryLightBrush}"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryLightBrush}"/>
+                                            <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonSelectedBrush}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}"/>
                                         </DataTrigger.Setters>
                                     </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                            <Condition Binding="{Binding IsSearchViewVisible}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonHoverBrush}" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}" />
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
-                        <TextBlock Text="Search" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="Search"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Button>
                     <Button Grid.Column="1" Command="{Binding ShowLibraryCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsLibraryViewVisible}" Value="False">
-                                        <DataTrigger.Setters>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsLibraryViewVisible}" Value="True">
                                         <DataTrigger.Setters>
-                                            <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryLightBrush}"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryLightBrush}"/>
+                                            <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonSelectedBrush}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}"/>
                                         </DataTrigger.Setters>
                                     </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                            <Condition Binding="{Binding IsLibraryViewVisible}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonHoverBrush}" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}" />
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
-                        <TextBlock Text="Library" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="Library"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Button>
                     <Button Grid.Column="2" Command="{Binding ShowPlayerCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsVideoPlayerViewVisible}" Value="False">
-                                        <DataTrigger.Setters>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsVideoPlayerViewVisible}" Value="True">
                                         <DataTrigger.Setters>
-                                            <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryLightBrush}"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryLightBrush}"/>
+                                            <Setter Property="TextElement.Foreground" Value="{StaticResource TabButtonSelectedBrush}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}"/>
                                         </DataTrigger.Setters>
                                     </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                            <Condition Binding="{Binding IsVideoPlayerViewVisible}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="BorderBrush" Value="{StaticResource TabButtonHoverBrush}" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="BorderBrush" Value="{StaticResource TabButtonSelectedBrush}" />
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
-                        <TextBlock Text="Player" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="Player"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Button>
                 </Grid>
-                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Menu Padding="0, 0, 6, 0" Background="Transparent">
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <Menu Padding="0, 0, 6, 0"
+                          Background="Transparent">
                         <MenuItem ToolTip="Download Manager">
                             <MenuItem.Style>
                                 <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource TopLevelMenuItem}">
@@ -148,14 +190,24 @@
                                         <Trigger Property="IsMouseOver" Value="False">
                                             <Setter Property="Header">
                                                 <Setter.Value>
-                                                    <Image Source="../Images/download-static.png" Stretch="None"/>
+                                                    <Image Source="../Images/download-static.png"
+                                                           Stretch="None"/>
                                                 </Setter.Value>
                                             </Setter>
                                         </Trigger>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Header">
                                                 <Setter.Value>
-                                                    <Image Source="../Images/download-hover.png" Stretch="None"/>
+                                                    <Image Source="../Images/download-hover.png"
+                                                           Stretch="None"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsSubmenuOpen" Value="True">
+                                            <Setter Property="Header">
+                                                <Setter.Value>
+                                                    <Image Source="../Images/download-hover.png"
+                                                           Stretch="None"/>
                                                 </Setter.Value>
                                             </Setter>
                                         </Trigger>
@@ -183,6 +235,13 @@
                                                 </Setter.Value>
                                             </Setter>
                                         </Trigger>
+                                        <Trigger Property="IsSubmenuOpen" Value="True">
+                                            <Setter Property="Header">
+                                                <Setter.Value>
+                                                    <Image Source="../Images/menu-hover.png" Stretch="None"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </MenuItem.Style>
@@ -194,11 +253,11 @@
             </Grid>
         </Border>
         <Grid Grid.Row="1" Background="{StaticResource PrimaryDarkBrush}">
-            <ContentControl Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding VideoPlayerViewModel}" Visibility="{Binding IsVideoPlayerViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding AboutViewModel}" Visibility="{Binding IsAboutViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
-            <ContentControl Content="{Binding SettingsViewModel}" Visibility="{Binding IsSettingsViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"/>
+            <ContentControl Content="{Binding SearchViewModel}" Visibility="{Binding IsSearchViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=Hide}"/>
+            <ContentControl Content="{Binding LibraryViewModel}" Visibility="{Binding IsLibraryViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=Hide}"/>
+            <ContentControl Content="{Binding VideoPlayerViewModel}" Visibility="{Binding IsVideoPlayerViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=Hide}"/>
+            <ContentControl Content="{Binding AboutViewModel}" Visibility="{Binding IsAboutViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=Hide}"/>
+            <ContentControl Content="{Binding SettingsViewModel}" Visibility="{Binding IsSettingsViewVisible, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=Hide}"/>
         </Grid>
     </Grid>
 </Window>                                        

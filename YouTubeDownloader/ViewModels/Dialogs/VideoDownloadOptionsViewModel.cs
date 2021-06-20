@@ -1,5 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 using YouTubeDownloader.ViewModels.Framework;
@@ -9,50 +13,63 @@ using YouTubeDownloader.Utils;
 
 namespace YouTubeDownloader.ViewModels.Dialogs
 {
-    public class VideoDownloadOptionsViewModel : BaseDialogViewModel
+    public class VideoDownloadOptionsViewModel : DialogViewModelBase
     {
-        #region Members
+        #region Fields
 
-        private readonly DownloadService _downloadService = new DownloadService();
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         #endregion
 
         #region Commands
 
-        public ICommand LoadedCommand { get; }
+        /// <summary>
+        /// Downloads the specified <see cref="Video"/>.
+        /// </summary>
         public ICommand DownloadCommand { get; }
+
+        /// <summary>
+        /// Cancels the download (if there is one) and closes the window.
+        /// </summary>
         public ICommand CancelCommand { get; }
 
         #endregion
 
         #region Properties
 
-        private bool _muxedOnly;
-        public bool MuxedOnly
+        private bool _separateStreams;
+        public bool SeparateStreams
         {
-            get => _muxedOnly;
-            set => SetProperty(ref _muxedOnly, value);
+            get => _separateStreams;
+            set => SetProperty(ref _separateStreams, value, UpdateFileSize);
         }
 
         private int _selectedSingleStream;
         public int SelectedSingleStream
         {
             get => _selectedSingleStream;
-            set => SetProperty(ref _selectedSingleStream, value);
+            set => SetProperty(ref _selectedSingleStream, value, UpdateFileSize);
         }
 
         private int _selectedAudioStream;
         public int SelectedAudioStream
         {
-            get => _selectedVideoStream;
-            set => SetProperty(ref _selectedAudioStream, value);
+            get => _selectedAudioStream;
+            set => SetProperty(ref _selectedAudioStream, value, UpdateFileSize);
         }
 
         private int _selectedVideoStream;
         public int SelectedVideoStream
         {
             get => _selectedVideoStream;
-            set => SetProperty(ref _selectedVideoStream, value);
+            set => SetProperty(ref _selectedVideoStream, value, UpdateFileSize);
+        }
+
+        private string _estimatedFileSize;
+        public string EstimatedFileSize
+        {
+            get => _estimatedFileSize;
+            set => SetProperty(ref _estimatedFileSize, value);
         }
 
         private IVideo _video;
@@ -88,50 +105,102 @@ namespace YouTubeDownloader.ViewModels.Dialogs
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of <see cref="VideoDownloadOptionsViewModel"/> with the specified <paramref name="title"/> and <paramref name="video"/>.
+        /// Initializes a new instance of <see cref="VideoDownloadOptionsViewModel"/> class with the specified <paramref name="title"/> and <paramref name="video"/>.
         /// </summary>
         /// <param name="title">The dialog window's title.</param>
         /// <param name="video">The displayed video.</param>
-        public VideoDownloadOptionsViewModel(string title, IVideo video) : base(title)
+        private VideoDownloadOptionsViewModel(string title, IVideo video) : base(title)
         {
             Video = video;
 
-            LoadedCommand = new RelayCommand(async () =>
+            DownloadCommand = new RelayCommand<IDialogWindow>(async (dialog) =>
             {
-                var streamManifest = await Youtube.Client.Videos.Streams.GetManifestAsync(Video.Id);
-                SingleStreamInfos = streamManifest.Streams;
-            });
+                // Ensure the video has not already been downloaded
+                if (!App.VideoLibrary.Any(o => o.Id == Video.Id.Value))
+                {
+                    string container;
+                    Task videoTask;
+                    if (SeparateStreams)
+                    {
+                        container = VideoStreamInfos[SelectedVideoStream].Container.Name;
+                        videoTask = DownloadService.DownloadMultipleStreamsAsync(
+                            Video,
+                            AudioStreamInfos[SelectedAudioStream],
+                            VideoStreamInfos[SelectedVideoStream],
+                            _cancellationTokenSource.Token);
+                    }
+                    else
+                    {
+                        container = SingleStreamInfos[SelectedSingleStream].Container.Name;
+                        videoTask = DownloadService.DownloadSingleStreamAsync(
+                            Video,
+                            SingleStreamInfos[SelectedSingleStream],
+                            _cancellationTokenSource.Token);
+                    }
 
-            DownloadCommand = new RelayCommand(async () =>
-            {
-                if (MuxedOnly)
-                {
-                    await _downloadService.DownloadSingleStreamAsync(Video, SingleStreamInfos[SelectedVideoStream]);
-                }
-                else
-                {
-                    await _downloadService.DownloadMultipleStreamAsync(
+                    var thumbnailTask = DownloadService.DownloadThumbnailAsync(
                         Video,
-                        AudioStreamInfos[SelectedAudioStream],
-                        VideoStreamInfos[SelectedVideoStream]);
+                        _cancellationTokenSource.Token);
+
+                    try
+                    {
+                        await Task.WhenAll(videoTask, thumbnailTask);
+                        App.VideoLibrary.Add(
+                            new LibraryVideo(
+                                container,
+                                Video.Id.Value,
+                                Video.Title,
+                                Video.Author.Title,
+                                Video.Duration.Value));
+                        App.VideoLibrary.Save();
+                        CloseDialog(dialog);
+                    }
+                    catch (TaskCanceledException) { } // Task was cancelled,
+                                                      // no actions need to be taken here
                 }
-
-                await _downloadService.DownloadThumbnailAsync(Video);
-
-                Global.Library.Add(
-                    new LibraryVideo(
-                        Video.Id.Value,
-                        Video.Title,
-                        Video.Author.Title,
-                        Video.Duration.Value));
-
-                Json.Save(Global.Library, Global.LibraryFilePath);
             });
 
             CancelCommand = new RelayCommand<IDialogWindow>((dialog) =>
             {
+                _cancellationTokenSource.Cancel();
                 CloseDialog(dialog);
             });
+        }
+
+        /// <summary>
+        /// Asynchronously constructs a new <see cref="VideoDownloadOptionsViewModel"/>.
+        /// </summary>
+        /// <param name="title">The dialog window's title.</param>
+        /// <param name="video">The displayed video.</param>
+        /// <returns>A new instance of the <see cref="VideoDownloadOptionsViewModel"/> class.</returns>
+        public static async Task<VideoDownloadOptionsViewModel> Create(string title, IVideo video)
+        {            
+            var streamManifest = await Youtube.Client.Videos.Streams.GetManifestAsync(video.Id);
+            var muxedStreamInfos = streamManifest.Streams.Where(o => o.GetType() == typeof(MuxedStreamInfo)).ToList();
+            var audioOnlyStreamInfos = streamManifest.Streams.Where(o => o.GetType() == typeof(AudioOnlyStreamInfo));
+            var videoOnlyStreamInfos = streamManifest.Streams.Where(o => o.GetType() == typeof(VideoOnlyStreamInfo));
+            var videoDownloadOptionsViewModel = new VideoDownloadOptionsViewModel(title, video)
+            {
+                SingleStreamInfos = streamManifest.Streams,
+                AudioStreamInfos = muxedStreamInfos.Concat(audioOnlyStreamInfos).ToList(),
+                VideoStreamInfos = muxedStreamInfos.Concat(videoOnlyStreamInfos).ToList()
+            };
+            videoDownloadOptionsViewModel.UpdateFileSize();
+            return videoDownloadOptionsViewModel;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Updates the <see cref="EstimatedFileSize"/>.
+        /// </summary>
+        private void UpdateFileSize()
+        {
+            EstimatedFileSize = SeparateStreams ? $"{Math.Round(VideoStreamInfos[SelectedVideoStream].Size.MegaBytes + AudioStreamInfos[SelectedAudioStream].Size.MegaBytes)}"
+                : $"{Math.Round(SingleStreamInfos[SelectedSingleStream].Size.MegaBytes)}";
+            if (EstimatedFileSize == "0") { EstimatedFileSize = "<1"; }
         }
 
         #endregion

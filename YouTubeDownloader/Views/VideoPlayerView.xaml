@@ -4,43 +4,65 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:YouTubeDownloader"
+             xmlns:viewModels="clr-namespace:YouTubeDownloader.ViewModels"
              xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
              mc:Ignorable="d"
-             x:Name="videoPlayerView">
+             d:DataContext="{d:DesignInstance Type=viewModels:VideoPlayerViewModel}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=videoPlayerView}"/>
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Border Padding="25">
+    <Border Padding="6">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Border x:Name="opacityMask" CornerRadius="5" Background="{StaticResource PrimaryDarkBrush}"/>
-            <Border Grid.Row="0" Padding="0, 0, 0, 25" BorderThickness="1">
-                <MediaElement x:Name="mediaElement" Source="{Binding VideoPath}" LoadedBehavior="Manual">
-                    <MediaElement.OpacityMask>
-                        <VisualBrush Visual="{Binding ElementName=opacityMask}"/>
-                    </MediaElement.OpacityMask>
-                </MediaElement>
+            <Border Grid.Row="0"
+                    Padding="0, 0, 0, 6">
+                <MediaElement Name="mediaElement"
+                              Source="{Binding VideoPath}"
+                              LoadedBehavior="Manual" />
             </Border>
-            <Border Grid.Row="1" CornerRadius="5" Width="{Binding ElementName=mediaElement, Path=ActualWidth}">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Grid.Row="1"
+                    CornerRadius="5"
+                    Width="{Binding ElementName=mediaElement, Path=ActualWidth}"
+                    Background="{StaticResource VideoPlayerControlPanelBrush}">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
                     <Grid>
-                        <TextBlock Text="{Binding TimeElapsed, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}" Foreground="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding TimeElapsed, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}"
+                                   Foreground="{StaticResource DefaultTextBrush}"
+                                   HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}"
+                                   Foreground="{StaticResource DefaultTextBrush}"
+                                   HorizontalAlignment="Right"/>
                     </Grid>
-                    <Slider x:Name="slider" Width="{Binding ElementName=mediaElement, Path=ActualWidth}" Minimum="0" Maximum="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToDoubleConverter.Instance}}" Thumb.DragStarted="slider_DragStarted" Thumb.DragCompleted="slider_DragCompleted" ValueChanged="slider_ValueChanged"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button Style="{StaticResource SimpleButton}" BorderThickness="0" Cursor="Hand" ToolTip="Previous" Command="{Binding PreviousVideoCommand}">
-                            <Image Source="../Images/rewind.png" Stretch="None"/>
+                    <Slider Name="slider"
+                            Width="{Binding ElementName=mediaElement, Path=ActualWidth}"
+                            Minimum="0"
+                            Maximum="{Binding VideoDuration, Converter={x:Static converters:TimeSpanToDoubleConverter.Instance}}"
+                            Thumb.DragStarted="slider_DragStarted"
+                            Thumb.DragCompleted="slider_DragCompleted"
+                            ValueChanged="slider_ValueChanged"/>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Button Style="{StaticResource SimpleButton}"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                ToolTip="Previous"
+                                Command="{Binding PreviousVideoCommand}">
+                            <Image Source="../Images/rewind.png"
+                               Stretch="None"/>
                         </Button>
-                        <Button BorderThickness="0" Cursor="Hand" Command="{Binding PlayPauseCommand}">
+                        <Button BorderThickness="0"
+                                Cursor="Hand"
+                                Command="{Binding PlayPauseCommand}">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource SimpleButton}">
                                     <Style.Triggers>
@@ -64,7 +86,11 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Style="{StaticResource SimpleButton}" BorderThickness="0" Cursor="Hand" ToolTip="Next" Command="{Binding NextVideoCommand}">
+                        <Button Style="{StaticResource SimpleButton}"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                ToolTip="Next"
+                                Command="{Binding NextVideoCommand}">
                             <Image Source="../Images/fast-forward.png"/>
                         </Button>
                     </StackPanel>

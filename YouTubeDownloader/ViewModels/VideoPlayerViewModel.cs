@@ -2,25 +2,26 @@
 using System.ComponentModel;
 using System.Timers;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Components;
 using YouTubeDownloader.ViewModels.Framework;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.ViewModels
 {
     public class VideoPlayerViewModel : BaseViewModel
     {
-        #region Private Members
+        #region Fields
 
         private bool _isPlaying;
         private string _videoPath;
         private TimeSpan _videoDuration;
         private TimeSpan _timeElapsed;
-        private Timer _timer;
-        private SharedViewModel _sharedViewModel;
         private IMediaService _mediaService;
+        private readonly Timer _timer;
+        private readonly ISessionContext _sessionContext;
 
         #endregion
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// Is there a video currently playing.
@@ -62,26 +63,29 @@ namespace YouTubeDownloader
 
         #region Commands
 
-        public ICommand LoadedCommand { get; set; }
-        public ICommand PlayPauseCommand { get; set; }
-        public ICommand NextVideoCommand { get; set; }
-        public ICommand PreviousVideoCommand { get; set; }
+        public ICommand LoadedCommand { get; }
+
+        public ICommand PlayPauseCommand { get; }
+
+        public ICommand NextVideoCommand { get; }
+
+        public ICommand PreviousVideoCommand { get; }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Initialises a new instance of <see cref="VideoPlayerViewModel"/> with the specified <see cref="SharedViewModel"/>.
+        /// Initialises a new instance of <see cref="VideoPlayerViewModel"/> with the specified <see cref="SessionContext"/>.
         /// </summary>
-        public VideoPlayerViewModel(SharedViewModel sharedViewModel)
+        public VideoPlayerViewModel(ISessionContext sessionContext)
         {
             // Initialize properties
             VideoPath = "";
             TimeElapsed = new TimeSpan(0, 0, 0, 0, 0);
 
-            _sharedViewModel = sharedViewModel;
-            _sharedViewModel.PropertyChanged += OnSharedModelPropertyChanged; // Bind PropertyChanged event handler
+            _sessionContext = sessionContext;
+            _sessionContext.PropertyChanged += OnSessionContextPropertyChanged; // Bind PropertyChanged event handler
 
             // Initialize timer
             _timer = new Timer();
@@ -124,16 +128,17 @@ namespace YouTubeDownloader
         #region Helpers
 
         /// <summary>
-        /// Handles PropertyChanged events from the <see cref="_sharedViewModel"/>.
+        /// Handles PropertyChanged events from the <see cref="_sessionContext"/>.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnSharedModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSessionContextPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Video")
+            if (e.PropertyName == nameof(_sessionContext.CurrentlyPlaying))
             {
-                VideoPath = $"{Global.VideoFolderPath}\\{_sharedViewModel.Video.Id}.mp4";
-                VideoDuration = _sharedViewModel.Video.Duration;
+                VideoPath =
+                    $"{App.VideoFolderPath}/{_sessionContext.CurrentlyPlaying.Id}.{_sessionContext.CurrentlyPlaying.Container}";
+                VideoDuration = _sessionContext.CurrentlyPlaying.Duration;
                 IsPlaying = true;
                 _mediaService.Play();
                 TimeElapsed = TimeSpan.Zero;
@@ -173,13 +178,14 @@ namespace YouTubeDownloader
         /// </summary>
         private void NextVideo()
         {
-            var currentIndex = Global.Library.IndexOf(_sharedViewModel.Video);
+            var currentIndex = App.VideoLibrary.IndexOf(_sessionContext.CurrentlyPlaying);
+            var maxIndex = App.VideoLibrary.Count - 1;
 
-            if (currentIndex == (Global.Library.Count - 1))
-                _sharedViewModel.Video = Global.Library[0];
+            if (currentIndex == -1)
+                return;
 
             else
-                _sharedViewModel.Video = Global.Library[currentIndex + 1];
+                _sessionContext.CurrentlyPlaying = currentIndex == maxIndex ? App.VideoLibrary[0] : App.VideoLibrary[currentIndex + 1];
 
             TimeElapsed = TimeSpan.Zero;
             _mediaService.Reset();
@@ -190,14 +196,14 @@ namespace YouTubeDownloader
         /// </summary>
         private void PreviousVideo()
         {
-            var currentIndex = Global.Library.IndexOf(_sharedViewModel.Video);
-            var maxIndex = Global.Library.Count - 1;
+            var currentIndex = App.VideoLibrary.IndexOf(_sessionContext.CurrentlyPlaying);
+            var maxIndex = App.VideoLibrary.Count - 1;
 
-            if (currentIndex == 0)
-                _sharedViewModel.Video = Global.Library[maxIndex];
+            if (currentIndex == -1)
+                return;
 
             else
-                _sharedViewModel.Video = Global.Library[currentIndex - 1];
+                _sessionContext.CurrentlyPlaying = currentIndex == 0 ? App.VideoLibrary[maxIndex] : App.VideoLibrary[currentIndex - 1];
 
             TimeElapsed = TimeSpan.Zero;
             _mediaService.Reset();

@@ -7,22 +7,22 @@
     </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="SearchBarBorder" TargetType="{x:Type Border}">
-        <Setter Property="CornerRadius" Value="1, 0, 0, 1"/>
-        <Setter Property="BorderThickness" Value="1, 1, 0, 1"/>
+        <Setter Property="CornerRadius" Value="1, 0, 0, 1" />
+        <Setter Property="BorderThickness" Value="1, 1, 0, 1" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="Black" Opacity="0.16"/>
+                <SolidColorBrush Color="Black" Opacity="0.16" />
             </Setter.Value>
         </Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16"/>
+                <SolidColorBrush Color="{StaticResource PrimaryLightColour}" Opacity="0.16" />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="BorderBrush" Value="#1C62B9"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#1C62B9" />
             </Trigger>
         </Style.Triggers>
     </Style>

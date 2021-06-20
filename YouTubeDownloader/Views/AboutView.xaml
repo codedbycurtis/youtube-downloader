@@ -14,7 +14,7 @@
                 <Run Text="Downloader" Foreground="{StaticResource DefaultTextBrush}"/>
                 </TextBlock>
                 <Border BorderBrush="{StaticResource TabBarBackgroundBrush}" BorderThickness="0, 1, 0, 0"/>
-                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16">
                     <Run Text="App Version:"/>
                     <Run Text="{Binding AssemblyVersionString, Mode=OneWay}"/>
                     <LineBreak/>
@@ -25,7 +25,7 @@
                     <Run Text="Copyright © 2021 Curtis Caulfield. All rights reserved."/>
                 </TextBlock>
                 <Border BorderBrush="{StaticResource TabBarBackgroundBrush}" BorderThickness="0, 0, 0, 1"/>
-                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16" FontFamily="{StaticResource RobotoRegular}">
+                <TextBlock Foreground="{StaticResource PrimaryLightBrush}" Padding="20" FontSize="16">
                 <Run Text="Attributions:" FontSize="20"/>
                 <LineBreak/>
                 <LineBreak/>

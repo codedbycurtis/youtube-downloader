@@ -9,48 +9,59 @@ namespace YouTubeDownloader.Models
     public class LibraryVideo
     {
         /// <summary>
+        /// The name of the video's container.
+        /// </summary>
+        /// <remarks>E.g. mp4, webm, etc.</remarks>
+        [JsonProperty("container")]
+        public string Container { get; }
+
+        /// <summary>
         /// Video identifier. This will be used to determine the video and thumbnail filenames.
         /// </summary>
         [JsonProperty("id")]
-        public string Id { get; private set; }
+        public string Id { get; }
 
         /// <summary>
         /// The title of the video.
         /// </summary>
         [JsonProperty("title")]
-        public string Title { get; private set; }
+        public string Title { get; }
 
         /// <summary>
         /// The name of the channel that uploaded the video.
         /// </summary>
         [JsonProperty("author")]
-        public string Author { get; private set; }
+        public string Author { get; }
 
         /// <summary>
         /// The duration of the video.
         /// </summary>
         [JsonProperty("duration")]
-        public TimeSpan Duration { get; private set; }
+        public TimeSpan Duration { get; }
 
         /// <summary>
-        /// Initialises a new instance of <see cref="LibraryVideo"/> with the specified parameters.
+        /// Initializes a new instance of <see cref="LibraryVideo"/> with the specified parameters.
         /// </summary>
         /// <param name="id">Video identifier. This will be used to determine the video and thumbnail filenames.</param>
         /// <param name="title">The title of the video.</param>
         /// <param name="author">The name of the channel that uploaded the video.</param>
         /// <param name="duration">The duration of the video.</param>
         [JsonConstructor()]
-        public LibraryVideo(string id, string title, string author, TimeSpan duration)
+        public LibraryVideo(
+            string container,
+            string id,
+            string title,
+            string author,
+            TimeSpan duration)
         {
-            Id = id;
-            Title = title;
-            Author = author;
-            Duration = duration;
+            this.Container = container;
+            this.Id = id;
+            this.Title = title;
+            this.Author = author;
+            this.Duration = duration;
         }
 
-        public override string ToString()
-        {
-            return $"Video Id: {this.Id} | Title: {this.Title} | Author: {this.Author} | Duration: {this.Duration}";
-        }
+        /// <inheritdoc />
+        public override string ToString() => $"Video: {this.Title}";
     }
 }

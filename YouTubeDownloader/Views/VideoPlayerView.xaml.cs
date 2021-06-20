@@ -11,14 +11,14 @@ namespace YouTubeDownloader
     /// </summary>
     public partial class VideoPlayerView : UserControl, IMediaService
     {
-        #region Private Members
+        #region Fields
 
         private bool _isSliderBeingManipulated;
         private TimeSpan _timeElapsed;
 
         #endregion
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
         /// Is the <see cref="slider"/> control currently being manipulated?
@@ -55,7 +55,7 @@ namespace YouTubeDownloader
 
         #endregion
 
-        #region Public Events
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,7 +74,7 @@ namespace YouTubeDownloader
 
         #endregion
 
-        #region Helpers
+        #region Methods
 
         /// <summary>
         /// Pause a video.

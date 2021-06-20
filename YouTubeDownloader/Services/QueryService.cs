@@ -6,19 +6,19 @@ using YoutubeExplode.Videos;
 using YoutubeExplode.Common;
 using YouTubeDownloader.Utils;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.Services
 {
     /// <summary>
     /// Provides methods of querying YouTube for specific videos.
     /// </summary>
-    public sealed class QueryService
+    public static class QueryService
     {
         /// <summary>
         /// Asynchronously searches YouTube for the specified <paramref name="searchQuery"/>.
         /// </summary>
         /// <param name="searchQuery">The video, playlist, or channel to search for.</param>
         /// <returns>An <see cref="IReadOnlyList{T}"/> of <see cref="IVideo"/>'s matching the user's specified <paramref name="searchQuery"/>.</returns>
-        public async ValueTask<IReadOnlyList<IVideo>> SearchAsync(string searchQuery)
+        public static async ValueTask<IReadOnlyList<IVideo>> SearchAsync(string searchQuery)
         {
             if (PlaylistId.TryParse(searchQuery).HasValue)
             {

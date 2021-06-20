@@ -1,26 +1,28 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using YouTubeDownloader.ViewModels.Components;
 using YouTubeDownloader.ViewModels.Framework;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        #region Private Members
+        #region Fields
 
         private bool _isSearchViewVisible;
         private bool _isLibraryViewVisible;
         private bool _isVideoPlayerViewVisible;
         private bool _isAboutViewVisible;
         private bool _isSettingsViewVisible;
-        private readonly SharedViewModel _sharedViewModel = new SharedViewModel();
+        private readonly ISessionContext _sessionContext;
+        private readonly IViewModelFactory _viewModelFactory;
 
         #endregion
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
-        /// Is the SearchView visible?
+        /// Is the <see cref="SearchView"/> visible?
         /// </summary>
         public bool IsSearchViewVisible
         {
@@ -29,7 +31,7 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Is the LibraryView visible?
+        /// Is the <see cref="LibraryView"/> visible?
         /// </summary>
         public bool IsLibraryViewVisible
         {
@@ -38,7 +40,7 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Is the VideoPlayerView visible?
+        /// Is the <see cref="VideoPlayerView"/> visible?
         /// </summary>
         public bool IsVideoPlayerViewVisible
         {
@@ -47,7 +49,7 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Is the AboutView visible?
+        /// Is the <see cref="AboutView"/> visible?
         /// </summary>
         public bool IsAboutViewVisible
         {
@@ -56,7 +58,7 @@ namespace YouTubeDownloader
         }
 
         /// <summary>
-        /// Is the SettingsView visible?
+        /// Is the <see cref="SettingsView"/> visible?
         /// </summary>
         public bool IsSettingsViewVisible
         {
@@ -67,35 +69,32 @@ namespace YouTubeDownloader
         /// <summary>
         /// Title of the application with the current version appended.
         /// </summary>
-        public string Title
-        {
-            get => $"YouTube Downloader v{App.AssemblyVersionString}";
-        }
+        public string Title { get => $"YouTube Downloader v{App.AssemblyVersionString}"; }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.SearchViewModel"/>.
+        /// An instance of the <see cref="ViewModels.SearchViewModel"/>.
         /// </summary>
         public SearchViewModel SearchViewModel { get; }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.LibraryViewModel"/>.
+        /// An instance of the <see cref="ViewModels.LibraryViewModel"/>.
         /// </summary>
         public LibraryViewModel LibraryViewModel { get; }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.VideoPlayerViewModel"/>.
+        /// An instance of the <see cref="ViewModels.VideoPlayerViewModel"/>.
         /// </summary>
         public VideoPlayerViewModel VideoPlayerViewModel { get; }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.AboutViewModel"/>.
+        /// An instance of the <see cref="ViewModels.AboutViewModel"/>.
         /// </summary>
-        public AboutViewModel AboutViewModel { get; } = new AboutViewModel();
+        public AboutViewModel AboutViewModel { get; }
 
         /// <summary>
-        /// An instance of the <see cref="YouTubeDownloader.SettingsViewModel"/>.
+        /// An instance of the <see cref="ViewModels.SettingsViewModel"/>.
         /// </summary>
-        public SettingsViewModel SettingsViewModel { get; } = new SettingsViewModel();
+        public SettingsViewModel SettingsViewModel { get; }
 
         #endregion
 
@@ -112,59 +111,63 @@ namespace YouTubeDownloader
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of <see cref="MainViewModel"/>.
+        /// Initializes a new instance of the <see cref="MainViewModel"/> class with the specified
+        /// <paramref name="viewModelFactory"/>.
         /// </summary>
-        public MainViewModel()
+        /// <param name="viewModelFactory">The factory implementation that is used to instantiate new
+        /// ViewModels.</param>
+        public MainViewModel(IViewModelFactory viewModelFactory)
         {
-            // Initialise services and ViewModels
-            SearchViewModel = new SearchViewModel();
-            LibraryViewModel = new LibraryViewModel(_sharedViewModel);
-            VideoPlayerViewModel = new VideoPlayerViewModel(_sharedViewModel);
+            // Instaniate ViewModel factory
+            _viewModelFactory = viewModelFactory;
 
-            // Initialise commands
+            // Instantiate ViewModels
+            _sessionContext = _viewModelFactory.GetSessionContext();
+            SearchViewModel = _viewModelFactory.CreateSearchViewModel();
+            LibraryViewModel = _viewModelFactory.CreateLibraryViewModel();
+            VideoPlayerViewModel = _viewModelFactory.CreateVideoPlayerViewModel();
+            AboutViewModel = _viewModelFactory.CreateAboutViewModel();
+            SettingsViewModel = _viewModelFactory.CreateSettingsViewModel();
+
+            // Initialize commands
             ShowSearchCommand = new RelayCommand(() =>
             {
                 IsSearchViewVisible = true;
                 IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
-
             ShowLibraryCommand = new RelayCommand(() =>
             {
                 IsLibraryViewVisible = true;
                 IsSearchViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
-
             ShowPlayerCommand = new RelayCommand(() =>
             {
                 IsVideoPlayerViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;
             });
-
             ShowAboutCommand = new RelayCommand(() =>
             {
                 IsAboutViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsSettingsViewVisible = false;
             });
-
             ShowSettingsCommand = new RelayCommand(() =>
             {
                 IsSettingsViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsVideoPlayerViewVisible = IsAboutViewVisible = false;
             });
-
-            _sharedViewModel.PropertyChanged += OnSharedViewModelPropertyChanged; // Bind event handler
+            _sessionContext.PropertyChanged += OnSessionContextPropertyChanged; // Bind event handler
         }
 
         #endregion
 
-        #region Helper Methods
+        #region Methods
 
         /// <summary>
-        /// Handles PropertyChanged events invoked by the <see cref="_sharedViewModel"/>.
+        /// Handles PropertyChanged events invoked by the <see cref="_sessionContext"/>.
         /// </summary>
-        private void OnSharedViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSessionContextPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Video")
+            if (e.PropertyName == nameof(_sessionContext.CurrentlyPlaying))
             {
                 IsVideoPlayerViewVisible = true;
                 IsSearchViewVisible = IsLibraryViewVisible = IsAboutViewVisible = IsSettingsViewVisible = false;

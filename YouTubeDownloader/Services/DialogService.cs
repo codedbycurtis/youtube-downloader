@@ -12,7 +12,7 @@ namespace YouTubeDownloader.Services
         /// Instantiates a new <see cref="DialogWindow"/> and assigns the specified <paramref name="viewModel"/> as it's DataContext.
         /// </summary>
         /// <param name="viewModel">The <see cref="DialogWindow"/>'s DataContext.</param>
-        public void OpenDialog(BaseDialogViewModel viewModel)
+        public void OpenDialog(DialogViewModelBase viewModel)
         {
             IDialogWindow dialog = new DialogWindow() { DataContext = viewModel };
             _ = dialog.ShowDialog();

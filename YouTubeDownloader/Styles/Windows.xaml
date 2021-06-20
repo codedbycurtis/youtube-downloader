@@ -10,18 +10,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dialogViews:DialogWindow}">
-                    <Border Padding="12">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="16"
-                                              Color="{StaticResource DialogBackgroundColor}"
-                                              Direction="-90"
-                                              Opacity="0.5"
-                                              ShadowDepth="3" />
-                        </Border.Effect>
-                        <Border Background="{StaticResource DialogBackgroundBrush}"
-                                CornerRadius="4">
-                            <ContentPresenter Content="{TemplateBinding Content}" />
-                        </Border>
+                    <Border Background="{StaticResource DialogBackgroundBrush}"
+                            BorderThickness="1"
+                            BorderBrush="#1C62B9">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

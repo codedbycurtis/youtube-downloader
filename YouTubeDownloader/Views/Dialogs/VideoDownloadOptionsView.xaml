@@ -3,30 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dialogViewModels="clr-namespace:YouTubeDownloader.ViewModels.Dialogs"
              xmlns:converters="clr-namespace:YouTubeDownloader.Converters"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=dialogViewModels:VideoDownloadOptionsViewModel}">
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
-    <Grid>
-        <StackPanel>
-            <Border Background="Transparent"
-                    Height="80"
+
+    <UserControl.Resources>
+        <converters:ValueConverterGroup x:Key="InverseBoolToVisibilityConverter">
+            <converters:InverseBooleanConverter />
+            <converters:BoolToVisibilityConverter />
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top"
                     HorizontalAlignment="Center">
+            <Border Background="Transparent"
+                    Height="88">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Image Source="{Binding Video.Thumbnails, Converter={x:Static converters:ThumbnailUrlExtractor.Instance}}"/>
+                        <Image Source="{Binding Video.Thumbnails, Converter={x:Static converters:ThumbnailConverter.Instance}}"/>
                         <Border Padding="3"
                                 Margin="0, 0, 4, 4"
                                 CornerRadius="2"
@@ -35,25 +35,89 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom">
                             <TextBlock Text="{Binding Video.Duration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}"
-                                    Foreground="{StaticResource PrimaryLightBrush}" />
+                                       Foreground="{StaticResource PrimaryLightBrush}" />
                         </Border>
                     </Grid>
                     <StackPanel Grid.Column="1"
-                                HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                         <TextBlock Padding="12, 0, 0, 3"
                                    Text="{Binding Video.Title}"
                                    FontSize="18"
-                                   Foreground="{StaticResource PrimaryLightBrush}"/>
+                                   Foreground="{StaticResource PrimaryLightBrush}"
+                                   TextTrimming="CharacterEllipsis" />
                         <TextBlock Padding="12, 3, 0, 0"
                                    Text="{Binding Video.Author.Title}"
                                    FontSize="16"
-                                   Foreground="{StaticResource TertiaryLightBrush}"/>
+                                   Foreground="{StaticResource TertiaryLightBrush}"
+                                   TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                 </Grid>
             </Border>
-            <ComboBox ItemsSource="{Binding SingleStreamInfos}"
-                      SelectedItem="{Binding SelectedVideoStream}" />
+            <StackPanel>
+                <Border Padding="0, 12">
+                    <CheckBox Content="Separate Audio and Video Streams?"
+                              IsChecked="{Binding SeparateStreams}"
+                              Foreground="{StaticResource DefaultTextBrush}"
+                              FontSize="14"
+                              ToolTip="Allows for better video quality but may use&#x0a; more CPU and take longer to download."
+                              HorizontalAlignment="Left" />
+                </Border>
+                <StackPanel Visibility="{Binding SeparateStreams, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Border Padding="0, 0, 8, 0">
+                        <StackPanel>
+                            <TextBlock Text="Video Stream:"
+                                       Foreground="{StaticResource DefaultTextBrush}"
+                                       FontSize="14"
+                                       Padding="0, 0, 0, 2" />
+                            <ComboBox ItemsSource="{Binding VideoStreamInfos}"
+                                      SelectedIndex="{Binding SelectedVideoStream}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Padding="8, 0">
+                        <StackPanel>
+                            <TextBlock Text="Audio Stream:"
+                                       Foreground="{StaticResource DefaultTextBrush}"
+                                       FontSize="14"
+                                       Padding="0, 0, 0, 2" />
+                            <ComboBox ItemsSource="{Binding AudioStreamInfos}"
+                                      SelectedIndex="{Binding SelectedAudioStream}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <StackPanel Visibility="{Binding SeparateStreams, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                    <TextBlock Text="Choose your preferred stream:"
+                               Foreground="{StaticResource DefaultTextBrush}"
+                               FontSize="14"
+                               Padding="0, 0, 0, 2" />
+                    <ComboBox ItemsSource="{Binding SingleStreamInfos}"
+                              SelectedIndex="{Binding SelectedSingleStream}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
-    </Grid>
+        <StackPanel DockPanel.Dock="Top"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <TextBlock Foreground="{StaticResource DefaultTextBrush}"
+                       FontSize="16"
+                       Padding="0, 8">
+                <Run Text="Estimated File Size:" />
+                <Run Text="{Binding EstimatedFileSize, Mode=OneWay}" /><Run Text="MB" />
+            </TextBlock>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Border Padding="4, 0">
+                    <Button Content="Download"
+                            Command="{Binding DownloadCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"
+                            Style="{StaticResource CtaPrimaryButton}" />
+                </Border>
+                <Button Content="Cancel"
+                        Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"
+                        Style="{StaticResource CtaSecondaryButton}" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
 </UserControl>

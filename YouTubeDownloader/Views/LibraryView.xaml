@@ -14,7 +14,7 @@
         <ListView Background="Transparent"
                   BorderThickness="0"
                   Padding="0, 6"
-                  ItemsSource="{x:Static local:Global.Library}"
+                  ItemsSource="{x:Static local:App.VideoLibrary}"
                   ScrollViewer.CanContentScroll="False">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -45,7 +45,7 @@
                                                                                     <ColumnDefinition Width="*"/>
                                                                                 </Grid.ColumnDefinitions>
                                                                                 <Grid Grid.Column="0">
-                                                                                    <Image Source="{Binding Id, Converter={x:Static converters:BitmapImageCreator.Instance}}"/>
+                                                                                    <Image Source="{Binding Id, Converter={x:Static converters:BitmapImageConverter.Instance}, Mode=OneTime}"/>
                                                                                     <Border Padding="3"
                                                                                             Margin="0, 0, 4, 4"
                                                                                             CornerRadius="2"
@@ -53,17 +53,17 @@
                                                                                             Opacity="0.8"
                                                                                             HorizontalAlignment="Right"
                                                                                             VerticalAlignment="Bottom">
-                                                                                        <TextBlock Text="{Binding Duration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}}"
+                                                                                        <TextBlock Text="{Binding Duration, Converter={x:Static converters:TimeSpanToStringConverter.Instance}, Mode=OneTime}"
                                                                                                    Foreground="{StaticResource PrimaryLightBrush}"/>
                                                                                     </Border>
                                                                                 </Grid>
                                                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                                                     <TextBlock Padding="12, 3"
-                                                                                               Text="{Binding Title}"
+                                                                                               Text="{Binding Title, Mode=OneTime}"
                                                                                                FontSize="18"
                                                                                                Foreground="{StaticResource PrimaryLightBrush}"/>
                                                                                     <TextBlock Padding="12, 3"
-                                                                                               Text="{Binding Author}"
+                                                                                               Text="{Binding Author, Mode=OneTime}"
                                                                                                FontSize="16"
                                                                                                Foreground="{StaticResource TertiaryLightBrush}"/>
                                                                                 </StackPanel>

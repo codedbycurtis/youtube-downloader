@@ -2,7 +2,7 @@
 
 namespace YouTubeDownloader.ViewModels.Dialogs
 {
-    public class ExceptionViewModel : BaseDialogViewModel
+    public class ExceptionViewModel : DialogViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ExceptionViewModel"/>.

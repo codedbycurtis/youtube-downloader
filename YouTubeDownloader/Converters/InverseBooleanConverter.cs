@@ -11,16 +11,12 @@ namespace YouTubeDownloader.Converters
     [ValueConversion(typeof(bool), typeof(bool))]
     public sealed class InverseBooleanConverter : IValueConverter
     {
-        public static InverseBooleanConverter Instance { get; } = new InverseBooleanConverter();
+        public static InverseBooleanConverter Instance => new InverseBooleanConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return !(bool)value;
-        }
+            => !(bool)value;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return !(bool)value;
-        }
+            => !(bool)value;
     }
 }

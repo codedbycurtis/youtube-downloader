@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using YoutubeExplode.Common;
 
@@ -11,9 +10,9 @@ namespace YouTubeDownloader.Converters
     /// Gets the URL of the highest-quality thumbnail image.
     /// </summary>
     [ValueConversion(typeof(IReadOnlyList<Thumbnail>), typeof(string))]
-    public sealed class ThumbnailUrlExtractor : IValueConverter
+    public sealed class ThumbnailConverter : IValueConverter
     {
-        public static ThumbnailUrlExtractor Instance { get; } = new ThumbnailUrlExtractor();
+        public static ThumbnailConverter Instance => new ThumbnailConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -22,8 +21,6 @@ namespace YouTubeDownloader.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

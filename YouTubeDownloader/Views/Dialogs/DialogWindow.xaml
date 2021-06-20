@@ -4,25 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800"
+        Title="{Binding Title}" Height="350" Width="600"
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterOwner">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome  CaptionHeight="42"
-                       CornerRadius="3"
-                       ResizeBorderThickness="10"/>
+        <WindowChrome  CaptionHeight="36"
+                       ResizeBorderThickness="10" />
     </WindowChrome.WindowChrome>
     
-    <StackPanel>
-        <Grid Height="42">
-            <TextBlock Text="{Binding Title}"
-                   FontSize="18"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Title}"
+                   FontSize="16"
                    Foreground="{StaticResource DefaultTextBrush}"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-        </Grid>
-        <ContentControl Content="{Binding}" />
-    </StackPanel>
+                   VerticalAlignment="Center"
+                   TextTrimming="CharacterEllipsis"
+                   Padding="8, 0" />
+        <Border Grid.Row="1"
+                Padding="8, 0, 8, 8">
+            <ContentControl Content="{Binding}" />
+        </Border>
+    </Grid>
 </Window>

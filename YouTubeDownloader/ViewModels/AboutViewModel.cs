@@ -3,7 +3,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using YouTubeDownloader.ViewModels.Framework;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {

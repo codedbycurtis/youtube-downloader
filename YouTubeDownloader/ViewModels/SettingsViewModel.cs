@@ -1,6 +1,6 @@
 ﻿using YouTubeDownloader.ViewModels.Framework;
 
-namespace YouTubeDownloader
+namespace YouTubeDownloader.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
